@@ -1,0 +1,217 @@
+.container-score-unit {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .sub-container-score-unit {
+        width: 400px;
+        height: auto;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+
+        .nav-title {
+            color: #4E4E4E;
+        }
+
+        .nav-score {
+            margin-top: 15px;
+            width: 100%;
+            text-align: right;
+
+            .logout {
+                right: 0;
+                text-align: left;
+                width: 25px;
+                padding: 8px;
+                border-radius: 12px;
+                margin-right: 15px;
+                transition: 0.15s all;
+                box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
+                cursor: pointer;
+            }
+
+            .logout:active {
+                transform: scale(0.98);
+                box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        .logo {
+            width: 35%;
+            margin-bottom: 5px;
+        }
+
+        .section {
+            margin: 0;
+            margin-top: 20px;
+            margin-right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+
+            .card-activity {
+                width: 100%;
+                max-width: 85%;
+                padding: 15px;
+                background-color: #fff;
+                border-radius: 5px;
+                display: flex;
+                box-shadow: 1px solid #000;
+                justify-content: center;
+                box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
+                margin: 0;
+                margin-top: 12px;
+                transition: 0.15s all;
+                cursor: pointer;
+
+                .info {
+                    display: flex;
+                    text-align: center;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+
+                    h2 {
+                        margin: 0;
+                        color: #4E4E4E;
+                        margin-bottom: 5px;
+                    }
+                    p {
+                        margin: 0;
+                        font-size: 14px;
+                        color: #4E4E4E;
+                    }
+
+                    .bts {
+                        display: flex;
+                        justify-content: center;
+                        margin-top: 10px;
+                        
+                        .bt-np, .bt-no, .bt-yes {
+                            border: none;
+                            margin: 5px;
+                            border-radius: 5px;
+                            padding: 8px;
+                            padding-right: 28px;
+                            padding-left: 28px;
+                            font-weight: bold;
+                            font-size: 14px;
+                        }
+
+                        .div-bts {
+
+                            p {
+                                margin-top: -2px;
+                            }
+                        }
+
+                        .bt-np {
+                            background-color: #CBCBCB;
+                            color: #4E4E4E;
+                        }
+
+                        .bt-no {
+                            background-color: #FB5D5D;
+                            color: #FFF;
+                        }
+
+                        .bt-yes {
+                            background-color: #046908;
+                            color: #FFF;
+                        }
+                    }
+
+                    .ct-1 {
+                        display: flex;
+                        margin-top: 15px;
+                        
+                        .ct-type {
+                            width: 125px;
+                            margin-left: 10px;
+                        }
+                    }
+                    
+                    .ct-2 {
+                        display: flex;
+                        margin-top: 12px;
+                        width: 100%;
+
+                        .mt-description {
+                            width: 100%;
+                        }
+                    }
+
+                    .ct-3 {
+                        display: flex;
+                        margin-top: 12px;
+                        width: 100%;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        .mt-save {
+                            width: 100px;
+                            background-color: #293747;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+
+            .card:active {
+                transform: scale(0.98);
+                box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+
+            .card:last-child {
+                margin-bottom: 20px;
+            }
+        }
+
+        .div-modal-info {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-bottom: 25px;
+
+            p {
+                margin: 0;
+            }
+        }
+
+        .bts-modal {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+
+            .bts-modal-cancel {
+                background-color: #D0D0D0;
+                color: #333333;
+                font-weight: bold;
+            }
+
+            .bts-modal-confirm {
+                background-color: #293747;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .container-score-unit {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
