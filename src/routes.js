@@ -4,6 +4,11 @@ import Login from "./pages/Login/index.tsx";
 import Home from "./pages/Home";
 import Score from "./pages/Score";
 import ScoreByUnit from "./pages/ScoreByUnit";
+import Presence from "./pages/Presence";
+import Statistics from "./pages/Statistics";
+import ScoreStatistics from "./pages/ScoreStatistics";
+import UnitHistory from "./pages/UnitHistory";
+import UserHistory from "./pages/UserHistory";
 
 import { isAuthenticated } from './Auth';
 const PrivateRoute = () => {
@@ -20,6 +25,11 @@ function defaultRoutes() {
             <Route exact path='/home' element={<Home/>}/>
             <Route exact path='/score' element={<Score/>}/>
             <Route path='/score/unit' exact element={<ScoreByUnit/>}/>
+            <Route path='/presence' exact element={<Presence/>}/>
+            <Route path='/statistics' exact element={<Statistics/>}/>
+            <Route path='/statistics/score' exact element={<ScoreStatistics/>}/>
+            <Route path='/statistics/unit/history' exact element={<UnitHistory/>}/>
+            <Route path='/statistics/user/history' exact element={<UserHistory/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -72,7 +72,7 @@ const ScoreByUnit = () => {
 
     function closeModal() {
         setType('');
-        document.querySelector('.modal-container').classList.remove('show-modal')
+        document.querySelector('.modal-container').classList.remove('show-modal');
     }
 
     useEffect(() => {

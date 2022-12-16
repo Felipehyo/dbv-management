@@ -4,17 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import './style.scss';
 import Logo from '../../assets/Logo.png';
 import Logout from '../../assets/logout.png';
-import Score from '../../assets/score.png';
 import Statistics from '../../assets/statistics.png';
 import Presence from '../../assets/presence.png';
 
 const Home = () => {
 
-    // const [ email, setEmail ] = useState('');
     const navigate = useNavigate();
 
     function handleScore() {
         navigate("/score");
+    }
+
+    function handlePresence() {
+        navigate("/presence");
+    }
+
+    function handleStatistics() {
+        navigate("/statistics");
     }
 
     function handlelogout() {
@@ -40,7 +46,7 @@ const Home = () => {
                             <img src="https://cdn-icons-png.flaticon.com/512/3153/3153150.png" alt=""/>
                         </div>
                     </div>
-                    <div className="card">
+                    <div className="card" onClick={handlePresence}>
                         <div className="info">
                             <h2>Presença</h2>
                             <p>Registrar lista de presentes e kits individuais</p>
@@ -49,7 +55,7 @@ const Home = () => {
                             <img src={Presence} alt=""/>
                         </div>
                     </div>
-                    <div className="card">
+                    <div className="card" onClick={handleStatistics}>
                         <div className="info">
                             <h2>Estatísticas</h2>
                             <p>Estatísticas de presença e pontuação de unidades </p>

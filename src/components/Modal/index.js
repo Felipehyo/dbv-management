@@ -1,9 +1,8 @@
 import React from 'react';
-/*import { Button } from "@mui/material";*/
 
 import './style.scss';
 
-export default function Modal({children, widht, height, /*onClick, color*/}){
+export default function Modal({children, widht, height}){
 
     return (
         <>
@@ -12,9 +11,6 @@ export default function Modal({children, widht, height, /*onClick, color*/}){
                 <div className="filho">
                     {children}
                 </div>
-                {/* <Button className="bt" onClick={onClick} style={{backgroundColor: color}}>
-                    Ok
-                </Button> */}
             </div>
         </div>
         </>
