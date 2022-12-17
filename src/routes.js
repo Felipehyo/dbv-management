@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 
-import Login from "./pages/Login/index.tsx";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Score from "./pages/Score";
 import ScoreByUnit from "./pages/ScoreByUnit";
