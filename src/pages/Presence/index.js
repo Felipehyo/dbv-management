@@ -30,7 +30,7 @@ const Presence = () => {
     const navigate = useNavigate();
 
     function handlelogout() {
-        localStorage.clear();
+        sessionStorage.clear();
         navigate("/");
     }
 
@@ -40,7 +40,7 @@ const Presence = () => {
         setUserSelected(user);
     }
 
-    function saveRegister() {
+    async function saveRegister() {
 
         const data = {
             "presenceType": operationType,
@@ -55,9 +55,8 @@ const Presence = () => {
             }
         }
 
-        api.post("presence/" + userSelected.id, data);
+        await api.post("presence/" + userSelected.id, data);
         closeModal();
-        // window.location.reload();
         if(operationType == "ABSENT") {
             document.querySelector('#abscence-' + userSelected.id).classList.add('selected');
             document.querySelector('#presence-' + userSelected.id).classList.remove('selected');

@@ -1,6 +1,6 @@
 export const isAuthenticated = () => {
-    const id = localStorage.getItem('id');
-    const userType = localStorage.getItem('userType');
+    const id = sessionStorage.getItem('id');
+    const userType = sessionStorage.getItem('userType');
 
     return id && userType ? true : false;
 };

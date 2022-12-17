@@ -13,12 +13,12 @@ const Score = () => {
     const navigate = useNavigate();
 
     function handleUnit(unit) {
-        localStorage.setItem("unitId", unit.id);
+        sessionStorage.setItem("unitId", unit.id);
         navigate("/score/unit");
     }
 
     function handlelogout() {
-        localStorage.clear();
+        sessionStorage.clear();
         navigate("/");
     }
 

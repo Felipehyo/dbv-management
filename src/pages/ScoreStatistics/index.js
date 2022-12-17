@@ -13,12 +13,12 @@ const ScoreStatistics = () => {
     const navigate = useNavigate();
 
     function handleUnit(unit) {
-        localStorage.setItem("unitId", unit.id);
+        sessionStorage.setItem("unitId", unit.id);
         navigate("/statistics/unit/history");
     }
 
     function handlelogout() {
-        localStorage.clear();
+        sessionStorage.clear();
         navigate("/");
     }
 

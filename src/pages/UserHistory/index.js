@@ -11,7 +11,7 @@ const UserHistory = () => {
     const [ unit, setUnit ] = useState([]);
     const [ activities, setActivities ] = useState([]);
 
-    const unitId = localStorage.getItem("unitId");
+    const unitId = sessionStorage.getItem("unitId");
     const navigate = useNavigate();
 
     const [ title, setTitle ] = useState('');
@@ -22,7 +22,7 @@ const UserHistory = () => {
     const [ type, setType ] = useState('');
 
     function handlelogout() {
-        localStorage.clear();
+        sessionStorage.clear();
         navigate("/");
     }
 

@@ -15,7 +15,7 @@ const ScoreByUnit = () => {
     const [ unit, setUnit ] = useState([]);
     const [ activities, setActivities ] = useState([]);
 
-    const unitId = localStorage.getItem("unitId");
+    const unitId = sessionStorage.getItem("unitId");
     const navigate = useNavigate();
 
     const [ title, setTitle ] = useState('');
@@ -30,7 +30,7 @@ const ScoreByUnit = () => {
 
     const [ isCreateScore, setisCreateScore ] = useState(false);
 
-    function saveRecord() {
+    async function saveRecord() {
 
         const data = {
             'type': type,
@@ -39,13 +39,13 @@ const ScoreByUnit = () => {
             'reason': isCreateScore ? description : ''
         }
 
-        api.post("activity-record/unit/" + unitId + "/activity/" + activitySelected.id, data);
+        await api.post("activity-record/unit/" + unitId + "/activity/" + activitySelected.id, data);
         closeModal();
-        window.location.reload();
+        setActivities(activities.filter( a => (a.id !== activitySelected.id)));
     }
 
     function handlelogout() {
-        localStorage.clear();
+        sessionStorage.clear();
         navigate("/");
     }
 

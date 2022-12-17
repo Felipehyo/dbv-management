@@ -34,9 +34,9 @@ const Login = () => {
 
             if (response !== null) {
                 let user = response.data;
-                localStorage.setItem('id', user.id);
-                localStorage.setItem('name', user.name);
-                localStorage.setItem('userType', user.userType);
+                sessionStorage.setItem('id', user.id);
+                sessionStorage.setItem('name', user.name);
+                sessionStorage.setItem('userType', user.userType);
                 navigate('/home');
             }
         } catch (e) {

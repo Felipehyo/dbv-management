@@ -17,7 +17,7 @@ const Statistics = () => {
     }
 
     function handlelogout() {
-        localStorage.clear();
+        sessionStorage.clear();
         navigate("/");
     }
 
