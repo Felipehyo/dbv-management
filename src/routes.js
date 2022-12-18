@@ -20,7 +20,7 @@ function defaultRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" exact element={<Login />}/>
+        <Route path="/test" exact element={<Login />}/>
         <Route exact path='/' element={<PrivateRoute/>}>
             <Route exact path='/home' element={<Home/>}/>
             <Route exact path='/score' element={<Score/>}/>
