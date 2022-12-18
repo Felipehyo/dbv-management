@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TextField, Button, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import api from '../../services/api';
 
 import Modal from '../../components/Modal';
 
 import './style.scss';
 import Logout from '../../assets/logout.png';
-import ImageScore from '../../assets/score.png';
 
 const UnitHistory = () => {
 
@@ -17,13 +15,6 @@ const UnitHistory = () => {
 
     const unitId = sessionStorage.getItem("unitId");
     const navigate = useNavigate();
-
-    const [ title, setTitle ] = useState('');
-    
-    const [ description, setDescription ] = useState('');
-    const [ qtdScore, setQtdScore ] = useState(0);
-
-    const [ type, setType ] = useState('');
 
     function handlelogout() {
         sessionStorage.clear();
@@ -59,7 +50,8 @@ const UnitHistory = () => {
                             <div className="info-history">
                                 <p>{new Date(activity.date).getDate() + "/" + new Date(activity.date).getMonth()}</p>
                                 <p>{activity.title}</p>
-                                <p>{activity.points}</p>
+                                <p 
+                                style={ activity.points < 0 ? {"color": "#FB5D5D"} : activity.points > 0 ? {"color": "#046908"} : null}>{activity.points}</p>
                             </div>
                         </div>
                     ))

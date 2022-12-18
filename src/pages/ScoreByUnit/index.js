@@ -32,6 +32,8 @@ const ScoreByUnit = () => {
 
     async function saveRecord() {
 
+        console.log(qtdScore);
+
         const data = {
             'type': type,
             'title': isCreateScore ? title : '',
@@ -41,7 +43,14 @@ const ScoreByUnit = () => {
 
         await api.post("activity-record/unit/" + unitId + "/activity/" + activitySelected.id, data);
         closeModal();
-        setActivities(activities.filter( a => (a.id !== activitySelected.id)));
+
+        setActivities(activities.filter( a => (a.id !== activitySelected.id || activitySelected.alwaysDisplay)));
+        if (activitySelected.alwaysDisplay) {
+            setTitle('');
+            setType('');
+            setDescription('');
+            setQtdScore('');
+        }
     }
 
     function handlelogout() {
