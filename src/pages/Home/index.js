@@ -7,8 +7,6 @@ import Logout from '../../assets/logout.png';
 import Statistics from '../../assets/statistics.png';
 import Presence from '../../assets/presence.png';
 
-import Nav from '../../components/Nav';
-
 const Home = () => {
 
     const navigate = useNavigate();
@@ -34,12 +32,7 @@ const Home = () => {
     }
 
     function handlelogout() {
-        localStorage.clear();
-        navigate("/");
-    }
-
-    function handleBack() {
-        localStorage.clear();
+        sessionStorage.clear();
         navigate("/");
     }
 

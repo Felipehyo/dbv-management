@@ -25,11 +25,6 @@ const EventRegister = () => {
 
     const navigate = useNavigate();
 
-    function handleUnit(unit) {
-        sessionStorage.setItem("unitId", unit.id);
-        navigate("/statistics/unit/history");
-    }
-
     function handleBack() {
         navigate("/statistics");
     }
@@ -64,7 +59,9 @@ const EventRegister = () => {
                 'clubId': clubId
             }
     
-            api.post('/event', data).catch(error => {
+            api.post('/event', data).then(reponse => {
+                alert('Evento cadastrado com sucesso!');
+            }).catch(error => {
                 alert(error);
             })
         } else {
@@ -83,10 +80,10 @@ const EventRegister = () => {
     }
 
     useEffect(() => {
-        if(eventName != '' && eventName != null) {
+        if(eventName !== '' && eventName !== null) {
             setEventNameValid(false);
         }
-        if(eventValue != '' && eventValue != null) {
+        if(eventValue !== '' && eventValue !== null) {
             setEventValueValid(false);
         }
     }, [eventName, eventValue]);
@@ -103,7 +100,7 @@ const EventRegister = () => {
                         <TextField id="outlined-basic" label="Nome do Evento" error={eventNameValid} variant="outlined" className='event-field' value={eventName} onChange={e => setEventName(e.target.value)} />
                         <TextField id="outlined-basic" label="Valor por pessoa" type={'number'} variant="outlined"  className='event-field' 
                             error={eventValueValid}
-                            InputProps={eventValue != '' ? {
+                            InputProps={eventValue !== '' ? {
                                 startAdornment: <InputAdornment position="start">R$</InputAdornment>
                             } : null}
                         value={eventValue} onChange={e => setEventValue(e.target.value)} />
