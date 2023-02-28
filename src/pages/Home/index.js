@@ -7,6 +7,8 @@ import Logout from '../../assets/logout.png';
 import Statistics from '../../assets/statistics.png';
 import Presence from '../../assets/presence.png';
 
+import Nav from '../../components/Nav';
+
 const Home = () => {
 
     const navigate = useNavigate();
@@ -36,10 +38,15 @@ const Home = () => {
         navigate("/");
     }
 
+    function handleBack() {
+        localStorage.clear();
+        navigate("/");
+    }
+
     return (
       <>
-        <div className="container">
-            <div className="container-home">
+        <div className="container-home">
+            <div className="sub-container-home">
                 <div className='nav'>
                     <img className="logout" src={Logout} alt="" onClick={handlelogout}/>
                 </div>
