@@ -3,49 +3,40 @@ import { useNavigate } from 'react-router-dom';
 
 import api from '../../services/api';
 
+import Nav from '../../components/Nav';
+
 import './style.scss';
-import Logout from '../../assets/logout.png';
 
 const UserHistory = () => {
 
-    const [ unit, setUnit ] = useState([]);
     const [ activities, setActivities ] = useState([]);
 
-    const unitId = sessionStorage.getItem("unitId");
+    const clubId = sessionStorage.getItem("clubId");
+
     const navigate = useNavigate();
 
-    const [ title, setTitle ] = useState('');
-    
-    const [ description, setDescription ] = useState('');
-    const [ qtdScore, setQtdScore ] = useState(0);
-
-    const [ type, setType ] = useState('');
-
-    function handlelogout() {
-        sessionStorage.clear();
-        navigate("/");
+    function handleBack() {
+        navigate("/statistics");
     }
 
     useEffect(() => {
 
-        api.get('presence/all').then(response => {
+        api.get('presence/all/' + clubId).then(response => {
             setActivities(response.data);
         });
 
-    }, [0]);
+    }, [clubId]);
 
     return (
       <>
         <div className="container-score-unit">
             <div className="sub-container-score-unit">
-                <div className='nav-score'>
-                    <img className="logout" src={Logout} alt="" onClick={handlelogout}/>
-                </div>
+                <Nav handleBack={handleBack}/>
                 <img className="logo" src={'https://cdn-icons-png.flaticon.com/512/3585/3585145.png'} alt=""/>
                 <h1 className="nav-title">Histórico de Presença</h1>
                 <section className="section">
                 {
-                    activities.sort((a, b) => a.user.name - b.user.namer).map((data, id) => (
+                    activities.sort((a, b) => a.user.name - b.user.name).map((data, id) => (
 
                         <div className="card-activity-history" key={id}>
                             <div className="info-history">

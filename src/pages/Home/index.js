@@ -19,6 +19,14 @@ const Home = () => {
         navigate("/presence");
     }
 
+    function handleEvents() {
+        navigate("/event/register");
+    }
+
+    function handleTreasury() {
+        navigate("/treasury");
+    }
+
     function handleStatistics() {
         navigate("/statistics");
     }
@@ -32,8 +40,8 @@ const Home = () => {
       <>
         <div className="container">
             <div className="container-home">
-                <div className='nav' onClick={handlelogout}>
-                    <img className="logout" src={Logout} alt=""/>
+                <div className='nav'>
+                    <img className="logout" src={Logout} alt="" onClick={handlelogout}/>
                 </div>
                 <img className="logo" src={Logo} alt=""/>
                 <section className="section">
@@ -53,6 +61,24 @@ const Home = () => {
                         </div>
                         <div className="image">
                             <img src={Presence} alt=""/>
+                        </div>
+                    </div>
+                    <div className="card" onClick={handleEvents}>
+                        <div className="info">
+                            <h2>Eventos</h2>
+                            <p>Criar e editar eventos, e inscrever desbravadores nos eventos</p>
+                        </div>
+                        <div className="image">
+                            <img src={'https://cdn-icons-png.flaticon.com/512/5987/5987625.png'} alt="Acampamento ícones criados por Good Ware - Flaticon"/>
+                        </div>
+                    </div>
+                    <div className="card" onClick={handleTreasury}>
+                        <div className="info">
+                            <h2>Tesouraria</h2>
+                            <p>Gerenciar toda a parte financeira do seu clube</p>
+                        </div>
+                        <div className="image">
+                            <img src={'https://cdn-icons-png.flaticon.com/512/2460/2460494.png'} alt="Dinheiro ícones criados por justicon - Flaticon"/>
                         </div>
                     </div>
                     <div className="card" onClick={handleStatistics}>

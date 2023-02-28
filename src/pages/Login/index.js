@@ -27,7 +27,6 @@ const Login = () => {
         try {
             var response = await api.post('user/login', data)
             .catch(function (error) {
-                console.log(error.response.data);
                 alert('Dados inválidos. Tente novamente.');
                 return null;
             });
@@ -37,6 +36,8 @@ const Login = () => {
                 sessionStorage.setItem('id', user.id);
                 sessionStorage.setItem('name', user.name);
                 sessionStorage.setItem('userType', user.userType);
+                sessionStorage.setItem('clubId', user.clubId);
+                sessionStorage.setItem('clubName', user.clubName);
                 navigate('/home');
             }
         } catch (e) {

@@ -7,8 +7,7 @@ import api from '../../services/api';
 import Modal from '../../components/Modal';
 
 import './style.scss';
-import Logout from '../../assets/logout.png';
-import ImageScore from '../../assets/score.png';
+import Nav from '../../components/Nav';
 
 const ScoreByUnit = () => {
 
@@ -32,8 +31,6 @@ const ScoreByUnit = () => {
 
     async function saveRecord() {
 
-        console.log(qtdScore);
-
         const data = {
             'type': type,
             'title': isCreateScore ? title : '',
@@ -41,7 +38,11 @@ const ScoreByUnit = () => {
             'reason': isCreateScore ? description : ''
         }
 
-        await api.post("activity-record/unit/" + unitId + "/activity/" + activitySelected.id, data);
+        await api.post("activity-record/unit/" + unitId + "/activity/" + (activitySelected.id != null ? activitySelected.id : '0'), data).catch(error => {
+            if(error.response.data.code === '001') {
+                alert('Atividade já foi cadastrada por outro usuário')
+            }
+        });
         closeModal();
 
         setActivities(activities.filter( a => (a.id !== activitySelected.id || activitySelected.alwaysDisplay)));
@@ -53,14 +54,13 @@ const ScoreByUnit = () => {
         }
     }
 
-    function handlelogout() {
-        sessionStorage.clear();
-        navigate("/");
+    function handleBack() {
+        navigate("/score");
     }
 
-    function handleCreateScore(activity) {
+    function handleCreateScore() {
         
-        setActivitySelected(activity);
+        setActivitySelected('');
         setTypeSelected(type === 'DEMERIT' ? 'Demérito' : type === 'MERIT' ? 'Mérito' : 'Não pontua');
         setQtdPointSelected(type === 'DEMERIT' ? -qtdScore : type === 'MERIT' ? qtdScore : 0);
         setisCreateScore(true);
@@ -94,91 +94,83 @@ const ScoreByUnit = () => {
             setUnit(response.data);
         });
 
-    }, [0]);
+    }, [unitId]);
 
     return (
       <>
         <div className="container-score-unit">
             <div className="sub-container-score-unit">
-                <div className='nav-score'>
-                    <img className="logout" src={Logout} alt="" onClick={handlelogout}/>
-                </div>
+                <Nav handleBack={handleBack}/>
                 <img className="logo" src={unit.imageLink} alt=""/>
                 <h1 className="nav-title">{unit.name}</h1>
                 <section className="section">
-                {
-                    activities.sort((a, b) => a.activityOrder - b.activityOrder).map((activity, id) => (
-
+                    { activities.sort((a, b) => a.activityOrder - b.activityOrder).map((activity, id) => (
                         <div className="card-activity" key={id}>
                             <div className="info">
                                 <h2>{activity.name}</h2>
-                                {(activity.name !== "Crie uma Pontuação") ? (
-                                    <>
-                                        <p>{activity.description}</p>
-                                        <div className='bts'>
-                                            <div className='div-bts'>
-                                                <button id='bt-np' className='bt-np' onClick={() => handleScore(activity, 'NOT_SCORE')}>Não Pontua</button>
-                                                <p>0</p>
-                                            </div>
-                                            <div className='div-bts'>
-                                                <button className='bt-no' onClick={() => handleScore(activity, 'DEMERIT')}>Não</button>
-                                                <p>-{activity.demerit}</p>
-                                            </div>
-                                            <div className='div-bts'>
-                                                <button className='bt-yes' onClick={() => handleScore(activity, 'MERIT')}>Sim</button>
-                                                <p>{activity.merit}</p>
-                                            </div>
-                                        </div>
-                                    </>
-                                ): (
-                                    <>
-                                        <div className='ct-1'>
-                                            <TextField size='small' className='customize-title' id="outlined-basic" label="Título" variant="outlined" 
-                                                value={title} onChange={e => setTitle(e.target.value)}/>
-                                            <FormControl className='ct-type' size='small' fullWidth>
-                                                <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
-                                                <Select
-                                                    labelId="demo-simple-select-label"
-                                                    id="demo-simple-select"
-                                                    value={type}
-                                                    label="Age"
-                                                    onChange={e => setType(e.target.value)}
-                                                >
-                                                    <MenuItem value={'MERIT'}>Mérito</MenuItem>
-                                                    <MenuItem value={'DEMERIT'}>Demérito</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </div>
-                                        <div className='ct-2'>
-                                            <TextField
-                                                size='small'
-                                                className='mt-description'
-                                                id="outlined-multiline-static"
-                                                label="Descrição"
-                                                multiline
-                                                rows={3}
-                                                value={description} 
-                                                onChange={e => setDescription(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className='ct-3'>
-                                            <TextField size='small' className='customize-title' id="outlined-basic" label="Qtd Pontos" variant="outlined"
-                                                value={qtdScore} onChange={e => setQtdScore(e.target.value)} type='number'/>
-                                            <Button className="mt-save" variant="contained" onClick={() => handleCreateScore(activity, description)}>Salvar</Button>
-                                        </div>
-                                        
-                                    </>
-                                )}
+                                <p>{activity.description}</p>
+                                <div className='bts'>
+                                    <div className='div-bts'>
+                                        <button id='bt-np' className='bt-np' onClick={() => handleScore(activity, 'NOT_SCORE')}>Não Pontua</button>
+                                        <p>0</p>
+                                    </div>
+                                    <div className='div-bts'>
+                                        <button className='bt-no' onClick={() => handleScore(activity, 'DEMERIT')}>Não</button>
+                                        <p>-{activity.demerit}</p>
+                                    </div>
+                                    <div className='div-bts'>
+                                        <button className='bt-yes' onClick={() => handleScore(activity, 'MERIT')}>Sim</button>
+                                        <p>{activity.merit}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    ))
-                }
+                    ))}
+                    <div className="card-activity">
+                        <div className="info">
+                            <h2>{'Crie uma Pontuação'}</h2>
+                            <div className='ct-1'>
+                                <TextField size='small' className='customize-title' id="outlined-basic" label="Título" variant="outlined" 
+                                    value={title} onChange={e => setTitle(e.target.value)}/>
+                                <FormControl className='ct-type' size='small' fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={type}
+                                        label="Age"
+                                        onChange={e => setType(e.target.value)}
+                                    >
+                                        <MenuItem value={'MERIT'}>Mérito</MenuItem>
+                                        <MenuItem value={'DEMERIT'}>Demérito</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div className='ct-2'>
+                                <TextField
+                                    size='small'
+                                    className='mt-description'
+                                    id="outlined-multiline-static"
+                                    label="Descrição"
+                                    multiline
+                                    rows={3}
+                                    value={description} 
+                                    onChange={e => setDescription(e.target.value)}
+                                />
+                            </div>
+                            <div className='ct-3'>
+                                <TextField size='small' className='customize-title' id="outlined-basic" label="Qtd Pontos" variant="outlined"
+                                    value={qtdScore} onChange={e => setQtdScore(e.target.value)} type='number'/>
+                                <Button className="mt-save" variant="contained" onClick={() => handleCreateScore()}>Salvar</Button>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
                     <h2>Confirmar Pontuação?</h2>
                     <div className='div-modal-info'>
-                        <p><b>Atividade:</b> {activitySelected.name}</p>
+                        <p><b>Atividade:</b> {activitySelected.name != null ? activitySelected.name : title}</p>
                         <p><b>Tipo:</b> {typeSelected}</p>
                         <p><b>Quantidade:</b> {qtdPointSelected}</p>
                     </div>
