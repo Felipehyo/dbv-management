@@ -16,6 +16,9 @@ const Presence = () => {
     const [ userSelected, setUserSelected ] = useState([]);
     const [ operationType, setOperationtype ] = useState('');
 
+    const [ userSearch, setUserSearch ] = useState([]);
+    const [ userSearchList, setUserSearchList ] = useState([]);
+
     const [ bible, setBible ] = useState(false);
     const [ scarf, setScarf ] = useState(false);
     const [ activityNotebook, setActivityNotebook ] = useState(false);
@@ -92,9 +95,32 @@ const Presence = () => {
 
         api.get('presence/today/' + clubId).then(response => {
             setUserList(response.data);
+            setUserSearchList(response.data);
         });
 
     }, [clubId]);
+
+    useEffect(() => {
+
+        if(userSearch !== '') {
+
+            var tempList = [];
+
+            userList.forEach( user => {
+                console.log(user.userName);
+                console.log(userSearch);
+
+                if(user.userName.toLowerCase().includes(userSearch.toLowerCase())) {
+                    tempList.push(user);
+                }
+            })
+
+            setUserSearchList(tempList);
+        } else {
+            setUserSearchList(userList);
+        }
+
+    }, [userSearch]);
 
     return (
       <>
@@ -105,13 +131,13 @@ const Presence = () => {
                 <h1 className="nav-title">Lista de Presença</h1>
                 
                 <div className='search'>
-                    <input type={'text'} placeholder='Digite um nome'></input>
+                    <input type={'text'} placeholder='Digite um nome' value={userSearch} onChange={e => setUserSearch(e.target.value)}></input>
                     <img src='https://cdn-icons-png.flaticon.com/512/54/54481.png' alt=''/>
                 </div>
 
                 <section className="section-presence">
                     {
-                        userList.map((data, id) => (
+                        userSearchList.map((data, id) => (
                             <div className='line-presence' key={id}>
                                 <div className="card">
                                     <div className="person-info">
