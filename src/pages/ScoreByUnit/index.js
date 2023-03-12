@@ -21,6 +21,7 @@ const ScoreByUnit = () => {
     
     const [ description, setDescription ] = useState('');
     const [ qtdScore, setQtdScore ] = useState(0);
+    const [ qtdPendency, setQtdPendency ] = useState(0);
 
     const [ activitySelected, setActivitySelected] = useState('');
     const [ type, setType ] = useState('');
@@ -46,12 +47,14 @@ const ScoreByUnit = () => {
         closeModal();
 
         setActivities(activities.filter( a => (a.id !== activitySelected.id || activitySelected.alwaysDisplay)));
-        if (activitySelected.alwaysDisplay) {
-            setTitle('');
-            setType('');
-            setDescription('');
-            setQtdScore('');
-        }
+        setTitle('');
+        setType('');
+        setDescription('');
+        setQtdScore('');
+
+        await api.get('unit/' + unitId).then(response => {
+            setUnit(response.data);
+        });
     }
 
     function handleBack() {
@@ -82,6 +85,34 @@ const ScoreByUnit = () => {
     function closeModal() {
         setType('');
         document.querySelector('.modal-container').classList.remove('show-modal');
+    }
+
+    async function deposit() {
+
+        await api.patch("unit/" + unitId + "/pendency-deposit/" + qtdPendency, null).catch(error => {
+            if(error.response.data.code === '100') {
+                alert('Ação não permitida pelo sistema!')
+            }
+        });
+
+        await api.get('unit/' + unitId).then(response => {
+            setUnit(response.data);
+        });
+
+    }
+
+    async function recall() {
+
+        await api.patch("unit/" + unitId + "/pendency-recall/" + qtdPendency, null).catch(error => {
+            if(error.response.data.code === '100') {
+                alert('Ação não permitida pelo sistema!')
+            }
+        });
+
+        await api.get('unit/' + unitId).then(response => {
+            setUnit(response.data);
+        });
+
     }
 
     useEffect(() => {
@@ -126,6 +157,18 @@ const ScoreByUnit = () => {
                             </div>
                         </div>
                     ))}
+                    <div className="card-activity">
+                        <div className="info">
+                            <h2>{'Banco da Unidade'}</h2>
+                            <p>Guilherminas pendentes de entrega: <b>{unit.deliveryPendingPoints}</b></p>
+                            <div className='cg-1'>
+                                <TextField size='small' className='control' id="outlined-basic" label="Qtd Pontos" variant="outlined"
+                                    value={qtdPendency} onChange={e => setQtdPendency(e.target.value)} type='number'/>
+                                <button className='bt-no' onClick={recall}>Depositar</button>
+                                <button className='bt-yes' onClick={deposit}>Sacar</button>
+                            </div>
+                        </div>
+                    </div>
                     <div className="card-activity">
                         <div className="info">
                             <h2>{'Crie uma Pontuação'}</h2>
