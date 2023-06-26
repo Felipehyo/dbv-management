@@ -10,6 +10,7 @@ import Nav from '../../components/Nav';
 const Score = () => {
 
     const [ unitList, setUnitList ] = useState([]);
+    const clubId = sessionStorage.getItem("clubId");
 
     const navigate = useNavigate();
 
@@ -23,7 +24,7 @@ const Score = () => {
     }
 
     useEffect(() => {
-        api.get('unit').then(response => {
+        api.get('unit/club/' + clubId).then(response => {
             setUnitList(response.data);
         })
     }, []);
