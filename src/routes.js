@@ -10,6 +10,7 @@ import ScoreStatistics from "./pages/ScoreStatistics";
 import UnitHistory from "./pages/UnitHistory";
 import UserHistory from "./pages/UserHistory";
 import EventRegister from "./pages/EventRegister";
+import Partner from "./pages/Partner";
 
 import { isAuthenticated } from './Auth';
 const PrivateRoute = () => {
@@ -22,6 +23,7 @@ function defaultRoutes() {
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Login />}/>
+        <Route path='/partner' exact element={<Partner/>}/>
         <Route exact path='/' element={<PrivateRoute/>}>
             <Route exact path='/home' element={<Home/>}/>
             <Route exact path='/score' element={<Score/>}/>
