@@ -46,6 +46,8 @@ const Partner = () => {
                             <li>Todos do plano 1</li>
                             <li>Chaveiro personalizado</li>
                             <li>Camisa do Sócio GB</li>
+                            <li>Sacochila</li>
+                            <li>Agenda Personalizada</li>
                         </ul>
                         <div className='link'>
                             <h3>R$50,00</h3>
@@ -57,6 +59,10 @@ const Partner = () => {
                         <h2>Plano Master</h2>
                         <ul className='list'>
                             <li>Todos do plano 1 e 2</li>
+                            <li>Sacochila</li>
+                            <li>Agenda Personalizada</li>
+                            <li>Sacochila</li>
+                            <li>Agenda Personalizada</li>
                             <li>Sacochila</li>
                             <li>Agenda Personalizada</li>
                         </ul>
@@ -71,6 +77,14 @@ const Partner = () => {
                         <ul className='list'>
                             <li>Todos do plano 1, 2 e 3</li>
                             <li>Moletom Personalizado</li>
+                            <li>Sacochila</li>
+                            <li>Agenda Personalizada</li>
+                            <li>Sacochila</li>
+                            <li>Agenda Personalizada</li>
+                            <li>Sacochila</li>
+                            <li>Agenda Personalizada</li>
+                            <li>Sacochila</li>
+                            <li>Agenda Personalizada</li>
                         </ul>
                         <div className='link'>
                             <h3>R$100,00</h3>

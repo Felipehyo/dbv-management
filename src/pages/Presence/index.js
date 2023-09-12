@@ -12,11 +12,11 @@ import Nav from '../../components/Nav';
 
 const Presence = () => {
 
-    const [ userList, setUserList ] = useState([]);
+    // const [ userList, setUserList ] = useState([]);
     const [ userSelected, setUserSelected ] = useState([]);
     const [ operationType, setOperationtype ] = useState('');
 
-    const [ userSearch, setUserSearch ] = useState([]);
+    // const [ userSearch, setUserSearch ] = useState([]);
     const [ userSearchList, setUserSearchList ] = useState([]);
 
     const [ bible, setBible ] = useState(false);
@@ -94,33 +94,33 @@ const Presence = () => {
     useEffect(() => {
 
         api.get('presence/today/' + clubId).then(response => {
-            setUserList(response.data);
+            // setUserList(response.data);
             setUserSearchList(response.data);
         });
 
     }, [clubId]);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if(userSearch !== '') {
+    //     if(userSearch !== '') {
 
-            var tempList = [];
+    //         var tempList = [];
 
-            userList.forEach( user => {
-                console.log(user.userName);
-                console.log(userSearch);
+    //         userList.forEach( user => {
+    //             console.log(user.userName);
+    //             console.log(userSearch);
 
-                if(user.userName.toLowerCase().includes(userSearch.toLowerCase())) {
-                    tempList.push(user);
-                }
-            })
+    //             if(user.userName.toLowerCase().includes(userSearch.toLowerCase())) {
+    //                 tempList.push(user);
+    //             }
+    //         })
 
-            setUserSearchList(tempList);
-        } else {
-            setUserSearchList(userList);
-        }
+    //         setUserSearchList(tempList);
+    //     } else {
+    //         setUserSearchList(userList);
+    //     }
 
-    }, [userSearch]);
+    // }, [userSearch]);
 
     return (
       <>
@@ -130,10 +130,10 @@ const Presence = () => {
                 <img className="logo" src='https://cdn-icons-png.flaticon.com/512/3585/3585145.png' alt=""/>
                 <h1 className="nav-title">Lista de Presença</h1>
                 
-                <div className='search'>
+                {/* <div className='search'>
                     <input type={'text'} placeholder='Digite um nome' value={userSearch} onChange={e => setUserSearch(e.target.value)}></input>
                     <img src='https://cdn-icons-png.flaticon.com/512/54/54481.png' alt=''/>
-                </div>
+                </div> */}
 
                 <section className="section-presence">
                     {
@@ -166,8 +166,8 @@ const Presence = () => {
                         </>
                     ) : (
                         <>
-                            <h2>Marcar Presença</h2>
                             <div className='div-modal-info'>
+                                <h2>Marcar Presença</h2>
                                 <div>
                                     <p><Checkbox className='check' checked={bible} onChange={() => setBible(bible ? false : true)}/>Biblia</p>
                                     <p><Checkbox className='check' checked={scarf} onChange={() => setScarf(scarf ? false : true)} />Lenço</p>
@@ -179,7 +179,7 @@ const Presence = () => {
                                     <br></br>
                                     <p><Checkbox className='check' checked={all} onChange={handleSelectAll}/>Selecionar todos</p>
                                 </div>
-                                <p>Marcar presença para <b>{userSelected.name}</b>?</p>
+                                <p className='text'>Marcar presença para <b>{userSelected.name}</b>?</p>
                             </div>
                         </>
                     )}

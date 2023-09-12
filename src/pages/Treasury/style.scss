@@ -1,0 +1,105 @@
+.container-treasury {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .sub-container-treasury {
+        width: 400px;
+        height: auto;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin-bottom: 30px;
+
+        .nav-title {
+            color: #4E4E4E;
+        }
+
+        .total {
+            margin-top: 15px;
+            color: #4E4E4E;
+        }
+
+        .logo {
+            width: 35%;
+            margin-bottom: 15px;
+        }
+
+        .section {
+            margin: 0;
+            margin-top: 20px;
+            margin-right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .card {
+                width: 85%;
+                padding: 15px;
+                background-color: #fff;
+                border-radius: 5px;
+                display: flex;
+                box-shadow: 1px solid #000;
+                justify-content: center;
+                box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
+                margin: 0;
+                margin-top: 12px;
+                transition: 0.15s all;
+                cursor: pointer;
+
+                .info {
+                    display: flex;
+                    text-align: center;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+
+                    h3 {
+                        margin: 0;
+                        color: #4E4E4E;
+                        margin-bottom: 5px;
+                    }
+                    p {
+                        margin: 0;
+                        font-size: 14px;
+                        color: #4E4E4E;
+                    }
+                }
+
+                .image {
+                    height: 100%;
+                    width: 110px;
+                    text-align: center;
+                    img {
+                        width: 70px;
+                    }
+                }
+            }
+
+            .card:active {
+                transform: scale(0.98);
+                box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+
+            .card:last-child {
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .container-score {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

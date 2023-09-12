@@ -26,7 +26,7 @@ const EventRegister = () => {
     const navigate = useNavigate();
 
     function handleBack() {
-        navigate("/statistics");
+        navigate("/home");
     }
 
     function handleRegister() {
