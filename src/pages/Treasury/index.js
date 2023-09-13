@@ -23,6 +23,10 @@ const Treasury = () => {
         navigate("/treasury/history");
     }
 
+    function handleCashBook() {
+        navigate("/treasury/cash-book");
+    }
+
     function handleBack() {
         navigate("/home");
     }
@@ -33,6 +37,7 @@ const Treasury = () => {
         })
         api.get('club/' + clubId).then(response => {
             setClub(response.data);
+            console.log(response.data)
         })
     }, []);
 
@@ -74,7 +79,7 @@ const Treasury = () => {
                         <p>Consultar histórico de pagamentos por clube, evento ou desbravador</p>
                     </div>
                 </div>
-                <div className="card" onClick={() => {}}>
+                <div className="card" onClick={() => handleCashBook()}>
                     <div className="image">
                         <img src='https://cdn-icons-png.flaticon.com/512/3561/3561384.png' alt={'Flat Icon'}/>
                     </div>

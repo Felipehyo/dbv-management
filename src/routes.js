@@ -13,6 +13,8 @@ import EventRegister from "./pages/EventRegister";
 import Treasury from "./pages/Treasury";
 import PaymentRegister from "./pages/PaymentRegister";
 import PaymentHistory from "./pages/PaymentHistory";
+import CashBookRegister from "./pages/CashBookRegister";
+import CashBookHistory from "./pages/CashBookHistory";
 import Partner from "./pages/Partner";
 
 import { isAuthenticated } from './Auth';
@@ -40,6 +42,8 @@ function defaultRoutes() {
             <Route path='/treasury' exact element={<Treasury/>}/>
             <Route path='/treasury/register' exact element={<PaymentRegister/>}/>
             <Route path='/treasury/history' exact element={<PaymentHistory/>}/>
+            <Route path='/treasury/cash-book/register' exact element={<CashBookRegister/>}/>
+            <Route path='/treasury/cash-book' exact element={<CashBookHistory/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

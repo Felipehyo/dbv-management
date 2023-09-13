@@ -137,6 +137,22 @@
     }
 }
 
+.footer-cash-book-history {
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    right: 15px;
+    bottom: 0px;
+
+    .fabButton {
+        background-color: #293747;
+        color: #fff;
+
+        
+    }
+
+}
+
 @media only screen and (max-width: 630px) {
     .container-score-unit {
         width: 100%;
