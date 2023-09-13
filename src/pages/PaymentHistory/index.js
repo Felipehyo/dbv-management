@@ -32,24 +32,22 @@ const PaymentHistory = () => {
                 <div className="sub-container-payment-history">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src={'https://cdn-icons-png.flaticon.com/512/2682/2682065.png'} alt="" />
-                    <h1 className="nav-title">Histórico de Pagamentos</h1>
+                    <h1 className="nav-title">Histórico Pagamentos</h1>
                     <section className="section">
                         {
                             histories.sort((a, b) => new Date(b.date) - new Date(a.date)).map((history, id) => (
                                 <div className="card-activity-history" key={id}>
-                                    <div className="info-history">
+
+                                    <div className="card-info">
                                         <p><b>Nome:</b> {history.pathfinder.name.split(" ")[0] + " " + history.pathfinder.name.split(" ")[1]}</p>
-                                        <p><b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
-                                    </div>
-                                    <div className="info-history">
-                                        
-                                    </div>
-                                    <div className="info-history last">
-                                    <p><b>Destinado:</b> {history.event != null ? history.event.event : 'Caixa'}</p>
                                         <p><b>Valor:</b> R${parseFloat(history.value).toFixed(2)}</p>
-                                    </div>
-                                    <div className="info-history last">
                                         <p><b>Forma de pagamento:</b> {history.formOfPayment}</p>
+                                        <p><b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
+                                        <p><b>Destinado:</b> {history.event != null ? history.event.name : 'Caixa'}</p>
+                                    </div>
+
+                                    <div className='card-image'>
+                                        <img src={'https://cdn-icons-png.flaticon.com/512/2454/2454269.png'} alt="" />
                                     </div>
                                 </div>
                             ))
