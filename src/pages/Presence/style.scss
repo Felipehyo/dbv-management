@@ -18,6 +18,7 @@
 
         .nav-title {
             color: #4E4E4E;
+            margin-bottom: 20px;
         }
 
         .search {
@@ -174,6 +175,11 @@
             align-items: center;
             flex-direction: column;
             margin-bottom: 25px;
+            margin-top: 25px;
+
+            h2 {
+                margin-bottom: 15px;
+            }
 
             div {
                 display: flex;
@@ -191,6 +197,10 @@
                         padding: 1px;
                     }
                 }
+            }
+
+            p.text {
+                margin-top: 10px;
             }
 
         }

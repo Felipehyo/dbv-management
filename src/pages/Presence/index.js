@@ -2,21 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Checkbox } from "@mui/material";
-import { Search } from '@mui/icons-material';
 
 import api from '../../services/api';
 
 import Modal from '../../components/Modal';
 
 import './style.scss';
-import Logout from '../../assets/logout.png';
+import Nav from '../../components/Nav';
 
 const Presence = () => {
 
-    const [ userList, setUserList ] = useState([]);
+    // const [ userList, setUserList ] = useState([]);
     const [ userSelected, setUserSelected ] = useState([]);
-    const [ todayUserList, setTodayUserList ] = useState([]);
     const [ operationType, setOperationtype ] = useState('');
+
+    // const [ userSearch, setUserSearch ] = useState([]);
+    const [ userSearchList, setUserSearchList ] = useState([]);
 
     const [ bible, setBible ] = useState(false);
     const [ scarf, setScarf ] = useState(false);
@@ -27,11 +28,12 @@ const Presence = () => {
     const [ bibleStudy, setBibleStudy ] = useState(false);
     const [ all, setAll ] = useState(false);
 
+    const clubId = sessionStorage.getItem("clubId");
+
     const navigate = useNavigate();
 
-    function handlelogout() {
-        sessionStorage.clear();
-        navigate("/");
+    function handleBack() {
+        navigate("/home");
     }
 
     function openModal(user, operationType) {
@@ -57,10 +59,10 @@ const Presence = () => {
 
         await api.post("presence/" + userSelected.id, data);
         closeModal();
-        if(operationType == "ABSENT") {
+        if(operationType === "ABSENT") {
             document.querySelector('#abscence-' + userSelected.id).classList.add('selected');
             document.querySelector('#presence-' + userSelected.id).classList.remove('selected');
-        } else if (operationType == "PRESENT"){
+        } else if (operationType === "PRESENT"){
             document.querySelector('#presence-' + userSelected.id).classList.add('selected');
             document.querySelector('#abscence-' + userSelected.id).classList.remove('selected');
         }
@@ -91,30 +93,51 @@ const Presence = () => {
 
     useEffect(() => {
 
-        api.get('presence/today').then(response => {
-            setUserList(response.data);
+        api.get('presence/today/' + clubId).then(response => {
+            // setUserList(response.data);
+            setUserSearchList(response.data);
         });
 
-    }, []);
+    }, [clubId]);
+
+    // useEffect(() => {
+
+    //     if(userSearch !== '') {
+
+    //         var tempList = [];
+
+    //         userList.forEach( user => {
+    //             console.log(user.userName);
+    //             console.log(userSearch);
+
+    //             if(user.userName.toLowerCase().includes(userSearch.toLowerCase())) {
+    //                 tempList.push(user);
+    //             }
+    //         })
+
+    //         setUserSearchList(tempList);
+    //     } else {
+    //         setUserSearchList(userList);
+    //     }
+
+    // }, [userSearch]);
 
     return (
       <>
         <div className="container-presence">
             <div className="sub-container-presence">
-                <div className='nav-presence' onClick={handlelogout}>
-                    <img className="logout" src={Logout} alt=""/>
-                </div>
+                <Nav handleBack={handleBack}/>
                 <img className="logo" src='https://cdn-icons-png.flaticon.com/512/3585/3585145.png' alt=""/>
                 <h1 className="nav-title">Lista de Presença</h1>
                 
-                <div className='search'>
-                    <input type={'text'} placeholder='Digite um nome'></input>
+                {/* <div className='search'>
+                    <input type={'text'} placeholder='Digite um nome' value={userSearch} onChange={e => setUserSearch(e.target.value)}></input>
                     <img src='https://cdn-icons-png.flaticon.com/512/54/54481.png' alt=''/>
-                </div>
+                </div> */}
 
                 <section className="section-presence">
                     {
-                        userList.map((data, id) => (
+                        userSearchList.map((data, id) => (
                             <div className='line-presence' key={id}>
                                 <div className="card">
                                     <div className="person-info">
@@ -143,8 +166,8 @@ const Presence = () => {
                         </>
                     ) : (
                         <>
-                            <h2>Marcar Presença</h2>
                             <div className='div-modal-info'>
+                                <h2>Marcar Presença</h2>
                                 <div>
                                     <p><Checkbox className='check' checked={bible} onChange={() => setBible(bible ? false : true)}/>Biblia</p>
                                     <p><Checkbox className='check' checked={scarf} onChange={() => setScarf(scarf ? false : true)} />Lenço</p>
@@ -156,7 +179,7 @@ const Presence = () => {
                                     <br></br>
                                     <p><Checkbox className='check' checked={all} onChange={handleSelectAll}/>Selecionar todos</p>
                                 </div>
-                                <p>Marcar presença para <b>{userSelected.name}</b>?</p>
+                                <p className='text'>Marcar presença para <b>{userSelected.name}</b>?</p>
                             </div>
                         </>
                     )}

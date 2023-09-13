@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 
 import './style.scss';
-import Logout from '../../assets/logout.png';
+
+import Nav from '../../components/Nav';
 
 const Score = () => {
 
     const [ unitList, setUnitList ] = useState([]);
+    const clubId = sessionStorage.getItem("clubId");
 
     const navigate = useNavigate();
 
@@ -17,13 +19,12 @@ const Score = () => {
         navigate("/score/unit");
     }
 
-    function handlelogout() {
-        sessionStorage.clear();
-        navigate("/");
+    function handleBack() {
+        navigate("/home");
     }
 
     useEffect(() => {
-        api.get('unit').then(response => {
+        api.get('unit/club/' + clubId).then(response => {
             setUnitList(response.data);
         })
     }, []);
@@ -32,9 +33,7 @@ const Score = () => {
       <>
         <div className="container-score">
             <div className="sub-container-score">
-                <div className='nav-score' onClick={handlelogout}>
-                    <img className="logout" src={Logout} alt=""/>
-                </div>
+                <Nav handleBack={handleBack}/>
                 <img className="logo" src='https://cdn-icons-png.flaticon.com/512/2821/2821637.png' alt=""/>
                 <h1 className="nav-title">Pontuação Unidades</h1>
                 <section className="section">

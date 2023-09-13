@@ -70,7 +70,6 @@
                 margin: 0;
                 margin-top: 12px;
                 transition: 0.15s all;
-                cursor: pointer;
 
                 .info {
                     display: flex;
@@ -94,39 +93,7 @@
                         display: flex;
                         justify-content: center;
                         margin-top: 10px;
-                        
-                        .bt-np, .bt-no, .bt-yes {
-                            border: none;
-                            margin: 5px;
-                            border-radius: 5px;
-                            padding: 8px;
-                            padding-right: 28px;
-                            padding-left: 28px;
-                            font-weight: bold;
-                            font-size: 14px;
-                        }
 
-                        .div-bts {
-
-                            p {
-                                margin-top: -2px;
-                            }
-                        }
-
-                        .bt-np {
-                            background-color: #CBCBCB;
-                            color: #4E4E4E;
-                        }
-
-                        .bt-no {
-                            background-color: #FB5D5D;
-                            color: #FFF;
-                        }
-
-                        .bt-yes {
-                            background-color: #046908;
-                            color: #FFF;
-                        }
                     }
 
                     .ct-1 {
@@ -160,6 +127,26 @@
                             width: 100px;
                             background-color: #293747;
                             font-weight: bold;
+                        }
+                    }
+
+                    .cg-1 {
+                        display: flex;
+                        margin-top: 12px;
+                        width: 100%;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        .mt-save {
+                            width: 100px;
+                            background-color: #293747;
+                            font-weight: bold;
+                        }
+
+                        .control {
+                            width: 85px;
+                            margin-right: 5px;
+                            margin-left: 5px;
                         }
                     }
                 }
@@ -204,6 +191,40 @@
             }
         }
     }
+}
+
+.bt-np, .bt-no, .bt-yes {
+    border: none;
+    margin: 5px;
+    border-radius: 5px;
+    padding: 8px;
+    padding-right: 28px;
+    padding-left: 28px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.div-bts {
+
+    p {
+        margin-top: -2px;
+    }
+}
+
+.bt-np {
+    background-color: #CBCBCB;
+    color: #4E4E4E;
+}
+
+.bt-no {
+    background-color: #FB5D5D;
+    color: #FFF;
+}
+
+.bt-yes {
+    background-color: #046908;
+    color: #FFF;
 }
 
 @media only screen and (max-width: 630px) {

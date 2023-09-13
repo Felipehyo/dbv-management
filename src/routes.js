@@ -9,6 +9,11 @@ import Statistics from "./pages/Statistics";
 import ScoreStatistics from "./pages/ScoreStatistics";
 import UnitHistory from "./pages/UnitHistory";
 import UserHistory from "./pages/UserHistory";
+import EventRegister from "./pages/EventRegister";
+import Treasury from "./pages/Treasury";
+import PaymentRegister from "./pages/PaymentRegister";
+import PaymentHistory from "./pages/PaymentHistory";
+import Partner from "./pages/Partner";
 
 import { isAuthenticated } from './Auth';
 const PrivateRoute = () => {
@@ -21,6 +26,7 @@ function defaultRoutes() {
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Login />}/>
+        <Route path='/partner' exact element={<Partner/>}/>
         <Route exact path='/' element={<PrivateRoute/>}>
             <Route exact path='/home' element={<Home/>}/>
             <Route exact path='/score' element={<Score/>}/>
@@ -30,6 +36,10 @@ function defaultRoutes() {
             <Route path='/statistics/score' exact element={<ScoreStatistics/>}/>
             <Route path='/statistics/unit/history' exact element={<UnitHistory/>}/>
             <Route path='/statistics/user/history' exact element={<UserHistory/>}/>
+            <Route path='/event/register' exact element={<EventRegister/>}/>
+            <Route path='/treasury' exact element={<Treasury/>}/>
+            <Route path='/treasury/register' exact element={<PaymentRegister/>}/>
+            <Route path='/treasury/history' exact element={<PaymentHistory/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

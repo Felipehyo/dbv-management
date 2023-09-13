@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import './style.scss';
-import Logout from '../../assets/logout.png';
+import Nav from '../../components/Nav';
 
 const Statistics = () => {
 
@@ -16,18 +16,15 @@ const Statistics = () => {
         navigate("/statistics/score");
     }
 
-    function handlelogout() {
-        sessionStorage.clear();
-        navigate("/");
+    function handleBack() {
+        navigate("/home");
     }
 
     return (
       <>
         <div className="container-score">
             <div className="sub-container-score">
-                <div className='nav-score' onClick={handlelogout}>
-                    <img className="logout" src={Logout} alt=""/>
-                </div>
+                <Nav handleBack={handleBack}/>
                 <img className="logo" src='https://cdn-icons-png.flaticon.com/512/2821/2821637.png' alt=""/>
                 <h1 className="nav-title">Estatísticas</h1>
                 <section className="section">

@@ -1,0 +1,38 @@
+.default-nav
+{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    .nav-back {
+        margin-top: 15px;
+        width: 100%;
+        text-align: left;
+        margin-left: 15px;
+    }
+
+    .nav-logout {
+        margin-top: 15px;
+        width: 100%;
+        text-align: right;
+        margin-right: 15px;
+    }
+
+}
+
+.nav-bt {
+    right: 0;
+    text-align: left;
+    width: 25px;
+    padding: 8px;
+    border-radius: 12px;
+    transition: 0.15s all;
+    box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.nav-bt:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    background-color: rgba(0, 0, 0, 0.05);
+}
