@@ -27,6 +27,10 @@ const Treasury = () => {
         navigate("/treasury/cash-book");
     }
 
+    function handleUserCash() {
+        navigate("/user-cash");
+    }
+
     function handleBack() {
         navigate("/home");
     }
@@ -68,6 +72,15 @@ const Treasury = () => {
                     <div className="info">
                         <h3>Cobrar Evento</h3>
                         <p>Realizar cobranças para os eventos cadastrados caso haja caixa</p>
+                    </div>
+                </div>
+                <div className="card" onClick={() => handleUserCash()}>
+                    <div className="image">
+                        <img src='https://cdn-icons-png.flaticon.com/512/5259/5259256.png' alt={'Flat Icon'}/>
+                    </div>
+                    <div className="info">
+                        <h3>Caixa Individual</h3>
+                        <p>Visualizar caixa e todas as movimentações e pagamentos do usuário</p>
                     </div>
                 </div>
                 <div className="card" onClick={() => handleHistory()}>

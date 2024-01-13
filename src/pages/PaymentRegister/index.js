@@ -150,11 +150,11 @@ const PaymentRegister = () => {
 
     return (
         <>
-            <div className="container-event">
-                <div className="sub-container-event">
+            <div className="container-payment-register">
+                <div className="sub-container-payment-register">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src='https://cdn-icons-png.flaticon.com/512/3258/3258583.png' alt="" />
-                    <h1 className="nav-title-event">Registrar Pagamento</h1>
+                    <h1 className="nav-title">Registrar Pagamento</h1>
                     <section className="section">
                         <form className='form-event'>
                             <TextField id="outlined-basic" label="Valor" variant="outlined" className='event-field'

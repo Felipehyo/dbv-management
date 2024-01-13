@@ -34,8 +34,8 @@ const CashBookHistory = () => {
 
     return (
         <>
-            <div className="container-payment-history">
-                <div className="sub-container-payment-history">
+            <div className="container-cash-book-history">
+                <div className="sub-container-cash-book-history">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src={'https://cdn-icons-png.flaticon.com/512/3561/3561384.png'} alt="" />
                     <h1 className="nav-title">Livro Caixa</h1>

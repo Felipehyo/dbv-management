@@ -1,0 +1,179 @@
+.container-events-details {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .sub-container-events {
+        width: 100%;
+        height: auto;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin-bottom: 30px;
+
+        .logo {
+            width: 20%;
+            margin-bottom: 5px;
+        }
+
+        .nav-title {
+            color: #4E4E4E;
+            margin-bottom: 10px;
+        }
+
+        .values {
+            margin-top: 5px;
+            width: 350px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total {
+            margin-top: 15px;
+            margin-bottom: 0px;
+            font-size: 18px;
+        }
+
+        // .line {
+        //     width: 350px;
+        //     height: 1px;
+        //     background-color: rgba(0, 0, 0, 0.24);
+        // }
+
+        .sub-title {
+            color: #4E4E4E;
+            margin-top: 10px;
+        }
+
+        .section {
+            margin: 0;
+            margin-top: 5px;
+            width: 80%;
+            margin-right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .card {
+                width: 100%;
+                padding: 15px;
+                padding-top: 18px;
+                background-color: #fff;
+                border-radius: 5px;
+                display: flex;
+                box-shadow: 1px solid #000;
+                justify-content: space-between;
+                box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
+                margin-top: 12px;
+                transition: 0.15s all;
+                position: relative;
+                cursor: pointer;
+
+                .info {
+                    margin-left: 10px;
+                    max-width: 250px;
+                    display: flex;
+                    text-align: center;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+
+                    .content {
+                        width: 250px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-direction: column;
+                        position: relative;
+
+                        h2 {
+                            font-size: 16px;
+                            color: #4E4E4E;
+                            margin-bottom: 5px;
+                            margin-top: -5px;
+                        }
+                        p {
+                            margin: 0;
+                            font-size: 14px;
+                            color: #4E4E4E;
+                        }
+                    }
+
+                    .progress-bar {
+                        margin-top: 2px;
+                        width: 250px;
+                    }
+
+                    .user-total {
+                        position: absolute;
+                        top: 3px;
+                        right: 6px;
+                        font-size: 13px;
+                        color: #4E4E4E;
+                        font-weight: bold;
+                    }
+                }
+
+                .image {
+                    text-align: center;
+                    width: 50px;
+                    img {
+                        width: 35px;
+                    }
+                }
+            }
+
+            // .card:active {
+            //     transform: scale(0.98);
+            //     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+            //     background-color: rgba(0, 0, 0, 0.05);
+            // }
+
+            .card:last-child {
+                margin-bottom: 20px;
+            }
+        }
+
+        .register-user {
+            width: 60px;
+            height: 60px;
+            box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
+            background-color: #fff;
+            border-radius: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            right: 15px;
+            bottom: 15px;
+            .plus {
+                margin-left: 7px;
+                opacity: 1;
+                width: 37px;
+            }
+        }
+
+        .register-user:active {
+            transform: scale(0.98);
+            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .container-score {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

@@ -16,6 +16,10 @@ import PaymentHistory from "./pages/PaymentHistory";
 import CashBookRegister from "./pages/CashBookRegister";
 import CashBookHistory from "./pages/CashBookHistory";
 import Partner from "./pages/Partner";
+import ClubEvents from "./pages/ClubEvents";
+import EventDetails from "./pages/EventDetails";
+import EventUserRegister from "./pages/EventUserRegister";
+import UserCash from "./pages/UserCash";
 
 import { isAuthenticated } from './Auth';
 const PrivateRoute = () => {
@@ -44,6 +48,10 @@ function defaultRoutes() {
             <Route path='/treasury/history' exact element={<PaymentHistory/>}/>
             <Route path='/treasury/cash-book/register' exact element={<CashBookRegister/>}/>
             <Route path='/treasury/cash-book' exact element={<CashBookHistory/>}/>
+            <Route path='/event' exact element={<ClubEvents/>}/>
+            <Route path='/event/details' exact element={<EventDetails/>}/>
+            <Route path='/event/details/user-register' exact element={<EventUserRegister/>}/>
+            <Route path='/user-cash' exact element={<UserCash/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

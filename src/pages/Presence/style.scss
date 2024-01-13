@@ -14,74 +14,38 @@
         align-items: center;
         justify-content: center;
         border-radius: 10px;
-        margin-bottom: 30px;
 
-        .nav-title {
-            color: #4E4E4E;
-            margin-bottom: 20px;
-        }
+        // .search {
+        //     display: flex;
+        //     box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
+        //     justify-content: space-between;
+        //     border-radius: 5px;
+        //     width: 85%;
 
-        .search {
-            display: flex;
-            box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
-            justify-content: space-between;
-            border-radius: 5px;
-            width: 85%;
+        //     input {
+        //         border: none;
+        //         text-decoration: none;
+        //         text-align: center;
+        //         width: 100%;
+        //         padding-left: 20px;
+        //         border-radius: 5px;
+        //         font-size: 14px;
+        //     }
 
-            input {
-                border: none;
-                text-decoration: none;
-                text-align: center;
-                width: 100%;
-                padding-left: 20px;
-                border-radius: 5px;
-                font-size: 14px;
-            }
+        //     input:focus-visible {
+        //         outline: none;
+        //     }
 
-            input:focus-visible {
-                outline: none;
-            }
-
-            img {
-                width: 20px;
-                padding: 10px;
-            }
-        }
-
-        .nav-presence {
-            margin-top: 15px;
-            width: 100%;
-            text-align: right;
-
-            .logout {
-                right: 0;
-                text-align: left;
-                width: 25px;
-                padding: 8px;
-                border-radius: 12px;
-                margin-right: 15px;
-                transition: 0.15s all;
-                box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
-                cursor: pointer;
-            }
-
-            .logout:active {
-                transform: scale(0.98);
-                box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-                background-color: rgba(0, 0, 0, 0.05);
-            }
-        }
-
-        .logo {
-            width: 35%;
-            margin-bottom: 5px;
-        }
+        //     img {
+        //         width: 20px;
+        //         padding: 10px;
+        //     }
+        // }
 
         .section-presence {
             margin: 0;
-            margin-top: 20px;
             margin-right: 0;
-            width: 90%;
+            width: 85%;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -90,12 +54,11 @@
                 display: flex;
                 width: 100%;
                 align-items: center;
-                margin-top: 12px;
 
                 .card {
                     width: 100%;
                     height: 35px;
-                    padding: 0px;
+                    padding: 5px;
                     background-color: #fff;
                     border-radius: 5px;
                     display: flex;
@@ -107,15 +70,64 @@
 
                     .person-info {
                         display: flex;
-                        align-items: center;
+                        width: 100%;
+                        align-items: flex-start;
                         justify-content: center;
                         flex-direction: column;
 
                         p {
-                            font-size: 14px;
+                            font-size: 15px;
                             font-weight: 500;
                             color: #4E4E4E;
                             padding-left: 12px;
+                        }
+                    }
+
+                    .bts {
+                        display: flex;
+                        width: 150px;
+                        align-items: center;
+                        justify-content: end;
+
+                        .bt-abscence,
+                        .bt-presence {
+                            width: 100%;
+                            height: 35px;
+                            max-width: 35px;
+                            margin-left: 5px;
+                            border: none;
+                            border-radius: 5px;
+                            color: white;
+                            font-weight: bold;
+                            transition: 0.15s all;
+                            line-height: 35px;
+                            cursor: pointer;
+                        }
+
+                        .bt-abscence:active,
+                        .bt-presence:active {
+                            transform: scale(0.98);
+                            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+                            opacity: 0.7;
+                        }
+
+                        .bt-abscence {
+                            margin-left: 7px;
+                            background-color: #FF5A5A;
+                            opacity: 0.3;
+
+                            .selected {
+                                opacity: 1;
+                            }
+                        }
+
+                        .bt-presence {
+                            background-color: #25810E;
+                            opacity: 0.3;
+                        }
+
+                        .selected {
+                            opacity: 1;
                         }
                     }
                 }
@@ -128,44 +140,6 @@
 
                 .card:last-child {
                     margin-bottom: 20px;
-                }
-
-                .bt-abscence, .bt-presence {
-                    width: 100%;
-                    height: 35px;
-                    max-width: 35px;
-                    margin-left: 5px;
-                    border: none;
-                    border-radius: 5px;
-                    color: white;
-                    font-weight: bold;
-                    transition: 0.15s all;
-                    line-height: 35px;
-                    cursor: pointer;
-                }
-
-                .bt-abscence:active, .bt-presence:active {
-                    transform: scale(0.98);
-                    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-                    opacity: 0.7;
-                }
-
-                .bt-abscence {
-                    background-color: #FF5A5A;
-                    opacity: 0.3;
-
-                    .selected {
-                        opacity: 1; 
-                    }
-                }
-
-                .bt-presence {
-                    background-color: #25810E;
-                    opacity: 0.3;
-                }
-
-                .selected {
-                    opacity: 1; 
                 }
             }
         }
@@ -221,15 +195,5 @@
                 background-color: #293747;
             }
         }
-    }
-}
-
-@media only screen and (max-width: 630px) {
-    .container-presence {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 }

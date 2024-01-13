@@ -26,7 +26,7 @@ const EventRegister = () => {
     const navigate = useNavigate();
 
     function handleBack() {
-        navigate("/home");
+        navigate("/event");
     }
 
     function handleRegister() {
@@ -61,6 +61,7 @@ const EventRegister = () => {
     
             api.post('/event', data).then(reponse => {
                 alert('Evento cadastrado com sucesso!');
+                navigate("/event");
             }).catch(error => {
                 alert(error);
             })

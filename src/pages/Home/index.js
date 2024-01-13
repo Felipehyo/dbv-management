@@ -20,7 +20,7 @@ const Home = () => {
     }
 
     function handleEvents() {
-        navigate("/event/register");
+        navigate("/event");
     }
 
     function handleTreasury() {
@@ -69,7 +69,7 @@ const Home = () => {
                             <p>Criar e editar eventos, e inscrever desbravadores nos eventos</p>
                         </div>
                         <div className="image">
-                            <img src={'https://cdn-icons-png.flaticon.com/512/5987/5987625.png'} alt="Acampamento ícones criados por Good Ware - Flaticon"/>
+                            <img src={'https://cdn-icons-png.flaticon.com/512/4113/4113006.png'} alt="Acampamento ícones criados por Good Ware - Flaticon"/>
                         </div>
                     </div>
                     <div className="card" onClick={handleTreasury}>
