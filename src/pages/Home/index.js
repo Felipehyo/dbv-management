@@ -31,6 +31,10 @@ const Home = () => {
         navigate("/statistics");
     }
 
+    function handleUsers() {
+        navigate("/user");
+    }
+
     function handlelogout() {
         sessionStorage.clear();
         navigate("/");
@@ -81,7 +85,7 @@ const Home = () => {
                             <img src={'https://cdn-icons-png.flaticon.com/512/2460/2460494.png'} alt="Dinheiro ícones criados por justicon - Flaticon"/>
                         </div>
                     </div>
-                    <div className="card">
+                    <div className="card" onClick={handleUsers}>
                         <div className="info">
                             <h2>Usuários</h2>
                             <p>Criar, editar, ativar e inativar usuários. Criar usuários eventuais</p>

@@ -20,6 +20,9 @@ import ClubEvents from "./pages/ClubEvents";
 import EventDetails from "./pages/EventDetails";
 import EventUserRegister from "./pages/EventUserRegister";
 import UserCash from "./pages/UserCash";
+import User from "./pages/User";
+import UserRegister from "./pages/UserRegister";
+import UserEdit from "./pages/UserEdit";
 
 import { isAuthenticated } from './Auth';
 const PrivateRoute = () => {
@@ -52,6 +55,9 @@ function defaultRoutes() {
             <Route path='/event/details' exact element={<EventDetails/>}/>
             <Route path='/event/details/user-register' exact element={<EventUserRegister/>}/>
             <Route path='/user-cash' exact element={<UserCash/>}/>
+            <Route path='/user' exact element={<User/>}/>
+            <Route path='/user/register' exact element={<UserRegister/>}/>
+            <Route path='/user/edit' exact element={<UserEdit/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
