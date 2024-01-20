@@ -139,7 +139,7 @@ const PaymentRegister = () => {
     }, [paymentValue, payerUserSelected, paymentType]);
 
     useEffect(() => {
-        api.get('user/club/' + clubId).then(response => {
+        api.get('user/club/' + clubId + '?eventualUser=true').then(response => {
             setClubUsers(response.data);
         });
 
