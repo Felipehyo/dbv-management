@@ -59,10 +59,10 @@ const UserRegister = () => {
             valid = false;
         }
 
-        if (userBirthdate === '' || userBirthdate === null) {
-            errors.push('data de nascimento')
-            valid = false;
-        }
+        // if (userBirthdate === '' || userBirthdate === null) {
+        //     errors.push('data de nascimento')
+        //     valid = false;
+        // }
 
         if (valid) {
             var data = {
@@ -134,6 +134,7 @@ const UserRegister = () => {
                                     <MenuItem value={''}>Selecionar</MenuItem>
                                     <MenuItem value={'PATHFINDER'}>Desbravador</MenuItem>
                                     <MenuItem value={'DIRECTION'}>Diretoria</MenuItem>
+                                    <MenuItem value={'EXECUTIVE'}>Executiva</MenuItem>
                                     <MenuItem value={'EVENTUAL'}>Eventual</MenuItem>
                                 </Select>
                             </FormControl>

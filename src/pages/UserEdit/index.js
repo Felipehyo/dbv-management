@@ -63,10 +63,10 @@ const UserEdit = () => {
             valid = false;
         }
 
-        if (userBirthdate === '' || userBirthdate === null) {
-            errors.push('data de nascimento')
-            valid = false;
-        }
+        // if (userBirthdate === '' || userBirthdate === null) {
+        //     errors.push('data de nascimento')
+        //     valid = false;
+        // }
 
         if (valid) {
             var data = {
@@ -118,8 +118,9 @@ const UserEdit = () => {
             setUserName(response.data.name)
             setUserType(response.data.userType)
             setGender(response.data.gender)
-            setUnitSelected(response.data.unitId)
-            setUserBirthdate(response.data.userBirthdate)
+            if(response.data.unitId != null) setUnitSelected(response.data.unitId)
+            console.log(response.data.birthDate)
+            setUserBirthdate(response.data.birthDate)
             setStatus(response.data.active)
         });
 
