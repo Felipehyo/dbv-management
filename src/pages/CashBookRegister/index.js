@@ -63,7 +63,7 @@ const CashBookRegister = () => {
                 'type': paymentType,
                 'description': description,
                 'date': paymentDate,
-                'value': parseFloat(paymentValue.replace(/[.]/g, '')),
+                'value': parseFloat(paymentValue.replace(',', '.')),
                 'clubId': clubId,
             }
 

@@ -66,7 +66,6 @@ const EventRegister = () => {
                 alert(error);
             })
         } else {
-            console.log('aqui')
             var errorMsg = '';
             if(errors.length > 1) {
                 errorMsg = 'Os campos ';

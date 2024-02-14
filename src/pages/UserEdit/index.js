@@ -114,12 +114,10 @@ const UserEdit = () => {
     useEffect(() => {
 
         api.get('/user/' + userIdEdit).then(response => {
-            console.log(response.data)
             setUserName(response.data.name)
             setUserType(response.data.userType)
             setGender(response.data.gender)
             if(response.data.unitId != null) setUnitSelected(response.data.unitId)
-            console.log(response.data.birthDate)
             setUserBirthdate(response.data.birthDate)
             setStatus(response.data.active)
         });

@@ -65,7 +65,7 @@ const PaymentRegister = () => {
 
         if (valid) {
             var data = {
-                'value': parseFloat(paymentValue.replace(/[.]/g, '')),
+                'value': parseFloat(paymentValue.replace(',', '.')),
                 'formOfPayment': paymentType,
                 'date': paymentDate,
                 'clubId': clubId,

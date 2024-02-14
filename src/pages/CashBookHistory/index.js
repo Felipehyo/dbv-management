@@ -27,7 +27,6 @@ const CashBookHistory = () => {
 
         api.get('cash-book/' + clubId).then(response => {
             setHistory(response.data);
-            console.log(response.data);
         });
 
     }, [clubId]);

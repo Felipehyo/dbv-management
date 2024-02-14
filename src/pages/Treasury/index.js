@@ -41,7 +41,6 @@ const Treasury = () => {
         })
         api.get('club/' + clubId).then(response => {
             setClub(response.data);
-            console.log(response.data)
         })
     }, []);
 

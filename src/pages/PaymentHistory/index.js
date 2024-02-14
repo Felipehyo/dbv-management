@@ -21,7 +21,6 @@ const PaymentHistory = () => {
 
         api.get('payment/club/' + clubId).then(response => {
             setHistory(response.data);
-            console.log(response.data);
         });
 
     }, [clubId]);
