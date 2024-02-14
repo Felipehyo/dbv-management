@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NumberFormat from 'react-number-format';
 import { TextField, Button, InputLabel, MenuItem, FormControl, Select, InputAdornment } from "@mui/material";
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 import api from '../../services/api';
 
@@ -11,6 +12,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import './style.scss';
 import Nav from '../../components/Nav';
+
+import Modal from '../../components/Modal';
 
 const PaymentRegister = () => {
 
@@ -35,7 +38,9 @@ const PaymentRegister = () => {
         navigate("/treasury");
     }
 
-    function handleRegister() {
+    async function handleRegister() {
+
+        document.querySelector('.modal-container').classList.add('show-modal');
 
         var valid = true;
         var errors = [];
@@ -73,10 +78,12 @@ const PaymentRegister = () => {
                 'eventId': eventSelected
             }
 
-            api.post('/payment', data).then(reponse => {
+            await api.post('/payment', data).then(reponse => {
+                document.querySelector('.modal-container').classList.remove('show-modal');
                 alert('Pagamento registrado com sucesso!');
                 navigate('/treasury');
             }).catch(error => {
+                document.querySelector('.modal-container').classList.remove('show-modal');
                 alert(error);
             })
         } else {
@@ -88,12 +95,11 @@ const PaymentRegister = () => {
             } else {
                 errorMsg = 'O campo ' + errors[0] + ' deve ser informado.'
             }
+            document.querySelector('.modal-container').classList.remove('show-modal');
             alert(errorMsg);
         }
 
     }
-
-    const [tempValue, setTempValue] = useState('');
 
     const handleChange = (e) => {
         const input = e.target.value;
@@ -221,6 +227,15 @@ const PaymentRegister = () => {
                             <Button className="bt-event-register" variant="contained" onClick={handleRegister}>Registrar Pagamento</Button>
                         </form>
                     </section>
+                    <Modal widht="330px" height="" color={'#000'} backgroundColor={'rgba(0, 0, 0, 0.0)'} boxShadow={'0px 0px 25px rgba(0, 0, 0, 0.0)'}>
+                        <>
+                            <div className='div-modal-waiting'>
+                                <Box sx={{ display: 'flex' }}>
+                                    <CircularProgress />
+                                </Box>
+                            </div>
+                        </>
+                    </Modal>
                 </div>
             </div>
         </>
