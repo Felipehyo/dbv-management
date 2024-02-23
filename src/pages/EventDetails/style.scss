@@ -6,7 +6,7 @@
     justify-content: center;
 
     .sub-container-events {
-        width: 100%;
+        width: 400px;
         height: auto;
         background-color: white;
         display: flex;
@@ -16,15 +16,29 @@
         justify-content: center;
         border-radius: 10px;
         margin-bottom: 30px;
+        color: #4E4E4E;
 
         .logo {
             width: 20%;
             margin-bottom: 5px;
         }
 
-        .nav-title {
-            color: #4E4E4E;
-            margin-bottom: 10px;
+        .title {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+
+            .nav-title {
+                color: #4E4E4E;
+                margin-bottom: 10px;
+            }
+
+            img {
+                right: 25px;
+                position: absolute;
+                width: 35px;
+            }
         }
 
         .values {
@@ -36,20 +50,48 @@
         }
 
         .total {
-            margin-top: 15px;
-            margin-bottom: 0px;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 10px;
             font-size: 18px;
         }
 
-        // .line {
-        //     width: 350px;
-        //     height: 1px;
-        //     background-color: rgba(0, 0, 0, 0.24);
-        // }
+        .bts {
+            display: flex;
+            width: 92%;
+            align-items: center;
+            justify-content: center;
 
-        .sub-title {
-            color: #4E4E4E;
-            margin-top: 10px;
+            .bt {
+                width: 100%;
+                height: 28px;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                font-weight: bold;
+                transition: 0.15s all;
+                line-height: 28px;
+                cursor: pointer;
+            }
+            
+            .default {
+                margin-left: 5px;
+            }
+
+            .bt:active {
+                transform: scale(0.98);
+                box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+                opacity: 0.7;
+            }
+
+            .bt {
+                background-color: #4E4E4E;
+                opacity: 0.3;
+            }
+
+            .selected {
+                opacity: 1;
+            }
         }
 
         .section {

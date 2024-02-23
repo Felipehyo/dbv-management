@@ -21,9 +21,23 @@
             margin-bottom: 5px;
         }
 
-        .nav-title {
-            color: #4E4E4E;
-            margin-top: 20px;
+        .title {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+            .nav-title {
+                color: #4E4E4E;
+                margin-bottom: 10px;
+            }
+
+            img {
+                right: 25px;
+                position: absolute;
+                width: 35px;
+            }
         }
 
         .nav-score {

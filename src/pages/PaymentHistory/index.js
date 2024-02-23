@@ -7,6 +7,8 @@ import Nav from '../../components/Nav';
 
 import './style.scss';
 
+import * as XLSX from 'xlsx';
+
 const PaymentHistory = () => {
 
     const navigate = useNavigate();
@@ -17,10 +19,40 @@ const PaymentHistory = () => {
         navigate("/treasury");
     }
 
+    const handleDownload = () => {
+
+        console.log('bateu')
+
+        const customizedData = histories.map(item => ({
+            'Nome': item.pathfinder.name,
+            'Valor': `${item.value.toFixed(2)}`.replace('.', ","),
+            'Forma de Pagamento': item.formOfPayment,
+            'Data': item.date,
+            'Evento': item.event != null ? item.event.name : "",
+        }));
+
+        const wscols = [
+            { wch: 35 },
+            { wch: 15 },
+            { wch: 20 },
+            { wch: 15 },
+            { wch: 20 },
+        ];
+
+        const worksheet = XLSX.utils.json_to_sheet(customizedData, { header: Object.keys(customizedData[0]) });
+
+        worksheet['!cols'] = wscols;
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Histórico de Pagamentos');
+        XLSX.writeFile(workbook, `Histórico de Pagamentos GB - ${new Date().getTime()}.xlsx`);
+    };
+
     useEffect(() => {
 
         api.get('payment/club/' + clubId).then(response => {
             setHistory(response.data);
+            console.log(response.data)
         });
 
     }, [clubId]);
@@ -31,7 +63,10 @@ const PaymentHistory = () => {
                 <div className="sub-container-payment-history">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src={'https://cdn-icons-png.flaticon.com/512/2682/2682065.png'} alt="" />
-                    <h1 className="nav-title">Histórico Pagamentos</h1>
+                    <div className='title'>
+                        <h1 className="nav-title">Pagamentos</h1>
+                        <img className='download-excel' onClick={() => handleDownload()} src='https://cdn-icons-png.flaticon.com/512/2504/2504768.png' alt=""/>
+                    </div>
                     <section className="section">
                         {
                             histories.sort((a, b) => new Date(b.date) - new Date(a.date)).map((history, id) => (

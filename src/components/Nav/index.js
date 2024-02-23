@@ -9,6 +9,11 @@ export default function Nav({handleBack}){
 
     const navigate = useNavigate();
 
+    function homeNavigate() {
+        sessionStorage.setItem("eventUserSelected", "");
+        navigate("/home")
+    }
+
     return (
         <>
             <div className='default-nav'>
@@ -16,7 +21,7 @@ export default function Nav({handleBack}){
                     <img className="nav-bt" src={Back} alt="" onClick={handleBack}/>
                 </div>
                 <div className='nav-logout' >
-                    <img className="nav-bt" src={Logout} alt="" onClick={() => navigate("/home")}/>
+                    <img className="nav-bt" src={Logout} alt="" onClick={() => homeNavigate()}/>
                 </div>
             </div>
         </>

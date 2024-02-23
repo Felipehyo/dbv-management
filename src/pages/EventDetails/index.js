@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TextField, Button, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import api from '../../services/api';
 
 import { styled } from '@mui/material/styles';
@@ -11,17 +10,20 @@ import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgr
 import './style.scss';
 import Nav from '../../components/Nav';
 
-import AddUser from '../../assets/add-user.png';
+import * as XLSX from 'xlsx';
 
 const EventDetails = () => {
 
     const [ userRegister, setUserRegisterList ] = useState([]);
     const [ event, setEvent ] = useState([]);
 
+    const [ userType, setUserType ] = useState('');
+
     const eventId = sessionStorage.getItem("eventId");
     const navigate = useNavigate();
 
     function handleBack() {
+        sessionStorage.setItem("eventUserSelected", "");
         navigate("/event");
     }
 
@@ -59,6 +61,14 @@ const EventDetails = () => {
           backgroundColor: value === 100 ? '#63B75B' : '#FFBC3A',
         },
       }));
+      
+    function getUsersByType(inputUserType) {
+        api.get('event/register/' + eventId + "?userType=" + inputUserType).then(response => {
+            setUserType(inputUserType);
+            sessionStorage.setItem("eventUserSelected", inputUserType);
+            setUserRegisterList(response.data);
+        });
+    }
 
     useEffect(() => {
 
@@ -66,11 +76,49 @@ const EventDetails = () => {
             setEvent(response.data);
         });
 
-        api.get('event/register/' + eventId).then(response => {
+        var sessionUserType = sessionStorage.getItem("eventUserSelected");
+
+        if (sessionUserType == null || sessionUserType == "") {
+            sessionUserType = "ALL";
+            setUserType("ALL")
+        } else {
+            setUserType(sessionUserType.toString())
+        }
+
+        api.get('event/register/' + eventId + '?userType=' + sessionUserType.toString()).then(response => {
             setUserRegisterList(response.data);
+            console.log(response.data)
         });
 
     }, [eventId]);
+
+    const handleDownload = () => {
+
+        const customizedData = userRegister.map(item => ({
+            'Nome': item.user,
+            'Tipo de Usuário': item.userType,
+            'Valor Pago': `${item.eventAllocatedAmount.toFixed(2)}`.replace('.', ","),
+            'Valor Em Caixa': `${item.userBank.toFixed(2)}`.replace('.', ","),
+        }));
+
+        const wscols = [
+            { wch: 35 },
+            { wch: 15 },
+            { wch: 15 },
+            { wch: 15 },
+        ];
+
+        const worksheet = XLSX.utils.json_to_sheet(customizedData, { header: Object.keys(customizedData[0]) });
+
+        worksheet['!cols'] = wscols;
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, event.event);
+        XLSX.writeFile(workbook, `Extração ${event.event}.xlsx`);
+    };
+    
+    //import * as XLSX from 'xlsx';
+    //<img className='download-excel' onClick={() => handleDownload()} src='https://cdn-icons-png.flaticon.com/512/2504/2504768.png' alt=""/>
 
     return (
         <>
@@ -78,7 +126,10 @@ const EventDetails = () => {
                 <div className="sub-container-events">
                     <Nav handleBack={handleBack}/>
                     <img className="logo" src='https://cdn-icons-png.flaticon.com/512/4113/4113006.png' alt=""/>
-                    <h1 className="nav-title">{event.event}</h1>
+                    <div className='title'>
+                        <h1 className="nav-title">{event.event}</h1>
+                        <img className='download-excel' onClick={() => handleDownload()} src='https://cdn-icons-png.flaticon.com/512/2504/2504768.png' alt=""/>
+                    </div>
                     <div className='values first'>
                         <p><b>Valor pessoa:</b> R${parseFloat(event.value).toFixed(2)}</p>
                         <p><b>Inscritos:</b> {userRegister.length}</p>
@@ -90,8 +141,21 @@ const EventDetails = () => {
                     <div className='total'>
                         <p><b>Total Recebido:</b> R${parseFloat(event.bank).toFixed(2)}</p>
                     </div>
-                    {/* <div className='line'></div> */}
-                    {/* <h2 className="sub-title">Inscritos no Evento</h2> */}
+                    <div className='bts'>
+                        <button id={'pathfinder'}
+                            className={'bt' + (userType === 'ALL' ? ' selected' : '')}
+                            onClick={() => getUsersByType('ALL')}>Todos</button>
+                        <button id={'pathfinder'}
+                            className={'bt default' + (userType === 'PATHFINDER' ? ' selected' : '')}
+                            onClick={() => getUsersByType('PATHFINDER')}>Dbvs</button>
+                        <button id={'direction'}
+                            className={'bt default' + (userType === 'DIRECTION' ? ' selected' : '')}
+                            onClick={() => getUsersByType('DIRECTION')}>Diretoria</button>
+                        <button id={'eventual'}
+                            className={'bt default' + (userType === 'EVENTUAL' ? ' selected' : '')}
+                            onClick={() => getUsersByType('EVENTUAL')}>Eventuais</button>
+                    </div>
+                    {/* <ExcelDownloadComponent data={data} fileName="dados" /> */}
                     <section className="section">
                     {
                         userRegister.sort((a, b) => a.user - b.user).map((userRegister, id) => (
