@@ -17,7 +17,7 @@ const UserCash = () => {
     }
 
     useEffect(() => {
-        api.get('/user/club/' + clubId).then(response => {
+        api.get('/user/club/' + clubId + "?boxGreaterZero=true").then(response => {
             setUserList(response.data);
         });
     }, [clubId]);
