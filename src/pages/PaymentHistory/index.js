@@ -51,10 +51,8 @@ const PaymentHistory = () => {
         XLSX.writeFile(workbook, `Histórico de Pagamentos GB - ${new Date().getTime()}.xlsx`);
     };
 
-    const handleDelete = () => {
-        api.delete('payment/' + historySelected.id).catch(error => {
-            alert('Erro ao deletar pagamento')
-        });
+    async function handleDelete() {
+        await api.delete('payment/' + historySelected.id);
         window.location.reload();
     }
 
