@@ -77,6 +77,7 @@ const Presence = () => {
         setPencil(false);
         setCap(false);
         setBibleStudy(false);
+        setAll(false)
         document.querySelector('.modal-container').classList.remove('show-modal');
     }
 

@@ -88,6 +88,7 @@
                 transition: 0.15s all;
                 justify-content: center;
                 align-items: center;
+                position: relative;
 
                 .card-info {
                     width: 80%;
@@ -109,6 +110,27 @@
                     }
 
                 }
+
+                .trash {
+                    border-radius: 10px;
+                    padding: 5px;
+                    padding-top: 8px;
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                    transition: 0.15s all;
+                    cursor: pointer;
+
+                    img {
+                        width: 20px;
+                    }
+                }
+
+                .trash:active {
+                    transform: scale(0.98);
+                    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
             }
 
             .card:active {
@@ -122,16 +144,52 @@
             }
         }
 
+
         .div-modal-info {
             display: flex;
             align-items: center;
             flex-direction: column;
             margin-bottom: 25px;
+            margin-top: 25px;
 
-            p {
-                margin: 0;
+            h2 {
+                margin-bottom: 15px;
             }
+
+            div {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+
+                p {
+                    margin: 0;
+                    display: flex;
+                    padding: 5px 0px 5px 0px;
+                    align-items: center;
+
+                    .check {
+                        padding: 1px;
+                    }
+                }
+            }
+
+            p.text {
+                margin-top: 10px;
+            }
+
         }
+
+        // .div-modal-info {
+        //     display: flex;
+        //     align-items: center;
+        //     flex-direction: column;
+        //     margin-bottom: 25px;
+
+        //     p {
+        //         margin: 0;
+        //     }
+        // }
 
         .bts-modal {
             display: flex;

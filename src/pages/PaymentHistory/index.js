@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from "@mui/material";
 
 import api from '../../services/api';
 
@@ -9,19 +10,21 @@ import './style.scss';
 
 import * as XLSX from 'xlsx';
 
+import TrashIcon from '../../assets/trash-icon.png'
+import Modal from '../../components/Modal';
+
 const PaymentHistory = () => {
 
     const navigate = useNavigate();
     const clubId = sessionStorage.getItem("clubId");
     const [histories, setHistory] = useState([]);
+    const [ historySelected, setHistorySelected ] = useState([]);
 
     function handleBack() {
         navigate("/treasury");
     }
 
     const handleDownload = () => {
-
-        console.log('bateu')
 
         const customizedData = histories.map(item => ({
             'Nome': item.pathfinder.name,
@@ -48,11 +51,26 @@ const PaymentHistory = () => {
         XLSX.writeFile(workbook, `Histórico de Pagamentos GB - ${new Date().getTime()}.xlsx`);
     };
 
+    const handleDelete = () => {
+        api.delete('payment/' + historySelected.id).catch(error => {
+            alert('Erro ao deletar pagamento')
+        });
+        window.location.reload();
+    }
+
+    function openModal(history) {
+        setHistorySelected(history);
+        document.querySelector('.modal-container').classList.add('show-modal');
+    }
+
+    function closeModal() {
+        document.querySelector('.modal-container').classList.remove('show-modal');
+    }
+
     useEffect(() => {
 
         api.get('payment/club/' + clubId).then(response => {
             setHistory(response.data);
-            console.log(response.data)
         });
 
     }, [clubId]);
@@ -77,18 +95,35 @@ const PaymentHistory = () => {
                                     </div>
 
                                     <div className="card-info">
-                                        <p><b>Nome:</b> {history.pathfinder.name.split(" ")[0] + " " + history.pathfinder.name.split(" ")[1]} | {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
+                                        <p><b>Nome:</b> {history.pathfinder.name}</p>
+                                        <p><b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
                                         <p><b>Valor:</b> R${parseFloat(history.value).toFixed(2)} ({history.formOfPayment})</p>
                                         {/* <p><b>Forma de pagamento:</b> {history.formOfPayment}</p> */}
                                         {/* <p><b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p> */}
                                         <p><b>Destinado:</b> {history.event != null ? history.event.name : 'Caixa'}</p>
                                     </div>
 
+                                    <div className='trash' onClick={() => openModal(history)}>
+                                        <img src={TrashIcon} alt="" />
+                                    </div>
 
                                 </div>
                             ))
                         }
                     </section>
+                    <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
+                        <>
+                            <div className='div-modal-info'>
+                                <h2>Deletar pagamento</h2>
+                                <p>Tem certeza que deseja deletar o pagamento de <b>{historySelected.pathfinder != null ? historySelected.pathfinder.name : null}</b> no valor de <b>R${historySelected.value}</b>?</p>
+                                {/* <p>Tem certeza que deseja deletar o pagamento do usuário <b>{historySelected.pathfinder.name}</b> no valor de <b>R${historySelected.value}</b>?</p> */}
+                            </div>
+                        </>
+                        <div className='bts-modal'>
+                            <Button className='bts-modal-cancel' variant="contained" onClick={closeModal}>Cancelar</Button>
+                            <Button className='bts-modal-confirm' variant="contained" onClick={handleDelete}>Confirmar</Button>
+                        </div>
+                    </Modal>
                 </div >
             </div >
         </>
