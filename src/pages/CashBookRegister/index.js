@@ -63,9 +63,10 @@ const CashBookRegister = () => {
                 'type': paymentType,
                 'description': description,
                 'date': paymentDate,
-                'value': parseFloat(paymentValue.replace(',', '.')),
+                'value': parseFloat(paymentValue.replace('.', '').replace(',', '.')),
                 'clubId': clubId,
             }
+            console.log(data)
 
             api.post('/cash-book', data).then(reponse => {
                 alert('Registrado com sucesso!');
