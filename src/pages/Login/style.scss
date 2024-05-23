@@ -3,7 +3,7 @@
     height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center;   
 
     .container-login {
         width: 400px;
@@ -26,7 +26,8 @@
             align-items: center;
             width: 100%;
 
-            .email, .pass {
+            .email,
+            .pass {
                 color: #293747;
                 margin-top: 5px;
                 width: 65%;
@@ -34,6 +35,7 @@
                 .Mui-focused {
                     color: #293747;
                 }
+
                 :after {
                     border-bottom-color: #565656;
                 }
@@ -46,18 +48,5 @@
                 font-weight: bold;
             }
         }
-    }
-}
-
-@media only screen and (max-width: 630px) {
-    .container {
-        width: 100%;
-        height: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        transform: translateY(-50%);
-        top: 50%;
     }
 }

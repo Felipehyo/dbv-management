@@ -197,41 +197,6 @@
             }
         }
 
-        .div-modal-info {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            margin-bottom: 25px;
-            margin-top: 25px;
-
-            h2 {
-                margin-bottom: 15px;
-            }
-
-            div {
-                display: flex;
-                width: 100%;
-                flex-direction: column;
-                align-items: flex-start;
-
-                p {
-                    margin: 0;
-                    display: flex;
-                    padding: 5px 0px 5px 0px;
-                    align-items: center;
-
-                    .check {
-                        padding: 1px;
-                    }
-                }
-            }
-
-            p.text {
-                margin-top: 10px;
-            }
-
-        }
-
         .bts-modal {
             display: flex;
             align-items: center;

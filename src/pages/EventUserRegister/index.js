@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TextField, Button, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
+import { Button } from "@mui/material";
 import api from '../../services/api';
 
 import './style.scss';
 import Nav from '../../components/Nav';
 
 import Modal from '../../components/Modal';
-
-import Subscribe from '../../assets/subscribe.png';
 
 const EventUserRegister = () => {
 
@@ -103,14 +101,14 @@ const EventUserRegister = () => {
                     <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
                         {(subscribed) ? (
                             <>
-                                <div className='div-modal-info'>
+                                <div className='modal-info'>
                                     <h2>Inscrição de Evento</h2>
                                     <p>Inscrever <b>{userSelected.user}</b> no evento <b>{event.event}</b>?</p>
                                 </div>
                             </>
                         ) : (
                             <>
-                                <div className='div-modal-info'>
+                                <div className='modal-info'>
                                     <h2>Cancelar Inscrição</h2>
                                     <p className='text'>Deseja cancelar a incrição de <b>{userSelected.user}</b>?</p>
                                 </div>

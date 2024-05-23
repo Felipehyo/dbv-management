@@ -11,81 +11,81 @@ import Logo from '../../assets/Logo.png';
 
 const Login = () => {
 
-    const [ email, setEmail ] = useState('');
-    const [ password, setPassword ] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    async function handleLogin(e) {
-        e.preventDefault();
+  async function handleLogin(e) {
+    e.preventDefault();
 
-        const data = {
-            'email': email,
-            'password': password
-        }
-
-        try {
-            var response = await api.post('user/login', data)
-            .catch(function (error) {
-                alert('Dados inválidos. Tente novamente.');
-                return null;
-            });
-
-            if (response !== null) {
-                let user = response.data;
-                sessionStorage.setItem('id', user.id);
-                sessionStorage.setItem('name', user.name);
-                sessionStorage.setItem('userType', user.userType);
-                sessionStorage.setItem('clubId', user.clubId);
-                sessionStorage.setItem('clubName', user.clubName);
-                navigate('/home');
-            }
-        } catch (e) {
-            alert(e);
-        }
+    const data = {
+      'email': email,
+      'password': password
     }
 
-    const [showPassword, setShowPassword] = React.useState(false);
+    try {
+      var response = await api.post('user/login', data)
+        .catch(function (error) {
+          alert('Dados inválidos. Tente novamente.');
+          return null;
+        });
 
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+      if (response !== null) {
+        let user = response.data;
+        sessionStorage.setItem('id', user.id);
+        sessionStorage.setItem('name', user.name);
+        sessionStorage.setItem('userType', user.userType);
+        sessionStorage.setItem('clubId', user.clubId);
+        sessionStorage.setItem('clubName', user.clubName);
+        navigate('/home');
+      }
+    } catch (e) {
+      alert(e);
+    }
+  }
 
-    const handleMouseDownPassword = (event) => {
-      event.preventDefault();
-    };
+  const [showPassword, setShowPassword] = React.useState(false);
 
-    return (
-      <>
-        <div className="container">
-            <div className="container-login">
-                <img className="logo" src={Logo} alt=""/>
-                <form className='form'>
-                    <TextField className="email" label="Email" variant="standard" value={email} onChange={e => setEmail(e.target.value)}/>
-                    <FormControl className="pass" sx={{ m: 1, width: '25ch' }} variant="standard">
-                      <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                      <Input
-                        id="standard-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                            >
-                              {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                      />
-                    </FormControl>
-                    <Button className="bt-login" variant="contained" onClick={handleLogin}>Login</Button>
-                </form>
-            </div>
-        </div>
-      </>
-    )
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
-  
-  export default Login;
+
+  return (
+    <>
+      <div className="container">
+        <div className="container-login">
+          <img className="logo" src={Logo} alt="" />
+          <form className='form'>
+            <TextField className="email" label="Email" variant="standard" value={email} onChange={e => setEmail(e.target.value)} />
+            <FormControl className="pass" sx={{ m: 1, width: '25ch' }} variant="standard">
+              <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+              <Input
+                id="standard-adornment-password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <Button className="bt-login" variant="contained" onClick={handleLogin}>Login</Button>
+          </form>
+        </div>
+      </div>
+    </>
+  )
+};
+
+export default Login;

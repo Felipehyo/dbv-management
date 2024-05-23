@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import { TextField, Button, IconButton, Input, InputLabel, InputAdornment, FormControl } from "@mui/material";
+import React from 'react';
 import parterGB from '../../assets/fundo_gb.jpg';
-import gbMen from '../../assets/gb-men.png';
 import lider from '../../assets/lider.webp';
 import liderMaster from '../../assets/lider-master.png';
 import liderMasterAvancado from '../../assets/lider-master-avançado.png';
@@ -22,12 +18,12 @@ const Partner = () => {
                 </div>
                 <div className='header'>
                     <div className='patner-image'></div>
-                    <img src={parterGB}></img>
+                    <img src={parterGB} alt='partner'></img>
                     <h1>Clube Guilherme Belz</h1>
                 </div>
                 <div className='container-plans'>
                     <div className='plan'>
-                        <img src={desbravador} height={60}></img>
+                        <img src={desbravador} alt='pathfinder' height={60}></img>
                         <h2>Plano Desbravador</h2>
                         <ul className='list'>
                             <li>Carteirinha personalizada</li>
@@ -40,7 +36,7 @@ const Partner = () => {
                         </div>
                     </div>
                     <div className='plan'>
-                        <img src={lider} height={60}></img>
+                        <img src={lider} alt='lider' height={60}></img>
                         <h2>Plano Líder</h2>
                         <ul className='list'>
                             <li>Todos do plano 1</li>
@@ -55,7 +51,7 @@ const Partner = () => {
                         </div>
                     </div>
                     <div className='plan'>
-                        <img src={liderMaster} height={60}></img>
+                        <img src={liderMaster} alt='lider master' height={60}></img>
                         <h2>Plano Master</h2>
                         <ul className='list'>
                             <li>Todos do plano 1 e 2</li>
@@ -72,7 +68,7 @@ const Partner = () => {
                         </div>
                     </div>
                     <div className='plan'>
-                        <img src={liderMasterAvancado} height={60}></img>
+                        <img src={liderMasterAvancado} alt='Lider Master Avançado' height={60}></img>
                         <h2>Master Avançado</h2>
                         <ul className='list'>
                             <li>Todos do plano 1, 2 e 3</li>

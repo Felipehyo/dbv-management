@@ -29,7 +29,7 @@ const UserHistory = () => {
 
     return (
       <>
-        <div className="container-score-unit">
+        <div className="default-container">
             <div className="sub-container-score-unit">
                 <Nav handleBack={handleBack}/>
                 <img className="logo" src={'https://cdn-icons-png.flaticon.com/512/3585/3585145.png'} alt=""/>

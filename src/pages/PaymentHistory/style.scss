@@ -1,10 +1,3 @@
-.container-payment-history {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
     .sub-container-payment-history {
         width: 100%;
         max-width: 500px;
@@ -36,7 +29,8 @@
             img {
                 right: 25px;
                 position: absolute;
-                width: 35px;
+                opacity: 0.6;
+                width: 25px;
             }
         }
 
@@ -122,7 +116,7 @@
                     cursor: pointer;
 
                     img {
-                        width: 20px;
+                        width: 18px;
                     }
                 }
 
@@ -144,78 +138,14 @@
             }
         }
 
+    }
 
-        .div-modal-info {
+    @media only screen and (max-width: 630px) {
+        .container-score-unit {
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
-            flex-direction: column;
-            margin-bottom: 25px;
-            margin-top: 25px;
-
-            h2 {
-                margin-bottom: 15px;
-            }
-
-            div {
-                display: flex;
-                width: 100%;
-                flex-direction: column;
-                align-items: flex-start;
-
-                p {
-                    margin: 0;
-                    display: flex;
-                    padding: 5px 0px 5px 0px;
-                    align-items: center;
-
-                    .check {
-                        padding: 1px;
-                    }
-                }
-            }
-
-            p.text {
-                margin-top: 10px;
-            }
-
-        }
-
-        // .div-modal-info {
-        //     display: flex;
-        //     align-items: center;
-        //     flex-direction: column;
-        //     margin-bottom: 25px;
-
-        //     p {
-        //         margin: 0;
-        //     }
-        // }
-
-        .bts-modal {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-
-            .bts-modal-cancel {
-                background-color: #D0D0D0;
-                color: #333333;
-                font-weight: bold;
-            }
-
-            .bts-modal-confirm {
-                background-color: #293747;
-            }
+            justify-content: center;
         }
     }
-}
-
-@media only screen and (max-width: 630px) {
-    .container-score-unit {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}

@@ -14,10 +14,10 @@ import * as XLSX from 'xlsx';
 
 const EventDetails = () => {
 
-    const [ userRegister, setUserRegisterList ] = useState([]);
-    const [ event, setEvent ] = useState([]);
+    const [userRegister, setUserRegisterList] = useState([]);
+    const [event, setEvent] = useState([]);
 
-    const [ userType, setUserType ] = useState('');
+    const [userType, setUserType] = useState('');
 
     const eventId = sessionStorage.getItem("eventId");
     const navigate = useNavigate();
@@ -54,14 +54,14 @@ const EventDetails = () => {
         height: 10,
         borderRadius: 5,
         [`&.${linearProgressClasses.colorPrimary}`]: {
-          backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+            backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
         },
         [`& .${linearProgressClasses.bar}`]: {
-          borderRadius: 5,
-          backgroundColor: value === 100 ? '#63B75B' : '#FFBC3A',
+            borderRadius: 5,
+            backgroundColor: value === 100 ? '#63B75B' : '#FFBC3A',
         },
-      }));
-      
+    }));
+
     function getUsersByType(inputUserType) {
         api.get('event/register/' + eventId + "?userType=" + inputUserType).then(response => {
             setUserType(inputUserType);
@@ -116,19 +116,16 @@ const EventDetails = () => {
         XLSX.utils.book_append_sheet(workbook, worksheet, event.event);
         XLSX.writeFile(workbook, `Extração ${event.event}.xlsx`);
     };
-    
-    //import * as XLSX from 'xlsx';
-    //<img className='download-excel' onClick={() => handleDownload()} src='https://cdn-icons-png.flaticon.com/512/2504/2504768.png' alt=""/>
 
     return (
         <>
-            <div className="container-events-details">
+            <div className="default-container">
                 <div className="sub-container-events">
-                    <Nav handleBack={handleBack}/>
-                    <img className="logo" src='https://cdn-icons-png.flaticon.com/512/4113/4113006.png' alt=""/>
+                    <Nav handleBack={handleBack} />
+                    <img className="logo" src='https://cdn-icons-png.flaticon.com/512/4113/4113006.png' alt="" />
                     <div className='title'>
                         <h1 className="nav-title">{event.event}</h1>
-                        <img className='download-excel' onClick={() => handleDownload()} src='https://cdn-icons-png.flaticon.com/512/2504/2504768.png' alt=""/>
+                        <img className='download-excel' onClick={() => handleDownload()} src='https://cdn-icons-png.flaticon.com/512/2504/2504768.png' alt="" />
                     </div>
                     <div className='values first'>
                         <p><b>Valor pessoa:</b> R${parseFloat(event.value).toFixed(2)}</p>
@@ -155,38 +152,37 @@ const EventDetails = () => {
                             className={'bt default' + (userType === 'EVENTUAL' ? ' selected' : '')}
                             onClick={() => getUsersByType('EVENTUAL')}>Eventuais</button>
                     </div>
-                    {/* <ExcelDownloadComponent data={data} fileName="dados" /> */}
                     <section className="section">
-                    {
-                        userRegister.sort((a, b) => a.user - b.user).map((userRegister, id) => (
-                            <div className="card" key={id} onClick={() => handleUserRegister(userRegister)}>
-                                <div className="image">
-                                    <img src={userRegister.userGender === 'MALE' ? "https://cdn-icons-png.flaticon.com/512/2922/2922506.png" : "https://cdn-icons-png.flaticon.com/512/2922/2922566.png"} alt={"flatIcon"}/>
+                        {
+                            userRegister.sort((a, b) => a.user - b.user).map((userRegister, id) => (
+                                <div className="card" key={id} onClick={() => handleUserRegister(userRegister)}>
+                                    <div className="image">
+                                        <img src={userRegister.userGender === 'MALE' ? "https://cdn-icons-png.flaticon.com/512/2922/2922506.png" : "https://cdn-icons-png.flaticon.com/512/2922/2922566.png"} alt={"flatIcon"} />
+                                    </div>
+                                    <div className="info">
+                                        <div className="content">
+                                            <h2>{userRegister.user.split(" ").slice(0, 3).join(" ")}</h2>
+                                        </div>
+                                        <div className='progress-bar'>
+                                            <Box sx={{ flexGrow: 1, percentage: 100 }}>
+                                                <BorderLinearProgress variant="determinate" value={userRegister.percentagePayment} />
+                                            </Box>
+                                        </div>
+                                        <div className='user-total'>
+                                            <p>R${parseFloat(userRegister.eventAllocatedAmount).toFixed(2)}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="info">
-                                    <div className="content">
-                                        <h2>{userRegister.user.split(" ").slice(0, 3).join(" ")}</h2>
-                                    </div>
-                                    <div className='progress-bar'>
-                                        <Box sx={{ flexGrow: 1, percentage: 100 }}>
-                                            <BorderLinearProgress variant="determinate" value={userRegister.percentagePayment} />
-                                        </Box>
-                                    </div>
-                                    <div className='user-total'>
-                                        <p>R${parseFloat(userRegister.eventAllocatedAmount).toFixed(2)}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    }
+                            ))
+                        }
                     </section>
                     <div className='register-user'>
-                        <img className="plus" src={'https://cdn-icons-png.flaticon.com/512/1487/1487117.png'} alt="" onClick={handleRegisterUserEvent}/>
+                        <img className="plus" src={'https://cdn-icons-png.flaticon.com/512/1487/1487117.png'} alt="" onClick={handleRegisterUserEvent} />
                     </div>
                 </div>
             </div>
         </>
     )
 };
-  
+
 export default EventDetails;

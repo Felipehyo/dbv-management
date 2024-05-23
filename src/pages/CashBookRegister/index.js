@@ -133,8 +133,8 @@ const CashBookRegister = () => {
 
     return (
         <>
-            <div className="container-event">
-                <div className="sub-container-event">
+            <div className="default-container">
+                <div className="sub-container-cash-book-register">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src='https://cdn-icons-png.flaticon.com/512/3561/3561384.png' alt="" />
                     <h1 className="nav-title-event">Entradas e Saídas</h1>

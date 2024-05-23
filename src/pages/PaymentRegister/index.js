@@ -70,7 +70,7 @@ const PaymentRegister = () => {
 
         if (valid) {
             var data = {
-                'value': parseFloat(paymentValue.replace(',', '.')),
+                'value': parseFloat(paymentValue.replace('.', '').replace(',', '.')),
                 'formOfPayment': paymentType,
                 'date': paymentDate,
                 'clubId': clubId,
@@ -84,7 +84,7 @@ const PaymentRegister = () => {
                 navigate('/treasury');
             }).catch(error => {
                 document.querySelector('.modal-container').classList.remove('show-modal');
-                alert(error);
+                alert(error.response.data.details);
             })
         } else {
             var errorMsg = '';
@@ -156,7 +156,7 @@ const PaymentRegister = () => {
 
     return (
         <>
-            <div className="container-payment-register">
+            <div className="default-container">
                 <div className="sub-container-payment-register">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src='https://cdn-icons-png.flaticon.com/512/3258/3258583.png' alt="" />

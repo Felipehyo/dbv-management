@@ -51,7 +51,7 @@ const CashBookHistory = () => {
 
     return (
         <>
-            <div className="container-cash-book-history">
+            <div className="default-container">
                 <div className="sub-container-cash-book-history">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src={'https://cdn-icons-png.flaticon.com/512/3561/3561384.png'} alt="" />
@@ -81,7 +81,7 @@ const CashBookHistory = () => {
                     </section>
                     <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
                         <>
-                            <div className='div-modal-info'>
+                            <div className='modal-info'>
                                 <h2>Deletar pagamento</h2>
                                 <p>Tem certeza que deseja deletar o registro de caixa no valor de <b>R${parseFloat(historySelected.value).toFixed(2)}</b>?</p>
                                 {/* <p>Tem certeza que deseja deletar o pagamento do usuário <b>{historySelected.pathfinder.name}</b> no valor de <b>R${historySelected.value}</b>?</p> */}

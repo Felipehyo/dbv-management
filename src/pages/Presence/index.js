@@ -13,11 +13,9 @@ import Nav from '../../components/Nav';
 
 const Presence = () => {
 
-    // const [ userList, setUserList ] = useState([]);
     const [userSelected, setUserSelected] = useState([]);
     const [operationType, setOperationtype] = useState('');
 
-    // const [ userSearch, setUserSearch ] = useState([]);
     const [userSearchList, setUserSearchList] = useState([]);
 
     const [bible, setBible] = useState(false);
@@ -96,46 +94,18 @@ const Presence = () => {
     useEffect(() => {
 
         api.get('presence/today/' + clubId).then(response => {
-            // setUserList(response.data);
             setUserSearchList(response.data);
         });
 
     }, [clubId]);
 
-    // useEffect(() => {
-
-    //     if(userSearch !== '') {
-
-    //         var tempList = [];
-
-    //         userList.forEach( user => {
-    //             console.log(user.userName);
-    //             console.log(userSearch);
-
-    //             if(user.userName.toLowerCase().includes(userSearch.toLowerCase())) {
-    //                 tempList.push(user);
-    //             }
-    //         })
-
-    //         setUserSearchList(tempList);
-    //     } else {
-    //         setUserSearchList(userList);
-    //     }
-
-    // }, [userSearch]);
-
     return (
         <>
-            <div className="container-presence">
+            <div className="default-container">
                 <div className="sub-container-presence">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src='https://cdn-icons-png.flaticon.com/512/3585/3585145.png' alt="" />
                     <h1 className="nav-title">Lista de Presença</h1>
-
-                    {/* <div className='search'>
-                    <input type={'text'} placeholder='Digite um nome' value={userSearch} onChange={e => setUserSearch(e.target.value)}></input>
-                    <img src='https://cdn-icons-png.flaticon.com/512/54/54481.png' alt=''/>
-                </div> */}
 
                     <section className="section-presence">
                         {
@@ -162,14 +132,14 @@ const Presence = () => {
                     <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
                         {(operationType === 'ABSENT') ? (
                             <>
-                                <div className='div-modal-info'>
+                                <div className='modal-info'>
                                     <h2>Marcar Falta</h2>
                                     <p>Marcar falta para <b>{userSelected.name}</b>?</p>
                                 </div>
                             </>
                         ) : (
                             <>
-                                <div className='div-modal-info'>
+                                <div className='modal-info'>
                                     <h2>Marcar Presença</h2>
                                     <div>
                                         <p><Checkbox className='check' checked={bible} onChange={() => setBible(bible ? false : true)} />Biblia</p>
