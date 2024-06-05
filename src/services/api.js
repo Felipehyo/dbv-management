@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
     // baseURL: 'https://dbv-financeiro.herokuapp.com/pathfinders/'
-    baseURL: 'http://18.229.136.190/pathfinders/'
+    baseURL: 'https://18.229.136.190/pathfinders/'
     // baseURL: 'http://localhost:8080/pathfinders/'
     // baseURL: 'http://192.168.0.123:8080/pathfinders/'
 })
