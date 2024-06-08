@@ -2,28 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Fab, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
+// import Utils from '../../utils/Utils.js'
 import api from '../../services/api';
 
 import Nav from '../../components/Nav';
 
 import './style.scss';
 
-import TrashIcon from '../../assets/trash-icon.png'
-import Modal from '../../components/Modal';
 import BottomDrawer from '../../components/BottomDrawer';
 
 const CashBookHistory = () => {
 
     const navigate = useNavigate();
     const clubId = sessionStorage.getItem("clubId");
-    const [ histories, setHistory ] = useState([]);
-    const [ historySelected, setHistorySelected ] = useState([]);
-    const [ inputTotal, setInputTotal ] = useState(0);
-    const [ outputTotal, setOutputTotal ] = useState(0);
+    const [histories, setHistory] = useState([]);
+    const [inputTotal, setInputTotal] = useState(0);
+    const [outputTotal, setOutputTotal] = useState(0);
 
     const [clubEvents, setClubEvents] = useState([]);
     const [eventSelected, setEventSelected] = useState('');
+
+    const [open, setOpen] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState("");
+
+    const handleClick = (message) => {
+        setAlertMessage(message);
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+        sessionStorage.setItem('startAlert', "")
+    };
 
     function handleBack() {
         navigate("/treasury");
@@ -33,18 +50,9 @@ const CashBookHistory = () => {
         navigate("/treasury/cash-book/register");
     }
 
-    function openModal(history) {
-        setHistorySelected(history);
-        document.querySelector('.modal-container').classList.add('show-modal');
-    }
-
-    async function handleDelete() {
-        await api.delete('cash-book/' + historySelected.id);
-        navigate("/treasury");
-    }
-
-    function closeModal() {
-        document.querySelector('.modal-container').classList.remove('show-modal');
+    function handleEdit(id) {
+        sessionStorage.setItem('cashBookIdEdit', id);
+        navigate("/treasury/cash-book/edit");
     }
 
     function openBottomDrawer() {
@@ -60,27 +68,55 @@ const CashBookHistory = () => {
         var query = ""
 
         if (eventSelected !== null) {
-            if(query !== "") {
+            if (query !== "") {
                 query = query + "&"
             }
 
             query = query + "eventId=" + eventSelected;
         }
 
-        await api.get('cash-book/' + clubId + (query !== "" ? "?" + query : "") ).then(response => {
+        await api.get('cash-book/club/' + clubId + (query !== "" ? "?" + query : "")).then(response => {
             setHistory(response.data);
         });
         document.querySelector('.botton-drawer-container').classList.remove('show-modal');
     }
 
+    const convertValue = (e) => {
+        // Remove caracteres não numéricos e zeros a esquerda
+        let numericValue = e.replace(/[^\d]/g, '');
+        var removeCaracteres = numericValue.replace(/[,.]/g, '');
+        var value = removeCaracteres.replace(/^0+/, '');
+
+        // Preenche com zeros à esquerda se necessário
+        var result;
+        if (value.length === 0) {
+            result = "0,00"
+        } else if (value.length === 1) {
+            result = "0,0" + value;
+        } else if (value.length === 2) {
+            result = "0," + value;
+        } else if (value.length < 6) {
+            result = value.slice(0, -2) + "," + value.substr(value.length - 2);
+        } else if (value.length < 8) {
+            let decimal = value.substr(value.length - 2);
+            let hundred = value.substr(value.length - 5);
+            let thousand = value.slice(0, - 5);
+            result = thousand + "." + hundred.slice(0, -2) + "," + decimal;
+        } else {
+            return;
+        }
+
+        return result;
+    }
+
     useEffect(() => {
 
-        api.get('cash-book/' + clubId).then(response => {
+        api.get('cash-book/club/' + clubId).then(response => {
             setHistory(response.data);
 
             var inputTotal = 0;
             var outputTotal = 0;
-            
+
             response.data.forEach((history) => {
                 (history.type == "Entrada") ? inputTotal = inputTotal + history.value : outputTotal += history.value;
             });
@@ -91,6 +127,11 @@ const CashBookHistory = () => {
         api.get('event/club/' + clubId).then(response => {
             setClubEvents(response.data);
         });
+
+        var alertEditSuccess = sessionStorage.getItem('startAlert');
+        if (alertEditSuccess != "") {
+            handleClick(alertEditSuccess);
+        }
 
     }, [clubId]);
 
@@ -105,8 +146,8 @@ const CashBookHistory = () => {
                         <img className='filter' onClick={() => openBottomDrawer()} src='https://cdn-icons-png.flaticon.com/512/4044/4044064.png' alt="" />
                     </div>
                     <div className='values first'>
-                        <p><b>Total entradas:</b> R${parseFloat(inputTotal).toFixed(2)}</p>
-                        <p><b>Total saídas:</b> R${parseFloat(outputTotal).toFixed(2)}</p>
+                        <p><b>Entradas:</b> R${convertValue(parseFloat(inputTotal).toFixed(2))}</p>
+                        <p><b>Saídas:</b> R${convertValue(parseFloat(outputTotal).toFixed(2))}</p>
                     </div>
                     <section className="section">
                         {
@@ -118,33 +159,18 @@ const CashBookHistory = () => {
                                     </div>
 
                                     <div className="card-info">
-                                        <p><b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
-                                        <p><b>Valor:</b> R${parseFloat(history.value).toFixed(2)}</p>
-                                        <p><b>Tipo:</b> {history.type}</p>
-                                        {history.event != null ? (<p><b>Evento:</b> {history.event.event}</p>) : null}
+                                        <p><b>Tipo:</b> {history.type} - <b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
+                                        <p><b>Valor:</b> R${parseFloat(history.value).toFixed(2)}{history.event != null ? (<> - <b>Evento:</b> {history.event.event}</>) : null}</p>
                                         <p><b>Descrição:</b> {history.description}</p>
                                     </div>
 
-                                    <div className='trash' onClick={() => openModal(history)}>
-                                        <img src={TrashIcon} alt="" />
+                                    <div className='edit' onClick={() => handleEdit(history.id)}>
+                                        <img src={"https://cdn-icons-png.flaticon.com/512/2280/2280532.png"} alt="" />
                                     </div>
                                 </div>
                             ))
                         }
                     </section>
-                    <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
-                        <>
-                            <div className='modal-info'>
-                                <h2>Deletar pagamento</h2>
-                                <p>Tem certeza que deseja deletar o registro de caixa no valor de <b>R${parseFloat(historySelected.value).toFixed(2)}</b>?</p>
-                                {/* <p>Tem certeza que deseja deletar o pagamento do usuário <b>{historySelected.pathfinder.name}</b> no valor de <b>R${historySelected.value}</b>?</p> */}
-                            </div>
-                        </>
-                        <div className='bts-modal'>
-                            <Button className='bts-modal-cancel' variant="contained" onClick={closeModal}>Cancelar</Button>
-                            <Button className='bts-modal-confirm' variant="contained" onClick={handleDelete}>Confirmar</Button>
-                        </div>
-                    </Modal>
                     <BottomDrawer widht="" height="" onClick={() => closeBottomDrawer()} color={'#000'}>
                         <>
                             <div className='bottom-drawer-info'>
@@ -175,6 +201,19 @@ const CashBookHistory = () => {
                             <AddIcon />
                         </Fab>
                     </footer>
+                    <div>
+                        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+                            <Alert
+                                onClose={handleClose}
+                                severity="success"
+                                variant="filled"
+                                sx={{ width: '100%' }}
+                            >
+                                {alertMessage}
+                            </Alert>
+                        </Snackbar>
+                    </div>
                 </div >
             </div >
         </>

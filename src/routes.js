@@ -23,6 +23,7 @@ import UserCash from "./pages/UserCash";
 import User from "./pages/User";
 import UserRegister from "./pages/UserRegister";
 import UserEdit from "./pages/UserEdit";
+import CashBookEdit from "./pages/CashBookEdit";
 
 import { isAuthenticated } from './Auth';
 const PrivateRoute = () => {
@@ -58,6 +59,7 @@ function defaultRoutes() {
             <Route path='/user' exact element={<User/>}/>
             <Route path='/user/register' exact element={<UserRegister/>}/>
             <Route path='/user/edit' exact element={<UserEdit/>}/>
+            <Route path='/treasury/cash-book/edit' exact element={<CashBookEdit/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

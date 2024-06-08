@@ -5,7 +5,6 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
-
 import api from '../../services/api';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -14,9 +13,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import './style.scss';
 import Nav from '../../components/Nav';
 
-const CashBookRegister = () => {
+import TrashIcon from '../../assets/trash-icon.png'
+import Modal from '../../components/Modal';
+
+const CashBookEdit = () => {
 
     const clubId = sessionStorage.getItem("clubId");
+    const cashBookIdEdit = sessionStorage.getItem("cashBookIdEdit");
 
     const [paymentValue, setPaymentValue] = useState('');
     const [paymentDate, setEventDate] = useState(null);
@@ -33,10 +36,6 @@ const CashBookRegister = () => {
     const [alertMessage, setAlertMessage] = useState('');
 
     const navigate = useNavigate();
-
-    function handleBack() {
-        navigate("/treasury/cash-book");
-    }
 
     const [open, setOpen] = React.useState(false);
 
@@ -56,6 +55,24 @@ const CashBookRegister = () => {
             setAlertMessage('');
         }, 500);
     };
+
+    function handleBack() {
+        navigate("/treasury/cash-book");
+    }
+
+    async function handleDelete() {
+        await api.delete('cash-book/' + cashBookIdEdit);
+        sessionStorage.setItem('startAlert', "O registro foi deletado com sucesso!");
+        navigate("/treasury/cash-book");
+    }
+
+    function openModal() {
+        document.querySelector('.modal-container').classList.add('show-modal');
+    }
+
+    function closeModal() {
+        document.querySelector('.modal-container').classList.remove('show-modal');
+    }
 
     function handleRegister() {
 
@@ -94,13 +111,13 @@ const CashBookRegister = () => {
                 'value': parseFloat(paymentValue.replace('.', '').replace(',', '.'))
             }
 
-            api.post('/cash-book', data, {
+            api.put('/cash-book/' + cashBookIdEdit, data, {
                 headers: {
                     'clubId': clubId,
                     'Content-Type': 'application/json'
                 }
             }).then(reponse => {
-                sessionStorage.setItem('startAlert', "O registro foi cadastrado com sucesso!");
+                sessionStorage.setItem('startAlert', "O registro foi atualizado com sucesso!");
                 navigate('/treasury/cash-book');
             }).catch(error => {
                 alert(error);
@@ -119,11 +136,9 @@ const CashBookRegister = () => {
 
     }
 
-    const handleChange = (e) => {
-        const input = e.target.value;
-
+    const convertValue = (e) => {
         // Remove caracteres não numéricos e zeros a esquerda
-        let numericValue = input.replace(/[^\d]/g, '');
+        let numericValue = e.replace(/[^\d]/g, '');
         var removeCaracteres = numericValue.replace(/[,.]/g, '');
         var value = removeCaracteres.replace(/^0+/, '');
 
@@ -146,8 +161,12 @@ const CashBookRegister = () => {
             return;
         }
 
+        return result;
+    }
+
+    const handleChange = (e) => {
         // Atualiza os estados com os valores
-        setPaymentValue(result);
+        setPaymentValue(convertValue(e.target.value));
     };
 
     useEffect(() => {
@@ -163,6 +182,14 @@ const CashBookRegister = () => {
     }, [paymentValue, description, paymentType]);
 
     useEffect(() => {
+
+        api.get('cash-book/' + cashBookIdEdit).then(response => {
+            setPaymentValue(convertValue(response.data.value))
+            setPaymentType(response.data.type)
+            setDescription(response.data.description)
+            if (response.data.eventId != null) setEventSelected(response.data.eventId)
+            setEventDate(response.data.date)
+        });
 
         api.get('event/club/' + clubId).then(response => {
             setClubEvents(response.data);
@@ -230,11 +257,26 @@ const CashBookRegister = () => {
                                     renderInput={(params) => <TextField {...params} />}
                                 />
                             </LocalizationProvider>
-                            <Button className="bt-event-register" variant="contained" onClick={handleRegister}>Registrar</Button>
+                            <div className='btn2'>
+                                <Button className="bt-delete" variant="contained" onClick={openModal}>Deletar</Button>
+                                <Button className="bt-register" variant="contained" onClick={handleRegister}>Salvar</Button>
+                            </div>
                         </form>
                     </section>
+                    <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
+                        <>
+                            <div className='modal-info'>
+                                <h2>Deletar pagamento</h2>
+                                <p>Tem certeza que deseja deletar o registro de caixa no valor de <b>R${paymentValue}</b>?</p>
+                            </div>
+                        </>
+                        <div className='bts-modal'>
+                            <Button className='bts-modal-cancel' variant="contained" onClick={closeModal}>Cancelar</Button>
+                            <Button className='bts-modal-confirm' variant="contained" onClick={handleDelete}>Confirmar</Button>
+                        </div>
+                    </Modal>
                     <div>
-                        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+                        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
                             <Alert
                                 onClose={handleClose}
                                 severity="error"
@@ -251,4 +293,4 @@ const CashBookRegister = () => {
     )
 };
 
-export default CashBookRegister;
+export default CashBookEdit;
