@@ -24,6 +24,9 @@ const CashBookRegister = () => {
     const [descriptionValid, setDescriptionValid] = useState(false);
     const [paymentTypeValid, setPaymentTypeValid] = useState(false);
 
+    const [eventSelected, setEventSelected] = useState('');
+    const [clubEvents, setClubEvents] = useState([]);
+
     const navigate = useNavigate();
 
     function handleBack() {
@@ -63,6 +66,7 @@ const CashBookRegister = () => {
                 'type': paymentType,
                 'description': description,
                 'date': paymentDate,
+                'eventId': (eventSelected != null) ? eventSelected : null,
                 'value': parseFloat(paymentValue.replace('.', '').replace(',', '.')),
                 'clubId': clubId,
             }
@@ -70,7 +74,7 @@ const CashBookRegister = () => {
 
             api.post('/cash-book', data).then(reponse => {
                 alert('Registrado com sucesso!');
-                navigate('/treasury');
+                navigate('/treasury/cash-book');
             }).catch(error => {
                 alert(error);
             })
@@ -131,6 +135,14 @@ const CashBookRegister = () => {
         }
     }, [paymentValue, description, paymentType]);
 
+    useEffect(() => {
+
+        api.get('event/club/' + clubId).then(response => {
+            setClubEvents(response.data);
+        });
+
+    }, [clubId]);
+
     return (
         <>
             <div className="default-container">
@@ -159,6 +171,20 @@ const CashBookRegister = () => {
                                     <MenuItem value={''}>Selecionar</MenuItem>
                                     <MenuItem value={'INPUT'}>Entrada</MenuItem>
                                     <MenuItem value={'OUTPUT'}>Saída</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl className='event-field' size='medium' fullWidth>
+                                <InputLabel id="event-label">Evento Relacionado</InputLabel>
+                                <Select
+                                    labelId="event-label"
+                                    id="event-select"
+                                    value={eventSelected}
+                                    label="Evento Relacionado"
+                                    onChange={e => setEventSelected(e.target.value)}>
+                                    <MenuItem value={''}>Selecionar</MenuItem>
+                                    {clubEvents.map((data) => (
+                                        <MenuItem key={data.id} value={data.id}>{data.name}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                             <TextField id="outlined-basic" label="Descrição" variant="outlined" className='event-field'

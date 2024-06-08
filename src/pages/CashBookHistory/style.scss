@@ -9,9 +9,25 @@
         justify-content: center;
         border-radius: 10px;
 
-        .nav-title {
-            color: #4E4E4E;
-            margin-top: 20px;
+        .title {
+            display: flex;
+            margin-top: 10px;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+            .nav-title {
+                color: #4E4E4E;
+                margin-bottom: 10px;
+            }
+
+            img {
+                right: 25px;
+                position: absolute;
+                opacity: 0.6;
+                width: 25px;
+            }
         }
 
         .nav-score {
@@ -41,6 +57,16 @@
         .logo {
             width: 30%;
             margin-bottom: 5px;
+        }
+
+        .values {
+            margin-top: 15px;
+            width: 100%;
+            color: #4E4E4E;
+            max-width: 85%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .section {
