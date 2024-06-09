@@ -1,4 +1,4 @@
-    .sub-container-events {
+    .sub-container-club-events {
         width: 400px;
         height: auto;
         background-color: white;
@@ -11,31 +11,29 @@
 
         .nav-title {
             color: #4E4E4E;
+            margin-bottom: 18px;
         }
 
         .logo {
             width: 35%;
-            margin-bottom: 5px;
         }
 
-        .section {
-            margin: 0;
-            margin-top: 20px;
-            margin-right: 0;
+        .section-event {
+            width: 85%;
             display: flex;
             flex-direction: column;
             align-items: center;
 
-            .card {
+            .card-event {
                 width: 100%;
-                max-width: 300px;
+                max-width: 500px;
+                display: flex;
+                align-items: center;
                 padding: 15px;
-                padding-top: 18px;
                 background-color: #fff;
                 border-radius: 5px;
                 display: flex;
                 box-shadow: 1px solid #000;
-                justify-content: space-between;
                 box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
                 margin-top: 12px;
                 transition: 0.15s all;
@@ -43,34 +41,32 @@
                 cursor: pointer;
 
                 .info {
-                    margin-left: 10px;
-                    max-width: 250px;
+                    width: 100%;
                     display: flex;
                     text-align: center;
                     align-items: center;
                     justify-content: center;
                     flex-direction: column;
 
-                    .content {
-                        width: 250px;
-                        margin-right: 30px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
+                    h3 {
+                        font-size: 18px;
+                        color: #4E4E4E;
+                        margin-bottom: 10px;
+                    }
 
-                        h2 {
-                            margin: 0;
-                            font-size: 16px;
-                            color: #4E4E4E;
-                            margin-bottom: 5px;
-                        }
+                    .sub-info {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        flex-direction: row;
 
                         p {
-                            margin: 0;
                             font-size: 14px;
                             color: #4E4E4E;
                         }
                     }
+
                 }
 
                 .image {
@@ -97,6 +93,7 @@
         .add-event {
             width: 60px;
             height: 60px;
+            background-color: #fff;
             box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
             border-radius: 100px;
             display: flex;

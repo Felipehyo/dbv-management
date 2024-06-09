@@ -4,6 +4,8 @@ import { TextField, Button, InputLabel, MenuItem, FormControl, Select, InputAdor
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 import api from '../../services/api';
 
@@ -37,6 +39,27 @@ const PaymentRegister = () => {
     function handleBack() {
         navigate("/treasury");
     }
+
+    const [alertMessage, setAlertMessage] = useState('');
+    const [severity, setSeverity] = useState('');
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = (message) => {
+        setAlertMessage(message);
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+
+        setTimeout(() => {
+            setAlertMessage('');
+        }, 500);
+    };
 
     async function handleRegister() {
 
@@ -80,11 +103,17 @@ const PaymentRegister = () => {
 
             await api.post('/payment', data).then(reponse => {
                 document.querySelector('.modal-container').classList.remove('show-modal');
-                alert('Pagamento registrado com sucesso!');
-                navigate('/treasury');
+                setSeverity("success");
+                handleClick('Pagamento registrado com sucesso!');
+                setPaymentValue("");
+                setPaymentType("");
+                setEventDate(null);
+                setPayerUserSelected("");
+                setEventSelected("");
             }).catch(error => {
                 document.querySelector('.modal-container').classList.remove('show-modal');
-                alert(error.response.data.details);
+                setSeverity("error");
+                handleClick(error.response.data.details);
             })
         } else {
             var errorMsg = '';
@@ -96,7 +125,8 @@ const PaymentRegister = () => {
                 errorMsg = 'O campo ' + errors[0] + ' deve ser informado.'
             }
             document.querySelector('.modal-container').classList.remove('show-modal');
-            alert(errorMsg);
+            setSeverity("error");
+            handleClick(errorMsg);
         }
 
     }
@@ -236,6 +266,19 @@ const PaymentRegister = () => {
                             </div>
                         </>
                     </Modal>
+                    <div>
+                        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                            <Alert
+                                onClose={handleClose}
+                                severity={severity}
+                                variant="filled"
+                                sx={{ width: '100%' }}
+                            >
+                                {alertMessage}
+                            </Alert>
+                        </Snackbar>
+                    </div>
                 </div>
             </div>
         </>

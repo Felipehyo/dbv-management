@@ -76,8 +76,19 @@ const CashBookHistory = () => {
         }
 
         await api.get('cash-book/club/' + clubId + (query !== "" ? "?" + query : "")).then(response => {
+
             setHistory(response.data);
+
+            var inputTotal = 0;
+            var outputTotal = 0;
+
+            response.data.forEach((history) => {
+                (history.type == "Entrada") ? inputTotal = inputTotal + history.value : outputTotal += history.value;
+            });
+            setInputTotal(inputTotal);
+            setOutputTotal(outputTotal);
         });
+
         document.querySelector('.botton-drawer-container').classList.remove('show-modal');
     }
 
@@ -160,7 +171,8 @@ const CashBookHistory = () => {
 
                                     <div className="card-info">
                                         <p><b>Tipo:</b> {history.type} - <b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
-                                        <p><b>Valor:</b> R${parseFloat(history.value).toFixed(2)}{history.event != null ? (<> - <b>Evento:</b> {history.event.event}</>) : null}</p>
+                                        <p><b>Valor:</b> R${parseFloat(history.value).toFixed(2)}</p>
+                                        {history.event != null ? (<p><b>Evento:</b> {history.event.event}</p>) : null}
                                         <p><b>Descrição:</b> {history.description}</p>
                                     </div>
 

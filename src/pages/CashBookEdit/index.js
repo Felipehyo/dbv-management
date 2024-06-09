@@ -13,7 +13,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import './style.scss';
 import Nav from '../../components/Nav';
 
-import TrashIcon from '../../assets/trash-icon.png'
 import Modal from '../../components/Modal';
 
 const CashBookEdit = () => {

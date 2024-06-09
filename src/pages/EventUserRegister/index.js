@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { Button } from "@mui/material";
 import api from '../../services/api';
 
 import './style.scss';
 import Nav from '../../components/Nav';
 
-import Modal from '../../components/Modal';
-
 const EventUserRegister = () => {
 
     const [userRegister, setUserRegisterList] = useState([]);
     const [event, setEvent] = useState([]);
-    const [userSelected, setUserSelected] = useState([]);
-    const [subscribed, setSubscribed] = useState([]);
 
     const clubId = sessionStorage.getItem("clubId");
 
@@ -25,33 +19,21 @@ const EventUserRegister = () => {
         navigate("/event/details");
     }
 
-    function openModal(user, subscribed) {
-        setSubscribed(subscribed);
-        document.querySelector('.modal-container').classList.add('show-modal');
-        setUserSelected(user);
-    }
-
-    async function saveRegister() {
-
+    async function saveRegister(user, subscribed) {
         const data = {
             "eventId": eventId,
-            "pathfinderId": userSelected.userId,
+            "pathfinderId": user.userId,
             "registerType": subscribed ? "SUBSCRIBE" : "UNSUBSCRIBE"
         }
 
         await api.post("event/register", data);
-        closeModal();
         if (!subscribed) {
-            document.querySelector('#abscence-' + userSelected.userId).classList.add('selected');
-            document.querySelector('#presence-' + userSelected.userId).classList.remove('selected');
+            document.querySelector('#abscence-' + user.userId).classList.add('selected');
+            document.querySelector('#presence-' + user.userId).classList.remove('selected');
         } else if (subscribed) {
-            document.querySelector('#presence-' + userSelected.userId).classList.add('selected');
-            document.querySelector('#abscence-' + userSelected.userId).classList.remove('selected');
+            document.querySelector('#presence-' + user.userId).classList.add('selected');
+            document.querySelector('#abscence-' + user.userId).classList.remove('selected');
         }
-    }
-
-    function closeModal() {
-        document.querySelector('.modal-container').classList.remove('show-modal');
     }
 
     useEffect(() => {
@@ -89,37 +71,15 @@ const EventUserRegister = () => {
                                     <div className='btns'>
                                         <button id={'abscence-' + user.userId}
                                             className={'bt-abscence' + (!user.subscribed ? ' selected' : '')}
-                                            onClick={() => openModal(user, false)}>N</button>
+                                            onClick={() => saveRegister(user, false)}>N</button>
                                         <button id={'presence-' + user.userId}
                                             className={'bt-presence' + (user.subscribed ? ' selected' : '')}
-                                            onClick={() => openModal(user, true)}>S</button>
+                                            onClick={() => saveRegister(user, true)}>S</button>
                                     </div>
                                 </div>
                             ))
                         }
                     </section>
-                    <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
-                        {(subscribed) ? (
-                            <>
-                                <div className='modal-info'>
-                                    <h2>Inscrição de Evento</h2>
-                                    <p>Inscrever <b>{userSelected.user}</b> no evento <b>{event.event}</b>?</p>
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <div className='modal-info'>
-                                    <h2>Cancelar Inscrição</h2>
-                                    <p className='text'>Deseja cancelar a incrição de <b>{userSelected.user}</b>?</p>
-                                </div>
-                            </>
-                        )}
-
-                        <div className='bts-modal'>
-                            <Button className='bts-modal-cancel' variant="contained" onClick={closeModal}>Cancelar</Button>
-                            <Button className='bts-modal-confirm' variant="contained" onClick={saveRegister}>Confirmar</Button>
-                        </div>
-                    </Modal>
                 </div>
             </div>
         </>
