@@ -16,7 +16,7 @@ const ClubEvents = () => {
     const [futureEventList, setFutureEventList] = useState([]);
     const [allEventList, setAllEventList] = useState([]);
     const clubId = sessionStorage.getItem("clubId");
-    const [checked, setChecked] = React.useState(true);
+    const [checked, setChecked] = useState(true);
 
     const navigate = useNavigate();
 
@@ -35,6 +35,7 @@ const ClubEvents = () => {
         } else {
             setEventList(futureEventList);
         }
+        
     };
 
     const handleClick = (message) => {
@@ -96,9 +97,19 @@ const ClubEvents = () => {
             setAllEventList(response.data);
         })
         var alertEditSuccess = sessionStorage.getItem('startAlert');
-        if (alertEditSuccess != "") {
+        if (alertEditSuccess!= null && alertEditSuccess.trim() != "") {
             handleClick(alertEditSuccess);
         }
+        // var futureCheck = sessionStorage.getItem('futureCheck');
+        // if(futureCheck != null && futureCheck != "") {
+        //     if(futureCheck) {
+        //         setEventList(allEventList);
+        //         setChecked(true);
+        //     } else {
+        //         setEventList(futureEventList);
+        //         setChecked(false);
+        //     }
+        // }
     }, []);
 
     const label = { inputProps: { 'aria-label': 'Switch demo' } };

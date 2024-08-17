@@ -155,10 +155,10 @@ const EventDetails = () => {
                             className={'bt default' + (userType === 'EVENTUAL' ? ' selected' : '')}
                             onClick={() => getUsersByType('EVENTUAL')}>Eventuais</button>
                     </div>
-                    <section className="section">
+                    <section className="section-event-details">
                         {
                             userRegister.sort((a, b) => a.user - b.user).map((userRegister, id) => (
-                                <div className="card" key={id} onClick={() => handleUserRegister(userRegister)}>
+                                <div className="card-event-details" key={id} onClick={() => handleUserRegister(userRegister)}>
                                     <div className="image">
                                         <img src={userRegister.userGender === 'MALE' ? "https://cdn-icons-png.flaticon.com/512/2922/2922506.png" : "https://cdn-icons-png.flaticon.com/512/2922/2922566.png"} alt={"flatIcon"} />
                                     </div>

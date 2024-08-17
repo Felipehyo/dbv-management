@@ -140,7 +140,7 @@ const CashBookHistory = () => {
         });
 
         var alertEditSuccess = sessionStorage.getItem('startAlert');
-        if (alertEditSuccess != "") {
+        if (alertEditSuccess!= null && alertEditSuccess.trim() != "") {
             handleClick(alertEditSuccess);
         }
 

@@ -29,7 +29,7 @@ const PaymentHistory = () => {
     const [payerUserSelected, setPayerUserSelected] = useState('');
     const [eventSelected, setEventSelected] = useState('');
     const [page, setPage] = useState(1);
-    const [size, setSize] = useState(4);
+    const [size, setSize] = useState(20);
     const [totalPages, setTotalPages] = useState(1);
     const [queryParams, setQueryParams] = useState('');
 
