@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FormControlLabel, FormGroup, Switch } from "@mui/material";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 import api from '../../services/api';
 
@@ -7,19 +10,46 @@ import './style.scss';
 
 import Nav from '../../components/Nav';
 
-import AddEvent from '../../assets/add-event.png';
-
 const ClubEvents = () => {
 
     const [eventList, setEventList] = useState([]);
+    const [futureEventList, setFutureEventList] = useState([]);
+    const [allEventList, setAllEventList] = useState([]);
     const clubId = sessionStorage.getItem("clubId");
+    const [checked, setChecked] = React.useState(true);
 
     const navigate = useNavigate();
+
+    const [open, setOpen] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState("");
 
     function handleEvent(event) {
         sessionStorage.setItem("eventId", event.id);
         navigate("/event/details");
     }
+
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+        if(checked) {
+            setEventList(allEventList);
+        } else {
+            setEventList(futureEventList);
+        }
+    };
+
+    const handleClick = (message) => {
+        setAlertMessage(message);
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+        sessionStorage.setItem('startAlert', "")
+    };
 
     function handleBack() {
         navigate("/home");
@@ -58,10 +88,20 @@ const ClubEvents = () => {
     }
 
     useEffect(() => {
-        api.get('event/club/' + clubId).then(response => {
+        api.get('event/club/' + clubId + "?showOnlyFutureDate=true").then(response => {
             setEventList(response.data);
+            setFutureEventList(response.data);
         })
+        api.get('event/club/' + clubId + "?showOnlyFutureDate=false").then(response => {
+            setAllEventList(response.data);
+        })
+        var alertEditSuccess = sessionStorage.getItem('startAlert');
+        if (alertEditSuccess != "") {
+            handleClick(alertEditSuccess);
+        }
     }, []);
+
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
     return (
         <>
@@ -69,6 +109,18 @@ const ClubEvents = () => {
                 <div className="sub-container-club-events">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src='https://cdn-icons-png.flaticon.com/512/4113/4113006.png' alt="" />
+                    <FormGroup className='old-events'>
+                        <FormControlLabel control={
+                            <Switch 
+                                checked={checked}
+                                onChange={handleChange}
+                                inputProps={{ 'aria-label': 'controlled' }}
+                                color='success'
+                            />}
+                            label="Futuros"
+                            // style={{ display: 'flex', flexDirection: 'row-reverse' }}
+                            />
+                    </FormGroup>
                     <h1 className="nav-title">Eventos do Clube</h1>
                     <section className="section-event">
                         {
@@ -81,16 +133,31 @@ const ClubEvents = () => {
                                         <h3>{event.name}</h3>
                                         <div className='sub-info'>
                                             <p><b>Valor:</b> {convertValue(parseFloat(event.value).toFixed(2))}</p>
-                                            <p><b>Data:</b> {event.date}</p>
+                                            <p><b>Data:</b> {event.date.split('-')[2] + "/" + event.date.split('-')[1] + "/" + event.date.split('-')[0]}</p>
                                         </div>
                                     </div>
                                 </div>
                             ))
                         }
                     </section>
-                    <div className='add-event'>
-                        <img className="plus" src={AddEvent} alt="" onClick={handleRegisterEvent} />
-                    </div>
+                    <footer className='add-event'>
+                        <div className='plus-icon' onClick={handleRegisterEvent} aria-label="add">
+                            <p>+</p>
+                        </div>
+                    </footer>
+                </div>
+                <div>
+                    <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+                        <Alert
+                            onClose={handleClose}
+                            severity="success"
+                            variant="filled"
+                            sx={{ width: '100%' }}
+                        >
+                            {alertMessage}
+                        </Alert>
+                    </Snackbar>
                 </div>
             </div>
         </>

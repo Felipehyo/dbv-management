@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 import api from '../../services/api';
 
@@ -25,10 +28,22 @@ const PaymentHistory = () => {
     const [clubEvents, setClubEvents] = useState([]);
     const [payerUserSelected, setPayerUserSelected] = useState('');
     const [eventSelected, setEventSelected] = useState('');
+    const [page, setPage] = useState(1);
+    const [size, setSize] = useState(4);
+    const [totalPages, setTotalPages] = useState(1);
+    const [queryParams, setQueryParams] = useState('');
 
     function handleBack() {
         navigate("/treasury");
     }
+    
+    const handleChange = (event, value) => {
+        setPage(value);
+        api.get(`payment/club/${clubId}?size=${size}&page=${value-1}${queryParams}`).then(response => {
+            setHistory(response.data.content);
+            setTotalPages(response.data.totalPages);
+        });
+    };
 
     const handleDownload = () => {
 
@@ -80,25 +95,20 @@ const PaymentHistory = () => {
     }
 
     async function handleFilter() {
-        console.log(payerUserSelected)
-        console.log(eventSelected)
-
         var query = ""
 
-        if (payerUserSelected !== null) {
-            query = query + "pathfinderId=" + payerUserSelected;
+        if (payerUserSelected !== null && payerUserSelected != '') {
+            query = query + "&pathfinderId=" + payerUserSelected;
         }
 
-        if (eventSelected !== null) {
-            if(query !== "") {
-                query = query + "&"
-            }
-
-            query = query + "eventId=" + eventSelected;
+        if (eventSelected !== null && eventSelected != '') {
+            query = query + "&eventId=" + eventSelected;
         }
 
-        await api.get('payment/club/' + clubId + (query !== "" ? "?" + query : "") ).then(response => {
-            setHistory(response.data);
+        setQueryParams(query);
+        await api.get(`payment/club/${clubId}?size=${size}&page=0${query}`).then(response => {
+            setTotalPages(response.data.totalPages);
+            setHistory(response.data.content);
         });
         document.querySelector('.botton-drawer-container').classList.remove('show-modal');
     }
@@ -106,7 +116,6 @@ const PaymentHistory = () => {
     useEffect(() => {
 
         api.get('user/club/' + clubId + '?eventualUser=true').then(response => {
-            console.log(response.data)
             setClubUsers(response.data);
         });
 
@@ -114,8 +123,9 @@ const PaymentHistory = () => {
             setClubEvents(response.data);
         });
 
-        api.get('payment/club/' + clubId).then(response => {
-            setHistory(response.data);
+        api.get(`payment/club/${clubId}?size=${size}`).then(response => {
+            setHistory(response.data.content);
+            setTotalPages(response.data.totalPages);
         });
 
     }, [clubId]);
@@ -206,6 +216,9 @@ const PaymentHistory = () => {
                             <Button className='bts-apply' variant="contained" onClick={() => handleFilter()}>Aplicar Filtro</Button>
                         </div>
                     </BottomDrawer>
+                    <Stack spacing={2} className='pagination'>
+                        <Pagination count={totalPages} page={page} onChange={handleChange} />
+                    </Stack>
                 </div >
             </div >
         </>

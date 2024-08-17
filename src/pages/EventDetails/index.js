@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import api from '../../services/api';
 
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import { styled } from '@mui/material/styles';
 
-import './style.scss';
 import Nav from '../../components/Nav';
+import './style.scss';
+
+import SpeedDial from '../../components/SpeedDial/index.js';
 
 import * as XLSX from 'xlsx';
 
@@ -110,10 +112,12 @@ const EventDetails = () => {
 
         const worksheet = XLSX.utils.json_to_sheet(customizedData, { header: Object.keys(customizedData[0]) });
 
+        console.log(worksheet)
+
         worksheet['!cols'] = wscols;
 
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, event.event);
+        XLSX.utils.book_append_sheet(workbook, worksheet, event.event.length > 30 ? event.event.substring(0, 30) : event.event);
         XLSX.writeFile(workbook, `Extração ${event.event}.xlsx`);
     };
 
@@ -125,7 +129,6 @@ const EventDetails = () => {
                     <img className="logo" src='https://cdn-icons-png.flaticon.com/512/4113/4113006.png' alt="" />
                     <div className='title'>
                         <h1 className="nav-title">{event.event}</h1>
-                        <img className='download-excel' onClick={() => handleDownload()} src='https://cdn-icons-png.flaticon.com/512/2504/2504768.png' alt="" />
                     </div>
                     <div className='values first'>
                         <p><b>Valor pessoa:</b> R${parseFloat(event.value).toFixed(2)}</p>
@@ -176,9 +179,18 @@ const EventDetails = () => {
                             ))
                         }
                     </section>
-                    <div className='register-user'>
+                    <SpeedDial 
+                    img1={'https://cdn-icons-png.flaticon.com/512/1487/1487117.png'}
+                    handle1={handleRegisterUserEvent}
+                    img2={'https://cdn-icons-png.flaticon.com/512/2504/2504768.png'}
+                    handle2={() => handleDownload()}
+                    />
+                    {/* <div className='register-user'>
                         <img className="plus" src={'https://cdn-icons-png.flaticon.com/512/1487/1487117.png'} alt="" onClick={handleRegisterUserEvent} />
                     </div>
+                    <div className='download-excel' onClick={() => handleDownload()}>
+                        <img className='excel-icon' src='https://cdn-icons-png.flaticon.com/512/2504/2504768.png' alt="" />
+                    </div> */}
                 </div>
             </div>
         </>

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { TextField, Button, InputAdornment } from "@mui/material";
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 import api from '../../services/api';
 
@@ -60,10 +62,11 @@ const EventRegister = () => {
             }
 
             api.post('/event', data).then(reponse => {
-                alert('Evento cadastrado com sucesso!');
+                sessionStorage.setItem('startAlert', "O Evento foi cadastrado com sucesso!");
                 navigate("/event");
             }).catch(error => {
-                alert(error);
+                setSeverity("error");
+                handleClick(error.response.data.details);
             })
         } else {
             var errorMsg = '';
@@ -74,7 +77,8 @@ const EventRegister = () => {
             } else {
                 errorMsg = 'O campo ' + errors[0] + ' deve ser informado.'
             }
-            alert(errorMsg);
+            setSeverity("error");
+            handleClick(errorMsg);
         }
 
     }
@@ -111,6 +115,27 @@ const EventRegister = () => {
         setEventValue(result);
     };
 
+    const [alertMessage, setAlertMessage] = useState('');
+    const [severity, setSeverity] = useState('');
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = (message) => {
+        setAlertMessage(message);
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+
+        setTimeout(() => {
+            setAlertMessage('');
+        }, 500);
+    };
+
     useEffect(() => {
         if (eventName !== '' && eventName !== null) {
             setEventNameValid(false);
@@ -125,7 +150,7 @@ const EventRegister = () => {
             <div className="container-event">
                 <div className="sub-container-event">
                     <Nav handleBack={handleBack} />
-                    <img className="logo" src='https://cdn-icons-png.flaticon.com/512/5987/5987625.png' alt="" />
+                    <img className="logo" src='https://cdn-icons-png.flaticon.com/512/4113/4113006.png' alt="" />
                     <h1 className="nav-title-event">Cadastrar Evento</h1>
                     <section className="section">
                         <form className='form-event'>
@@ -150,6 +175,19 @@ const EventRegister = () => {
                             <Button className="bt-event-register" variant="contained" onClick={handleRegister}>Cadastrar Evento</Button>
                         </form>
                     </section>
+                </div>
+                <div>
+                    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                        <Alert
+                            onClose={handleClose}
+                            severity={severity}
+                            variant="filled"
+                            sx={{ width: '100%' }}
+                        >
+                            {alertMessage}
+                        </Alert>
+                    </Snackbar>
                 </div>
             </div>
         </>
