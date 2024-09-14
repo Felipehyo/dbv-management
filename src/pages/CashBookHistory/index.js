@@ -135,7 +135,7 @@ const CashBookHistory = () => {
             setOutputTotal(outputTotal);
         });
 
-        api.get('event/club/' + clubId).then(response => {
+        api.get('event/club/' + clubId + "?showOnlyFutureDate=false").then(response => {
             setClubEvents(response.data);
         });
 
@@ -202,11 +202,11 @@ const CashBookHistory = () => {
                                         ))}
                                     </Select>
                                 </FormControl>
+                                <FormControl size='medium' className='event-field'>
+                                    <Button className='bts-apply' variant="contained" onClick={() => handleFilter()}>Aplicar Filtro</Button>
+                                </FormControl>
                             </div>
                         </>
-                        <div className='bts-bottom-drawer'>
-                            <Button className='bts-apply' variant="contained" onClick={() => handleFilter()}>Aplicar Filtro</Button>
-                        </div>
                     </BottomDrawer>
                     <footer className='footer-cash-book-history'>
                         <Fab className='fabButton' size='medium' onClick={() => handleCashBookRegister()} aria-label="add">

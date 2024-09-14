@@ -119,7 +119,7 @@ const PaymentHistory = () => {
             setClubUsers(response.data);
         });
 
-        api.get('event/club/' + clubId).then(response => {
+        api.get('event/club/' + clubId + "?showOnlyFutureDate=false").then(response => {
             setClubEvents(response.data);
         });
 
@@ -210,11 +210,11 @@ const PaymentHistory = () => {
                                         ))}
                                     </Select>
                                 </FormControl>
+                                <FormControl size='medium' className='event-field btn-apply'>
+                                    <Button className='bts-apply' variant="contained" onClick={() => handleFilter()}>Aplicar Filtro</Button>
+                                </FormControl>
                             </div>
                         </>
-                        <div className='bts-bottom-drawer'>
-                            <Button className='bts-apply' variant="contained" onClick={() => handleFilter()}>Aplicar Filtro</Button>
-                        </div>
                     </BottomDrawer>
                     <Stack spacing={2} className='pagination'>
                         <Pagination count={totalPages} page={page} onChange={handleChange} />
