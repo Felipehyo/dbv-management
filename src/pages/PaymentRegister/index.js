@@ -179,7 +179,7 @@ const PaymentRegister = () => {
             setClubUsers(response.data);
         });
 
-        api.get('event/club/' + clubId).then(response => {
+        api.get('event/club/' + clubId + '?showOnlyFutureDate=false').then(response => {
             setClubEvents(response.data);
         });
     }, [clubId]);
