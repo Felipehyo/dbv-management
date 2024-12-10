@@ -9,6 +9,11 @@ import Modal from '../../components/Modal';
 import './style.scss';
 import Nav from '../../components/Nav';
 
+import Araras from '../../assets/logo-araras.png';
+import Quati from '../../assets/logo-quati.png';
+import Tamandua from '../../assets/logo-tamandua.png';
+import Onca from '../../assets/logo-onca.png';
+
 const ScoreByUnit = () => {
 
     const [ unit, setUnit ] = useState([]);
@@ -132,7 +137,7 @@ const ScoreByUnit = () => {
         <div className="container-score-unit">
             <div className="sub-container-score-unit">
                 <Nav handleBack={handleBack}/>
-                <img className="logo" src={unit.imageLink} alt=""/>
+                <img className="logo" src={unit.id == '1' ? Araras : unit.id == '2' ? unit.imageLink : unit.id == '3' ? Onca : unit.id == '4' ? Tamandua : unit.id == '5' ? unit.imageLink : Quati} alt=""/>
                 <h1 className="nav-title">{unit.name}</h1>
                 <section className="section">
                     { activities.sort((a, b) => a.activityOrder - b.activityOrder).map((activity, id) => (

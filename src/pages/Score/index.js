@@ -7,6 +7,11 @@ import './style.scss';
 
 import Nav from '../../components/Nav';
 
+import Araras from '../../assets/logo-araras.png';
+import Quati from '../../assets/logo-quati.png';
+import Tamandua from '../../assets/logo-tamandua.png';
+import Onca from '../../assets/logo-onca.png';
+
 const Score = () => {
 
     const [ unitList, setUnitList ] = useState([]);
@@ -41,7 +46,7 @@ const Score = () => {
                     unitList.sort((a, b) => a.unitOrder - b.unitOrder).map((unit, id) => (
                         <div className="card" key={id} onClick={() => handleUnit(unit)}>
                             <div className="image">
-                                <img src={unit.imageLink} alt={unit.assignment}/>
+                                <img src={unit.id == '1' ? Araras : unit.id == '2' ? unit.imageLink : unit.id == '3' ? Onca : unit.id == '4' ? Tamandua : unit.id == '5' ? unit.imageLink : Quati} alt={unit.assignment}/>
                             </div>
                             <div className="info">
                                 <h2>{unit.name}</h2>
