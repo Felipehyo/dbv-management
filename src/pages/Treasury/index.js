@@ -11,24 +11,40 @@ const Treasury = () => {
 
     const clubId = sessionStorage.getItem("clubId");
     const [club, setClub] = useState('');
-
     const navigate = useNavigate();
 
-    function handleRegister() {
-        navigate("/treasury/register");
-    }
-
-    function handleHistory() {
-        navigate("/treasury/history");
-    }
-
-    function handleCashBook() {
-        navigate("/treasury/cash-book");
-    }
-
-    function handleUserCash() {
-        navigate("/user-cash");
-    }
+    const actions = [
+        {
+            title: 'Registrar Pagamentos',
+            description: 'Registrar pagamentos recebidos por desbravadores ou diretoria',
+            icon: 'https://cdn-icons-png.flaticon.com/512/3258/3258583.png',
+            route: '/treasury/register',
+        },
+        // {
+        //     title: 'Cobrar Evento',
+        //     description: 'Realizar cobranças para eventos cadastrados',
+        //     icon: 'https://cdn-icons-png.flaticon.com/512/4866/4866857.png',
+        //     route: null, // ainda não implementado
+        // },
+        // {
+        //     title: 'Caixa Individual',
+        //     description: 'Visualizar movimentações financeiras do usuário',
+        //     icon: 'https://cdn-icons-png.flaticon.com/512/5259/5259256.png',
+        //     route: '/user-cash',
+        // },
+        {
+            title: 'Histórico de Pagamentos',
+            description: 'Consultar histórico por clube, evento ou desbravador',
+            icon: 'https://cdn-icons-png.flaticon.com/512/2682/2682065.png',
+            route: '/treasury/history',
+        },
+        {
+            title: 'Livro Caixa',
+            description: 'Registrar entradas e saídas do caixa do clube',
+            icon: 'https://cdn-icons-png.flaticon.com/512/3561/3561384.png',
+            route: '/treasury/cash-book',
+        },
+    ];
 
     function handleBack() {
         navigate("/home");
@@ -51,51 +67,22 @@ const Treasury = () => {
                         <h4>Total em caixa: R${parseFloat(club.bank).toFixed(2)}</h4>
                     </div>
                     <section className="section">
-                        <div className="card" onClick={() => handleRegister()}>
-                            <div className="image">
-                                <img src='https://cdn-icons-png.flaticon.com/512/3258/3258583.png' alt={'Flat Icon'} />
-                            </div>
+                        {actions.map((item) => (
+                            <div
+                            key={item.title}
+                            className={`card ${!item.route ? 'disabled' : ''}`}
+                            onClick={() => item.route && navigate(item.route)}
+                            >
                             <div className="info">
-                                <h3>Registrar Pagamentos</h3>
-                                <p>Registrar pagamentos recebidos por desbravadores ou diretoria</p>
+                                <h2>{item.title}</h2>
+                                <p>{item.description}</p>
                             </div>
-                        </div>
-                        <div className="card" onClick={() => { }}>
+
                             <div className="image">
-                                <img src='https://cdn-icons-png.flaticon.com/512/4866/4866857.png' alt={'Flat Icon'} />
+                                <img src={item.icon} alt={item.title} />
                             </div>
-                            <div className="info">
-                                <h3>Cobrar Evento</h3>
-                                <p>Realizar cobranças para os eventos cadastrados caso haja caixa</p>
                             </div>
-                        </div>
-                        <div className="card" onClick={() => handleUserCash()}>
-                            <div className="image">
-                                <img src='https://cdn-icons-png.flaticon.com/512/5259/5259256.png' alt={'Flat Icon'} />
-                            </div>
-                            <div className="info">
-                                <h3>Caixa Individual</h3>
-                                <p>Visualizar caixa e todas as movimentações e pagamentos do usuário</p>
-                            </div>
-                        </div>
-                        <div className="card" onClick={() => handleHistory()}>
-                            <div className="image">
-                                <img src='https://cdn-icons-png.flaticon.com/512/2682/2682065.png' alt={'Flat Icon'} />
-                            </div>
-                            <div className="info">
-                                <h3>Histórico de Pagamentos</h3>
-                                <p>Consultar histórico de pagamentos por clube, evento ou desbravador</p>
-                            </div>
-                        </div>
-                        <div className="card" onClick={() => handleCashBook()}>
-                            <div className="image">
-                                <img src='https://cdn-icons-png.flaticon.com/512/3561/3561384.png' alt={'Flat Icon'} />
-                            </div>
-                            <div className="info">
-                                <h3>Livro Caixa</h3>
-                                <p>Registar entradas e saídas do caixa do clube</p>
-                            </div>
-                        </div>
+                        ))}
                     </section>
                 </div>
             </div>

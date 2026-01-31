@@ -5,7 +5,6 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
 import api from '../../services/api';
-
 import './style.scss';
 
 import Nav from '../../components/Nav';
@@ -16,41 +15,22 @@ const ClubEvents = () => {
     const [futureEventList, setFutureEventList] = useState([]);
     const [allEventList, setAllEventList] = useState([]);
     const clubId = sessionStorage.getItem("clubId");
-    const [checked, setChecked] = useState(true);
 
     const navigate = useNavigate();
 
-    const [open, setOpen] = React.useState(false);
-    const [alertMessage, setAlertMessage] = React.useState("");
+    const [open, setOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
 
     function handleEvent(event) {
         sessionStorage.setItem("eventId", event.id);
         navigate("/event/details");
     }
 
-    const handleChange = (event) => {
-        setChecked(event.target.checked);
-        if(checked) {
-            setEventList(allEventList);
-        } else {
-            setEventList(futureEventList);
-        }
-        
-    };
-
-    const handleClick = (message) => {
-        setAlertMessage(message);
-        setOpen(true);
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpen(false);
-        sessionStorage.setItem('startAlert', "")
-    };
+    function handleEditEvent(event, e) {
+        e.stopPropagation();
+        sessionStorage.setItem("eventId", event.id);
+        navigate("/event/edit");
+    }
 
     function handleBack() {
         navigate("/home");
@@ -61,118 +41,128 @@ const ClubEvents = () => {
     }
 
     const convertValue = (e) => {
-        // Remove caracteres não numéricos e zeros a esquerda
         let numericValue = e.replace(/[^\d]/g, '');
-        var removeCaracteres = numericValue.replace(/[,.]/g, '');
-        var value = removeCaracteres.replace(/^0+/, '');
+        let value = numericValue.replace(/^0+/, '');
 
-        // Preenche com zeros à esquerda se necessário
-        var result;
-        if (value.length === 0) {
-            result = "0,00"
-        } else if (value.length === 1) {
-            result = "0,0" + value;
-        } else if (value.length === 2) {
-            result = "0," + value;
-        } else if (value.length < 6) {
-            result = value.slice(0, -2) + "," + value.substr(value.length - 2);
-        } else if (value.length < 8) {
-            let decimal = value.substr(value.length - 2);
-            let hundred = value.substr(value.length - 5);
-            let thousand = value.slice(0, - 5);
-            result = thousand + "." + hundred.slice(0, -2) + "," + decimal;
-        } else {
-            return;
-        }
+        if (value.length === 0) return "0,00";
+        if (value.length === 1) return "0,0" + value;
+        if (value.length === 2) return "0," + value;
 
-        return result;
-    }
+        return value.slice(0, -2) + "," + value.slice(-2);
+    };
 
     useEffect(() => {
-        api.get('event/club/' + clubId + "?showOnlyFutureDate=true").then(response => {
-            setEventList(response.data);
-            setFutureEventList(response.data);
-        })
-        api.get('event/club/' + clubId + "?showOnlyFutureDate=false").then(response => {
-            setAllEventList(response.data);
-        })
-        var alertEditSuccess = sessionStorage.getItem('startAlert');
-        if (alertEditSuccess!= null && alertEditSuccess.trim() != "") {
-            handleClick(alertEditSuccess);
-        }
-        // var futureCheck = sessionStorage.getItem('futureCheck');
-        // if(futureCheck != null && futureCheck != "") {
-        //     if(futureCheck) {
-        //         setEventList(allEventList);
-        //         setChecked(true);
-        //     } else {
-        //         setEventList(futureEventList);
-        //         setChecked(false);
-        //     }
-        // }
-    }, []);
+        api.get(`event?clubId=${clubId}&onlyActives=true`).then(res => {
+            setEventList(res.data);
+            setFutureEventList(res.data);
+        });
 
-    const label = { inputProps: { 'aria-label': 'Switch demo' } };
+        api.get(`event?clubId=${clubId}&onlyActives=false`).then(res => {
+            setAllEventList(res.data);
+        });
+
+        const alertEditSuccess = sessionStorage.getItem('startAlert');
+        if (alertEditSuccess) {
+            setAlertMessage(alertEditSuccess);
+            setOpen(true);
+        }
+    }, []);
 
     return (
         <>
             <div className="default-container">
                 <div className="sub-container-club-events">
+
                     <Nav handleBack={handleBack} />
-                    <img className="logo" src='https://cdn-icons-png.flaticon.com/512/4113/4113006.png' alt="" />
-                    <FormGroup className='old-events'>
-                        <FormControlLabel control={
-                            <Switch 
-                                checked={checked}
-                                onChange={handleChange}
-                                inputProps={{ 'aria-label': 'controlled' }}
-                                color='success'
-                            />}
-                            label="Futuros"
-                            // style={{ display: 'flex', flexDirection: 'row-reverse' }}
-                            />
-                    </FormGroup>
-                    <h1 className="nav-title">Eventos do Clube</h1>
+
+                    <img
+                        className="logo"
+                        src="https://cdn-icons-png.flaticon.com/512/4113/4113006.png"
+                        alt=""
+                    />
+
+                    {/* HEADER CENTRALIZADO */}
+                    <div className="header">
+                        <h1 className="nav-title">Eventos do Clube</h1>
+                    </div>
+
                     <section className="section-event">
-                        {
-                            eventList.sort((a, b) => a.date - b.date).map((event, id) => (
-                                <div className="card-event" key={id} onClick={() => handleEvent(event)}>
-                                    <div className="image">
-                                        <img src={"https://cdn-icons-png.flaticon.com/512/10691/10691802.png"} alt={"test"} />
-                                    </div>
-                                    <div className="info">
-                                        <h3>{event.name}</h3>
-                                        <div className='sub-info'>
-                                            <p><b>Valor:</b> {convertValue(parseFloat(event.value).toFixed(2))}</p>
-                                            <p><b>Data:</b> {event.date.split('-')[2] + "/" + event.date.split('-')[1] + "/" + event.date.split('-')[0]}</p>
+                        {eventList
+                            .sort((a, b) => a.date - b.date)
+                            .map((event, id) => (
+                                <div
+                                    className="card-event"
+                                    key={id}
+                                >
+                                    {/* ÁREA PRINCIPAL DO CARD */}
+                                    <div
+                                        className="card-content"
+                                        onClick={() => handleEvent(event)}
+                                    >
+                                        <div className="image">
+                                            <img
+                                                src="https://cdn-icons-png.flaticon.com/512/10691/10691802.png"
+                                                alt=""
+                                            />
+                                        </div>
+
+                                        <div className="info">
+                                            <h3>{event.name}</h3>
+
+                                            <div className="sub-info">
+                                                <span>
+                                                    <small>Valor</small>
+                                                    <strong>{convertValue(parseFloat(event.value).toFixed(2))}</strong>
+                                                </span>
+
+                                                <span>
+                                                    <small>Data</small>
+                                                    <strong>
+                                                        {event.date.split('-')[2]}/
+                                                        {event.date.split('-')[1]}/
+                                                        {event.date.split('-')[0]}
+                                                    </strong>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    {/* BOTÃO LATERAL DE EDIÇÃO */}
+                                    <div
+                                        className="card-edit"
+                                        onClick={(e) => handleEditEvent(event, e)}
+                                        aria-label="Editar evento"
+                                    >
+                                        ✏️
+                                    </div>
                                 </div>
-                            ))
-                        }
+                            ))}
                     </section>
-                    <footer className='add-event'>
-                        <div className='plus-icon' onClick={handleRegisterEvent} aria-label="add">
-                            <p>+</p>
+
+                    <footer className="add-event">
+                        <div
+                            className="plus-icon"
+                            onClick={handleRegisterEvent}
+                            aria-label="add"
+                        >
+                            +
                         </div>
                     </footer>
                 </div>
-                <div>
-                    <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-                        <Alert
-                            onClose={handleClose}
-                            severity="success"
-                            variant="filled"
-                            sx={{ width: '100%' }}
-                        >
-                            {alertMessage}
-                        </Alert>
-                    </Snackbar>
-                </div>
+
+                <Snackbar
+                    open={open}
+                    autoHideDuration={2000}
+                    onClose={() => setOpen(false)}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                >
+                    <Alert severity="success" variant="filled">
+                        {alertMessage}
+                    </Alert>
+                </Snackbar>
             </div>
         </>
-    )
+    );
 };
 
 export default ClubEvents;

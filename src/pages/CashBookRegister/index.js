@@ -94,9 +94,8 @@ const CashBookRegister = () => {
                 'value': parseFloat(paymentValue.replace('.', '').replace(',', '.'))
             }
 
-            api.post('/cash-book', data, {
+            api.post('/cashbooks?clubId=' + clubId, data, {
                 headers: {
-                    'clubId': clubId,
                     'Content-Type': 'application/json'
                 }
             }).then(reponse => {
@@ -164,7 +163,7 @@ const CashBookRegister = () => {
 
     useEffect(() => {
 
-        api.get('event/club/' + clubId).then(response => {
+        api.get('event?clubId=' + clubId).then(response => {
             setClubEvents(response.data);
         });
 

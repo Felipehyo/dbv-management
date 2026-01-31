@@ -7,6 +7,8 @@ import './style.scss';
 
 import Nav from '../../components/Nav';
 
+import arara from '../../assets/arara-azul.png';
+
 const Score = () => {
 
     const [unitList, setUnitList] = useState([]);
@@ -41,7 +43,7 @@ const Score = () => {
                             unitList.sort((a, b) => a.unitOrder - b.unitOrder).map((unit, id) => (
                                 <div className="card" key={id} onClick={() => handleUnit(unit)}>
                                     <div className="image">
-                                        <img src={unit.imageLink} alt={unit.assignment} />
+                                        <img src={arara} alt={unit.assignment} />
                                     </div>
                                     <div className="info">
                                         <h2>{unit.name}</h2>

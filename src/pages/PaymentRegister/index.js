@@ -41,7 +41,7 @@ const PaymentRegister = () => {
     }
 
     const [alertMessage, setAlertMessage] = useState('');
-    const [severity, setSeverity] = useState('');
+    const [severity, setSeverity] = useState('info');
     const [open, setOpen] = React.useState(false);
 
     const handleClick = (message) => {
@@ -101,7 +101,7 @@ const PaymentRegister = () => {
                 'eventId': eventSelected
             }
 
-            await api.post('/payment', data).then(reponse => {
+            await api.post('/payments', data).then(reponse => {
                 document.querySelector('.modal-container').classList.remove('show-modal');
                 setSeverity("success");
                 handleClick('Pagamento registrado com sucesso!');
@@ -175,11 +175,11 @@ const PaymentRegister = () => {
     }, [paymentValue, payerUserSelected, paymentType]);
 
     useEffect(() => {
-        api.get('user/club/' + clubId + '?eventualUser=true').then(response => {
+        api.get('user?clubId=' + clubId).then(response => {
             setClubUsers(response.data);
         });
 
-        api.get('event/club/' + clubId + '?showOnlyFutureDate=false').then(response => {
+        api.get('event?clubId=' + clubId + '&onlyActives=true').then(response => {
             setClubEvents(response.data);
         });
     }, [clubId]);

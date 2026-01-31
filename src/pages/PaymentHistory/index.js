@@ -39,7 +39,7 @@ const PaymentHistory = () => {
     
     const handleChange = (event, value) => {
         setPage(value);
-        api.get(`payment/club/${clubId}?size=${size}&page=${value-1}${queryParams}`).then(response => {
+        api.get(`payments?clubId${clubId}&size=${size}&page=${value-1}${queryParams}`).then(response => {
             setHistory(response.data.content);
             setTotalPages(response.data.totalPages);
         });
@@ -73,7 +73,7 @@ const PaymentHistory = () => {
     };
 
     async function handleDelete() {
-        await api.delete('payment/' + historySelected.id);
+        await api.delete('payments/' + historySelected.id);
         window.location.reload();
     }
 
@@ -106,7 +106,7 @@ const PaymentHistory = () => {
         }
 
         setQueryParams(query);
-        await api.get(`payment/club/${clubId}?size=${size}&page=0${query}`).then(response => {
+        await api.get(`payments?clubId=${clubId}&size=${size}&page=0${query}`).then(response => {
             setTotalPages(response.data.totalPages);
             setHistory(response.data.content);
         });
@@ -115,15 +115,15 @@ const PaymentHistory = () => {
 
     useEffect(() => {
 
-        api.get('user/club/' + clubId + '?eventualUser=true').then(response => {
+        api.get('user?clubId=' + clubId).then(response => {
             setClubUsers(response.data);
         });
 
-        api.get('event/club/' + clubId + "?showOnlyFutureDate=false").then(response => {
+        api.get('event?clubId=' + clubId).then(response => {
             setClubEvents(response.data);
         });
 
-        api.get(`payment/club/${clubId}?size=${size}`).then(response => {
+        api.get(`payments?clubId=${clubId}&size=${size}`).then(response => {
             setHistory(response.data.content);
             setTotalPages(response.data.totalPages);
         });
@@ -150,7 +150,7 @@ const PaymentHistory = () => {
                                     </div>
 
                                     <div className="card-info">
-                                        <p><b>Nome:</b> {history.pathfinder.name}</p>
+                                        <p><b>Nome:</b> {history.user.name}</p>
                                         <p><b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
                                         <p><b>Valor:</b> R${parseFloat(history.value).toFixed(2)} ({history.formOfPayment})</p>
                                         <p><b>Destinado:</b> {history.event != null ? history.event.name : 'Caixa'}</p>

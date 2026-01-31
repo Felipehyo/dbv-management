@@ -1,22 +1,24 @@
     .sub-container-payment-register {
-        width: 400px;
-        height: auto;
-        background-color: white;
+        width: 100%;
+        max-width: 420px;
+        min-height: 100svh;
+        // background-color: #ffffff;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        margin-bottom: 20px;
+        padding: 16px;
 
         .nav-title {
-            color: #4E4E4E;
-            margin-bottom: 10px;
+            // color: #4E4E4E;
+            // margin-bottom: 10px;
+            margin: 8px 0 12px;
+            color: #1f2933;
         }
 
         .logo {
-            width: 30%;
-            margin-bottom: 15px;
+            width: 100px;
+            max-width: 120px;
+            margin: 8px 0;
         }
 
         .section {
@@ -29,21 +31,29 @@
 
             .form-event {
                 width: 100%;
+                padding: 16px;
+                border-radius: 12px;
+                background-color: #FFFFFF;
+                // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
                 display: flex;
-                align-items: center;
                 flex-direction: column;
+                gap: 16px;
 
                 .event-field {
-                    width: 80%;
-                    margin-top: 20px;
+                    width: 100%;
                 }
 
                 .bt-event-register {
-                    background-color: #293747;
-                    margin-top: 35px;
-                    width: 60%;
-                    height: 45px;
+                    margin-top: 24px;
+                    height: 48px;
                     font-weight: bold;
+                    background-color: #293747;
+                    color: #ffffff;
+                    border-radius: 8px;
+
+                    &:hover {
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                    }
                 }
             }
         }

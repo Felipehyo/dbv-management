@@ -1,79 +1,90 @@
 .sub-container-home {
-    width: 400px;
-    height: 100%;
-    background-color: white;
+    width: 100%;
+    max-width: 420px;
+    min-height: 100svh;
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    padding: 16px;
 
     .logo {
-        width: 55%;
-        margin-bottom: 5px;
+        width: 150px;
+        margin: 0px 0 8px;
     }
 
     .section {
-        margin: 0;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        height: auto;
-        margin-right: 0;
+        width: 100%;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        gap: 12px;
+        margin-top: 12px;
+        // background-color: #1f2933;
 
         .card {
-            width: 85%;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 5px;
+            width: 100%;
+
+            padding-top: 16px;
+            padding-bottom: 16px;
+            border-radius: 12px;
             display: flex;
-            box-shadow: 1px solid #000;
-            justify-content: center;
-            box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
-            margin: 0;
-            margin-top: 12px;
-            transition: 0.15s all;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:active {
+                transform: scale(0.97);
+            }
 
             .info {
-                display: flex;
-                text-align: center;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
+                flex: 1;
 
                 h2 {
-                    margin: 0;
-                    color: #4E4E4E;
-                    margin-bottom: 5px;
+                margin: 0;
+                font-size: 18px;
+                padding-left: 16px;
+                color: #1f2933;
                 }
 
                 p {
-                    margin: 0;
-                    font-size: 14px;
-                    color: #4E4E4E;
+                margin-top: 4px;
+                padding-left: 16px;
+                max-width: 90%;
+                font-size: 14px;
+                color: #6b7280;
                 }
             }
 
             .image {
-                height: 100%;
-                width: 140px;
-                text-align: center;
+                // margin-left: 12px;
+                padding-right: 16px;
 
                 img {
-                    width: 70px;
+                width: 56px;
                 }
             }
         }
-
-        .card:active {
-            transform: scale(0.98);
-            /* Scaling button to 0.98 to its original size */
-            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-            /* Lowering the shadow */
-            background-color: rgba(0, 0, 0, 0.05);
-        }
     }
+
+    // .card:active {
+    //     transform: scale(0.98);
+    //     /* Scaling button to 0.98 to its original size */
+    //     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    //     /* Lowering the shadow */
+    //     background-color: rgba(0, 0, 0, 0.05);
+    // }
+
+    // .card::before {
+    //     content: '';
+    //     width: 4px;
+    //     height: 100%;
+    //     background-color: #c9a24d; // dourado do logo
+    //     border-radius: 4px 0 0 4px;
+    //     margin-right: 12px;
+    // }
+    
 }

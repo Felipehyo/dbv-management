@@ -14,6 +14,7 @@ import Nav from '../../components/Nav';
 const UserRegister = () => {
 
     const clubId = sessionStorage.getItem("clubId");
+    const userSessionType = sessionStorage.getItem("userType");
 
     const [clubUnits, setClubUnits] = useState([]);
 
@@ -28,6 +29,9 @@ const UserRegister = () => {
 
     const [unitSelected, setUnitSelected] = useState('');
     const [userBirthdate, setUserBirthdate] = useState(null);
+
+    const [userEmail, setUserEmail] = useState('');
+    const [userPass, setUserPass] = useState('');
 
     const navigate = useNavigate();
 
@@ -66,14 +70,19 @@ const UserRegister = () => {
         if (valid) {
             var data = {
                 'name': userName,
-                'userType': userType,
+                'type': userType,
                 'gender': gender,
                 'unitId': unitSelected,
                 'birthDate': userBirthdate,
                 'clubId': clubId,
             }
 
-            api.post('/user', data).then(reponse => {
+            if (userSessionType === 'ADMIN') {
+                data.email = userEmail;
+                data.password = userPass;
+            }
+
+            api.post('/user?clubId=' + clubId, data).then(reponse => {
                 alert('Usuário registrado com sucesso!');
                 navigate('/user');
             }).catch(error => {
@@ -106,7 +115,7 @@ const UserRegister = () => {
     }, [userName, userType, gender]);
 
     useEffect(() => {
-        api.get('unit/club/' + clubId).then(response => {
+        api.get('unit?clubId=' + clubId).then(response => {
             setClubUnits(response.data);
         });
     }, [clubId]);
@@ -175,6 +184,12 @@ const UserRegister = () => {
                                     renderInput={(params) => <TextField {...params} />}
                                 />
                             </LocalizationProvider>
+                            { userSessionType === 'ADMIN' ? (
+                                <>
+                                    <TextField id="outlined-basic" label="Email do Usuário" variant="outlined" className='event-field' value={userEmail} onChange={e => setUserEmail(e.target.value)} />
+                                    <TextField id="outlined-basic" label="Senha do Usuário" variant="outlined" className='event-field' value={userPass} onChange={e => setUserPass(e.target.value)} />
+                                </>                                
+                            ) : <></>}
                             <Button className="bt-event-register" variant="contained" onClick={handleRegister}>Registrar Usuário</Button>
                         </form>
                     </section>

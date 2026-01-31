@@ -15,6 +15,7 @@ const UserEdit = () => {
 
     const clubId = sessionStorage.getItem("clubId");
     const userIdEdit = sessionStorage.getItem("userIdEdit");
+    const userSessionType = sessionStorage.getItem("userType");
 
     const [clubUnits, setClubUnits] = useState([]);
 
@@ -32,6 +33,9 @@ const UserEdit = () => {
 
     const [status, setStatus] = useState('');
     const [statusValid, setStatusValid] = useState(false);
+
+    const [userEmail, setUserEmail] = useState('');
+    const [userPass, setUserPass] = useState('');
 
     const navigate = useNavigate();
 
@@ -70,15 +74,20 @@ const UserEdit = () => {
         if (valid) {
             var data = {
                 'name': userName,
-                'userType': userType,
+                'type': userType,
                 'gender': gender,
-                'unitId': unitSelected,
+                'unit': unitSelected,
                 'birthDate': userBirthdate,
                 'active': status,
                 'clubId': clubId,
             }
 
-            api.put('/user/' + userIdEdit, data).then(reponse => {
+            if (userSessionType === 'ADMIN') {
+                data.email = userEmail;
+                data.password = userPass;
+            }
+
+            api.patch('/user/' + userIdEdit, data).then(reponse => {
                 alert('Usuário atualizado com sucesso!');
                 navigate('/user');
             }).catch(error => {
@@ -114,14 +123,15 @@ const UserEdit = () => {
 
         api.get('/user/' + userIdEdit).then(response => {
             setUserName(response.data.name)
-            setUserType(response.data.userType)
+            setUserType(response.data.type)
             setGender(response.data.gender)
-            if(response.data.unitId != null) setUnitSelected(response.data.unitId)
+            if(response.data.unit != null) setUnitSelected(response.data.unit)
             setUserBirthdate(response.data.birthDate)
             setStatus(response.data.active)
+            setUserEmail(response.data.email)
         });
 
-        api.get('unit/club/' + clubId).then(response => {
+        api.get('unit?clubId=' + clubId).then(response => {
             setClubUnits(response.data);
         });
 
@@ -204,6 +214,12 @@ const UserEdit = () => {
                                     <MenuItem value={'false'}>Inativo</MenuItem>
                                 </Select>
                             </FormControl>
+                                { userSessionType === 'ADMIN' ? (
+                                    <>
+                                        <TextField id="outlined-basic" label="Email do Usuário" variant="outlined" className='event-field' value={userEmail} onChange={e => setUserEmail(e.target.value)} />
+                                        <TextField id="outlined-basic" label="Senha do Usuário" variant="outlined" className='event-field' value={userPass} onChange={e => setUserPass(e.target.value)} />
+                                    </>                                
+                                ) : <></>}
                             <Button className="bt-event-register" variant="contained" onClick={handleEdit}>Salvar Usuário</Button>
                         </form>
                     </section>

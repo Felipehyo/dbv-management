@@ -8,6 +8,10 @@ import Nav from '../../components/Nav';
 const User = () => {
 
     const [userList, setUserList] = useState([]);
+    const [directionList, setDirectionList] = useState([]);
+    const [eventualList, setEventualList] = useState([]);
+    const [pathfinderList, setPathfinderList] = useState([]);
+
     const [userType, setUserType] = useState('PATHFINDER');
 
     const clubId = sessionStorage.getItem("clubId");
@@ -27,15 +31,46 @@ const User = () => {
     }
 
     function getUsersByType(inputUserType) {
-        api.get('/user/club/' + clubId + '/type?userType=' + inputUserType).then(response => {
-            setUserType(inputUserType);
-            setUserList(response.data);
-        });
+        setUserType(inputUserType);
     }
 
     useEffect(() => {
-        api.get('/user/club/' + clubId + '/type?userType=PATHFINDER').then(response => {
-            setUserList(response.data);
+        switch (userType) {
+            case 'PATHFINDER':
+                setUserList(pathfinderList);
+                break;
+            case 'DIRECTION':
+                setUserList(directionList);
+                break;
+            case 'EVENTUAL':
+                setUserList(eventualList);
+                break;
+        }
+    }, [userType]);
+
+    useEffect(() => {
+        api.get('/user?clubId=' + clubId + '&onlyActives=false').then(response => {
+
+            let directionUsers = [];
+            let pathfinderUsers = [];
+            let eventualUsers = [];
+            
+            response.data.forEach(user => {
+                if(user.type == 'EXECUTIVE' || user.type == 'DIRECTION') {
+                    directionUsers.push(user);
+                } else if(user.type == 'PATHFINDER') {
+                    pathfinderUsers.push(user);
+                } else if(user.type == 'EVENTUAL'){
+                    eventualUsers.push(user)
+                }
+            });
+
+            setDirectionList(directionUsers);
+            setEventualList(eventualUsers);
+            setPathfinderList(pathfinderUsers);
+
+            setUserList(pathfinderUsers);
+
         });
     }, [clubId]);
 

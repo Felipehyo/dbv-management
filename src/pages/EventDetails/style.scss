@@ -97,74 +97,72 @@
             flex-direction: column;
             align-items: center;
 
+
             .card-event-details {
                 width: 100%;
-                padding: 15px;
-                padding-top: 18px;
-                background-color: #fff;
-                border-radius: 5px;
+                padding: 14px;
+                background-color: #ffffff;
+                border-radius: 12px;
                 display: flex;
-                box-shadow: 1px solid #000;
-                justify-content: space-between;
-                box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
+                align-items: center;
+                gap: 12px;
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
                 margin-top: 12px;
-                transition: 0.15s all;
-                position: relative;
+                transition: transform 0.15s ease, box-shadow 0.15s ease;
                 cursor: pointer;
+                position: relative;
 
-                .info {
-                    margin-left: 10px;
-                    max-width: 250px;
+                &:active {
+                transform: scale(0.98);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+                }
+
+                .image {
+                width: 44px;
+                height: 44px;
+                border-radius: 30%;
+                background: #f3f3f3;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                    img {
+                        width: 28px;
+                    }
+                    }
+
+                    .info {
+                    flex: 1;
                     display: flex;
-                    text-align: center;
-                    align-items: center;
-                    justify-content: center;
                     flex-direction: column;
+                    justify-content: center;
                     position: relative;
 
                     .content {
-                        width: 250px;
+                        width: 100%;
                         display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        flex-direction: column;
-                        position: relative;
+                        justify-content: flex-start;
 
                         h2 {
-                            font-size: 16px;
-                            color: #4E4E4E;
-                            margin-bottom: 5px;
-                            margin-top: -5px;
-                        }
-
-                        p {
-                            margin: 0;
-                            font-size: 14px;
-                            color: #4E4E4E;
+                        font-size: 15px;
+                        font-weight: 600;
+                        color: #4E4E4E;
+                        margin: 0 0 6px 0;
                         }
                     }
 
                     .progress-bar {
+                        width: 100%;
                         margin-top: 2px;
-                        width: 250px;
                     }
 
                     .user-total {
                         position: absolute;
-                        top: -14px;
-                        right: -7px;
-                        font-size: 13px;
-                        color: #4E4E4E;
-                        font-weight: bold;
-                    }
-                }
-
-                .image {
-                    text-align: center;
-                    width: 50px;
-
-                    img {
-                        width: 35px;
+                        top: -10px;
+                        right: 0;
+                        font-size: 12px;
+                        font-weight: 600;
+                        color: rgba(0, 0, 0, 0.30);
                     }
                 }
             }

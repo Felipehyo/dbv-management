@@ -17,6 +17,10 @@ import * as XLSX from 'xlsx';
 const EventDetails = () => {
 
     const [userRegister, setUserRegisterList] = useState([]);
+    const [directionUsers, setDirectionUsers] = useState([]);
+    const [pathfinderUsers, setPathfinderUsers] = useState([]);
+    const [eventualUsers, setEventualUsers] = useState([]);
+    const [allUsers, setAllUsers] = useState([]);
     const [event, setEvent] = useState([]);
 
     const [userType, setUserType] = useState('');
@@ -65,14 +69,30 @@ const EventDetails = () => {
     }));
 
     function getUsersByType(inputUserType) {
-        api.get('event/register/' + eventId + "?userType=" + inputUserType).then(response => {
-            setUserType(inputUserType);
-            sessionStorage.setItem("eventUserSelected", inputUserType);
-            setUserRegisterList(response.data);
-        });
+        setUserType(inputUserType);
+        sessionStorage.setItem("eventUserSelected", inputUserType);
     }
 
     useEffect(() => {
+        switch (userType) {
+            case 'ALL':
+                setUserRegisterList(allUsers);
+                break;
+            case 'PATHFINDER':
+                setUserRegisterList(pathfinderUsers);
+                break;
+            case 'DIRECTION':
+                setUserRegisterList(directionUsers);
+                break;
+            case 'EVENTUAL':
+                setUserRegisterList(eventualUsers);
+                break;
+        }
+    }, [userType]);
+
+    useEffect(() => {
+
+        
 
         api.get('event/' + eventId).then(response => {
             setEvent(response.data);
@@ -87,9 +107,27 @@ const EventDetails = () => {
             setUserType(sessionUserType.toString())
         }
 
-        api.get('event/register/' + eventId + '?userType=' + sessionUserType.toString()).then(response => {
+        api.get('event/' + eventId + "/register").then(response => {
             setUserRegisterList(response.data);
-            console.log(response.data)
+            setAllUsers(response.data);
+
+            let directionUsers = [];
+            let pathfinderUsers = [];
+            let eventualUsers = [];
+            
+            response.data.forEach(user => {
+                if(user.userType == 'EXECUTIVE' || user.userType == 'DIRECTION') {
+                    directionUsers.push(user);
+                } else if(user.userType == 'PATHFINDER') {
+                    pathfinderUsers.push(user);
+                } else if(user.userType == 'EVENTUAL'){
+                    eventualUsers.push(user)
+                }
+            });
+
+            setDirectionUsers(directionUsers);
+            setEventualUsers(eventualUsers);
+            setPathfinderUsers(pathfinderUsers);
         });
 
     }, [eventId]);
@@ -111,8 +149,6 @@ const EventDetails = () => {
         ];
 
         const worksheet = XLSX.utils.json_to_sheet(customizedData, { header: Object.keys(customizedData[0]) });
-
-        console.log(worksheet)
 
         worksheet['!cols'] = wscols;
 
@@ -164,7 +200,7 @@ const EventDetails = () => {
                                     </div>
                                     <div className="info">
                                         <div className="content">
-                                            <h2>{userRegister.user.split(" ").slice(0, 3).join(" ")}</h2>
+                                            <h2>{userRegister.userName.split(" ").slice(0, 3).join(" ")}</h2>
                                         </div>
                                         <div className='progress-bar'>
                                             <Box sx={{ flexGrow: 1, percentage: 100 }}>
@@ -172,7 +208,7 @@ const EventDetails = () => {
                                             </Box>
                                         </div>
                                         <div className='user-total'>
-                                            <p>R${parseFloat(userRegister.eventAllocatedAmount).toFixed(2)}</p>
+                                            <p>{userRegister.debtValue == '0.00' ? 'Pago' : 'R$' + parseFloat(userRegister.debtValue).toFixed(2)}</p>
                                         </div>
                                     </div>
                                 </div>

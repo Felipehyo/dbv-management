@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TextField, Button, InputAdornment } from "@mui/material";
+import { TextField, Button, InputAdornment, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -14,13 +14,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import './style.scss';
 import Nav from '../../components/Nav';
 
-const EventRegister = () => {
+const EventEdit = () => {
 
     const clubId = sessionStorage.getItem("clubId");
+    const eventId = sessionStorage.getItem("eventId");
 
     const [eventName, setEventName] = useState('');
     const [eventValue, setEventValue] = useState('');
     const [eventDate, setEventDate] = useState(null);
+    const [eventActive, setEventActive] = useState(false);
 
     const [eventNameValid, setEventNameValid] = useState(false);
     const [eventValueValid, setEventValueValid] = useState(false);
@@ -31,7 +33,7 @@ const EventRegister = () => {
         navigate("/event");
     }
 
-    function handleRegister() {
+    function handleUpdate() {
 
         var valid = true;
         var errors = [];
@@ -58,11 +60,12 @@ const EventRegister = () => {
                 'name': eventName,
                 'value': parseFloat(eventValue.replace('.', '').replace(',', '.')),
                 'date': eventDate,
+                'active': eventActive,
                 'clubId': clubId
             }
 
-            api.post('/event?clubId=' + clubId, data).then(reponse => {
-                sessionStorage.setItem('startAlert', "O Evento foi cadastrado com sucesso!");
+            api.patch('/event/' + eventId, data).then(reponse => {
+                sessionStorage.setItem('startAlert', "O Evento foi atualizado com sucesso!");
                 setTimeout(() => {
                     setAlertMessage('');
                     setOpen(false);
@@ -89,7 +92,10 @@ const EventRegister = () => {
     }
 
     const handleChange = (e) => {
-        const input = e.target.value;
+        setEventValue(formatAmount(e.target.value));
+    };
+
+    function formatAmount(input) {
 
         // Remove caracteres não numéricos e zeros a esquerda
         let numericValue = input.replace(/[^\d]/g, '');
@@ -106,16 +112,25 @@ const EventRegister = () => {
             result = "0," + value;
         } else if (value.length < 6) {
             result = value.slice(0, -2) + "," + value.substr(value.length - 2);
-        } else if (value.length < 8) {
+        } else {
             let decimal = value.substr(value.length - 2);
             let hundred = value.substr(value.length - 5);
             let thousand = value.slice(0, - 5);
             result = thousand + "." + hundred.slice(0, -2) + "," + decimal;
-        } else {
-            return;
         }
-        // Atualiza os estados com os valores
-        setEventValue(result);
+
+        return result;
+    }
+
+    const convertValue = (e) => {
+        let numericValue = e.replace(/[^\d]/g, '');
+        let value = numericValue.replace(/^0+/, '');
+
+        if (value.length === 0) return "0,00";
+        if (value.length === 1) return "0,0" + value;
+        if (value.length === 2) return "0," + value;
+
+        return value.slice(0, -2) + "," + value.slice(-2);
     };
 
     const [alertMessage, setAlertMessage] = useState('');
@@ -140,13 +155,14 @@ const EventRegister = () => {
     };
 
     useEffect(() => {
-        if (eventName !== '' && eventName !== null) {
-            setEventNameValid(false);
-        }
-        if (eventValue !== '' && eventValue !== null) {
-            setEventValueValid(false);
-        }
-    }, [eventName, eventValue]);
+        api.get('/event/' + eventId).then(response => {
+            setEventName(response.data.name);
+            var value = convertValue(parseFloat(response.data.value).toFixed(2));
+            setEventValue(value);
+            setEventDate(response.data.date);
+            setEventActive(response.data.active);
+        });
+    }, [eventId]);
 
     return (
         <>
@@ -154,7 +170,7 @@ const EventRegister = () => {
                 <div className="sub-container-event">
                     <Nav handleBack={handleBack} />
                     <img className="logo" src='https://cdn-icons-png.flaticon.com/512/4113/4113006.png' alt="" />
-                    <h1 className="nav-title-event">Cadastrar Evento</h1>
+                    <h1 className="nav-title-event">Editar Evento</h1>
                     <section className="section">
                         <form className='form-event'>
                             <TextField id="outlined-basic" label="Nome do Evento" error={eventNameValid} variant="outlined" className='event-field' value={eventName} onChange={e => setEventName(e.target.value)} />
@@ -165,6 +181,18 @@ const EventRegister = () => {
                                     inputMode: 'numeric', pattern: '[0-9]*'
                                 }}
                                 value={eventValue} onChange={handleChange} />
+                            <FormControl className='event-field' size='medium' fullWidth>
+                                <InputLabel id="event-status">Status</InputLabel>
+                                <Select
+                                    labelId="event-status"
+                                    id="event-status"
+                                    value={eventActive}
+                                    label="Status"
+                                    onChange={e => setEventActive(e.target.value)}>
+                                    <MenuItem value={'true'}>Ativo</MenuItem>
+                                    <MenuItem value={'false'}>Inativo</MenuItem>
+                                </Select>
+                            </FormControl>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DesktopDatePicker
                                     className='event-field'
@@ -175,7 +203,7 @@ const EventRegister = () => {
                                     renderInput={(params) => <TextField {...params} />}
                                 />
                             </LocalizationProvider>
-                            <Button className="bt-event-register" variant="contained" onClick={handleRegister}>Cadastrar Evento</Button>
+                            <Button className="bt-event-register" variant="contained" onClick={handleUpdate}>Atualizar Evento</Button>
                         </form>
                     </section>
                 </div>
@@ -197,4 +225,4 @@ const EventRegister = () => {
     )
 };
 
-export default EventRegister;
+export default EventEdit;

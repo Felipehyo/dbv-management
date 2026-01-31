@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import './style.scss';
-import Logo from '../../assets/Logo.png';
+import Logo from '../../assets/logo-geral-v2.png';
 import Logout from '../../assets/logout.png';
 import Statistics from '../../assets/statistics.png';
 import Presence from '../../assets/presence.png';
@@ -11,29 +11,44 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    function handleScore() {
-        navigate("/score");
-    }
-
-    function handlePresence() {
-        navigate("/presence");
-    }
-
-    function handleEvents() {
-        navigate("/event");
-    }
-
-    function handleTreasury() {
-        navigate("/treasury");
-    }
-
-    function handleStatistics() {
-        navigate("/statistics");
-    }
-
-    function handleUsers() {
-        navigate("/user");
-    }
+    const actions = [
+        // {
+        //     title: 'Pontuação',
+        //     description: 'Registrar pontuação geral do clube e unidades',
+        //     icon: 'https://cdn-icons-png.flaticon.com/512/3153/3153150.png',
+        //     route: '/score',
+        // },
+        // {
+        //     title: 'Presença',
+        //     description: 'Registrar lista de presentes e kits individuais',
+        //     icon: Presence,
+        //     route: '/presence',
+        // },
+        {
+            title: 'Eventos',
+            description: 'Criar e editar eventos e inscrições',
+            icon: 'https://cdn-icons-png.flaticon.com/512/4113/4113006.png',
+            route: '/event',
+        },
+        {
+            title: 'Tesouraria',
+            description: 'Gerenciar toda a parte financeira do clube',
+            icon: 'https://cdn-icons-png.flaticon.com/512/2460/2460494.png',
+            route: '/treasury',
+        },
+        {
+            title: 'Usuários',
+            description: 'Criar, editar e gerenciar usuários',
+            icon: 'https://cdn-icons-png.flaticon.com/512/1165/1165725.png',
+            route: '/user',
+        },
+        // {
+        //     title: 'Estatísticas',
+        //     description: 'Estatísticas de presença e pontuação',
+        //     icon: Statistics,
+        //     route: '/statistics',
+        // },
+    ];
 
     function handlelogout() {
         sessionStorage.clear();
@@ -49,60 +64,22 @@ const Home = () => {
                     </div>
                     <img className="logo" src={Logo} alt="" />
                     <section className="section">
-                        <div className="card" onClick={handleScore}>
+                        {actions.map((item) => (
+                            <div
+                            key={item.title}
+                            className="card"
+                            onClick={() => navigate(item.route)}
+                            >
                             <div className="info">
-                                <h2>Pontuação</h2>
-                                <p>Registrar pontuação geral do clube e unidades</p>
+                                <h2>{item.title}</h2>
+                                <p>{item.description}</p>
                             </div>
+
                             <div className="image">
-                                <img src="https://cdn-icons-png.flaticon.com/512/3153/3153150.png" alt="" />
+                                <img src={item.icon} alt={item.title} />
                             </div>
-                        </div>
-                        <div className="card" onClick={handlePresence}>
-                            <div className="info">
-                                <h2>Presença</h2>
-                                <p>Registrar lista de presentes e kits individuais</p>
                             </div>
-                            <div className="image">
-                                <img src={Presence} alt="" />
-                            </div>
-                        </div>
-                        <div className="card" onClick={handleEvents}>
-                            <div className="info">
-                                <h2>Eventos</h2>
-                                <p>Criar e editar eventos, e inscrever desbravadores nos eventos</p>
-                            </div>
-                            <div className="image">
-                                <img src={'https://cdn-icons-png.flaticon.com/512/4113/4113006.png'} alt="Acampamento ícones criados por Good Ware - Flaticon" />
-                            </div>
-                        </div>
-                        <div className="card" onClick={handleTreasury}>
-                            <div className="info">
-                                <h2>Tesouraria</h2>
-                                <p>Gerenciar toda a parte financeira do seu clube</p>
-                            </div>
-                            <div className="image">
-                                <img src={'https://cdn-icons-png.flaticon.com/512/2460/2460494.png'} alt="Dinheiro ícones criados por justicon - Flaticon" />
-                            </div>
-                        </div>
-                        <div className="card" onClick={handleUsers}>
-                            <div className="info">
-                                <h2>Usuários</h2>
-                                <p>Criar, editar, ativar e inativar usuários. Criar usuários eventuais</p>
-                            </div>
-                            <div className="image">
-                                <img src={'https://cdn-icons-png.flaticon.com/512/1165/1165725.png'} alt="Usuários - Flaticon" />
-                            </div>
-                        </div>
-                        <div className="card" onClick={handleStatistics}>
-                            <div className="info">
-                                <h2>Estatísticas</h2>
-                                <p>Estatísticas de presença e pontuação de unidades </p>
-                            </div>
-                            <div className="image">
-                                <img src={Statistics} alt="" />
-                            </div>
-                        </div>
+                        ))}
                     </section>
                 </div>
             </div>

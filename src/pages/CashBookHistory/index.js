@@ -75,7 +75,7 @@ const CashBookHistory = () => {
             query = query + "eventId=" + eventSelected;
         }
 
-        await api.get('cash-book/club/' + clubId + (query !== "" ? "?" + query : "")).then(response => {
+        await api.get('cashbooks/club/' + clubId + (query !== "" ? "?" + query : "")).then(response => {
 
             setHistory(response.data);
 
@@ -122,7 +122,7 @@ const CashBookHistory = () => {
 
     useEffect(() => {
 
-        api.get('cash-book/club/' + clubId).then(response => {
+        api.get('cashbooks/club/' + clubId).then(response => {
             setHistory(response.data);
 
             var inputTotal = 0;
@@ -135,7 +135,7 @@ const CashBookHistory = () => {
             setOutputTotal(outputTotal);
         });
 
-        api.get('event/club/' + clubId + "?showOnlyFutureDate=false").then(response => {
+        api.get('event?clubId=' + clubId).then(response => {
             setClubEvents(response.data);
         });
 
@@ -170,9 +170,9 @@ const CashBookHistory = () => {
                                     </div>
 
                                     <div className="card-info">
-                                        <p><b>Tipo:</b> {history.type} - <b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
+                                        <p><b>Tipo:</b> {history.type == 'INPUT' ? 'Entrada' : 'Saída'} - <b>Data:</b> {history.date.split('-')[2] + "/" + history.date.split('-')[1] + "/" + history.date.split('-')[0]}</p>
                                         <p><b>Valor:</b> R${parseFloat(history.value).toFixed(2)}</p>
-                                        {history.event != null ? (<p><b>Evento:</b> {history.event.event}</p>) : null}
+                                        {history.event != null ? (<p><b>Evento:</b> {history.event.name}</p>) : null}
                                         <p><b>Descrição:</b> {history.description}</p>
                                     </div>
 

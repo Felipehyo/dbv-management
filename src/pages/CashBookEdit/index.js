@@ -60,7 +60,7 @@ const CashBookEdit = () => {
     }
 
     async function handleDelete() {
-        await api.delete('cash-book/' + cashBookIdEdit);
+        await api.delete('cashbooks/' + cashBookIdEdit);
         sessionStorage.setItem('startAlert', "O registro foi deletado com sucesso!");
         navigate("/treasury/cash-book");
     }
@@ -106,13 +106,11 @@ const CashBookEdit = () => {
                 'type': paymentType,
                 'description': description,
                 'date': paymentDate,
-                'eventId': (eventSelected != null) ? eventSelected : null,
                 'value': parseFloat(paymentValue.replace('.', '').replace(',', '.'))
             }
 
-            api.put('/cash-book/' + cashBookIdEdit, data, {
+            api.put('/cashbooks/' + cashBookIdEdit + ((eventSelected != null) ? ("?eventId=" + eventSelected) : "") , data, {
                 headers: {
-                    'clubId': clubId,
                     'Content-Type': 'application/json'
                 }
             }).then(reponse => {
@@ -182,15 +180,15 @@ const CashBookEdit = () => {
 
     useEffect(() => {
 
-        api.get('cash-book/' + cashBookIdEdit).then(response => {
-            setPaymentValue(convertValue(response.data.value))
+        api.get('cashbooks/' + cashBookIdEdit).then(response => {
+            setPaymentValue(convertValue(String(response.data.value)))
             setPaymentType(response.data.type)
             setDescription(response.data.description)
-            if (response.data.eventId != null) setEventSelected(response.data.eventId)
+            if (response.data.event != null) setEventSelected(response.data.event.id)
             setEventDate(response.data.date)
         });
 
-        api.get('event/club/' + clubId).then(response => {
+        api.get('event?clubId=' + clubId).then(response => {
             setClubEvents(response.data);
         });
 

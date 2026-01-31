@@ -35,129 +35,114 @@
         }
 
         .section {
-            margin: 0;
-            margin-top: 5px;
-            width: 80%;
-            margin-right: 0;
+            width: 90%;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 12px;
 
             .card {
-                width: 100%;
-                padding: 10px 15px 10px 15px;
-                background-color: #fff;
-                border-radius: 5px;
                 display: flex;
-                box-shadow: 1px solid #000;
+                align-items: center;
                 justify-content: space-between;
-                box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
-                margin-top: 12px;
-                transition: 0.15s all;
-                position: relative;
-                cursor: pointer;
+                padding: 14px;
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+                transition: 0.2s ease;
+                
+                &.present {
+                    border-left: 5px solid #25810E;
+                }
 
-                .info {
-                    margin-left: 10px;
-                    display: flex;
-                    width: 100%;
-                    text-align: center;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
+                &.absent {
+                    border-left: 5px solid #FF5A5A;
+                }
 
-                    .content {
-                        width: 100%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        flex-direction: column;
-                        position: relative;
-
-                        h2 {
-                            font-size: 16px;
-                            color: #4E4E4E;
-                        }
-                        p {
-                            margin: 0;
-                            font-size: 14px;
-                            color: #4E4E4E;
-                        }
-                    }
+                &:active {
+                    transform: scale(0.98);
                 }
 
                 .image {
-                    text-align: center;
-                    width: 50px;
+                    width: 45px;
+
                     img {
                         width: 35px;
                     }
                 }
 
-                .btns {
-                    display: flex;
-                    width: 40%;
-                    align-items: center;
-                    
-                    .bt-abscence, .bt-presence {
-                        width: 100%;
-                        max-height: 45px;
-                        max-width: 35px;
-                        margin-left: 5px;
-                        border: none;
-                        border-radius: 5px;
-                        color: white;
-                        font-weight: bold;
-                        transition: 0.15s all;
-                        line-height: 35px;
-                        cursor: pointer;
+                .info {
+                    flex: 1;
+                    margin-left: 10px;
+                    text-align: left;
+
+                    h2 {
+                        font-size: 15px;
+                        margin: 0;
+                        color: #4E4E4E;
                     }
-    
-                    .bt-abscence:active, .bt-presence:active {
-                        transform: scale(0.98);
-                        box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-                        opacity: 0.7;
-                    }
-    
-                    .bt-abscence {
-                        background-color: #FF5A5A;
-                        opacity: 0.3;
-    
-                        .selected {
-                            opacity: 1; 
-                        }
-                    }
-    
-                    .bt-presence {
-                        background-color: #25810E;
-                        opacity: 0.3;
-                    }
-    
-                    .selected {
-                        opacity: 1; 
+
+                    .status {
+                        font-size: 12px;
+                        color: #888;
                     }
                 }
-            }
 
-            .card:active {
-                transform: scale(0.98);
-                box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-                background-color: rgba(0, 0, 0, 0.05);
-            }
+                .btns {
+                    display: flex;
+                    gap: 1px;
+                    justify-content: center;
 
-            .card:last-child {
-                margin-bottom: 20px;
+                    .bt {
+                        width: 45px;
+                        height: 36px;
+                        border-radius: 50%;
+                        border: none;
+                        padding: 0;
+                        padding-top: 5px;
+                        font-size: 16px;
+                        font-weight: bold;
+                        color: #fff;
+                        cursor: pointer;
+                        opacity: 0.3;
+                        transition: 0.2s;
+
+                        &.active {
+                            opacity: 1;
+                        }
+
+                        &.bt-no {
+                            background: #FF5A5A;
+                        }
+
+                        &.bt-yes {
+                            background: #25810E;
+                        }
+
+                        &:active {
+                            transform: scale(0.9);
+                        }
+
+                        svg {
+                            width: 25px;
+                            height: 25px;
+                            stroke: white;
+                            stroke-width: 3.0;
+                            fill: none;
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-@media only screen and (max-width: 630px) {
-    .container-events-details-user-register {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
+
+// @media only screen and (max-width: 630px) {
+//     .container-events-details-user-register {
+//         width: 100%;
+//         height: 100%;
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//     }
+// }

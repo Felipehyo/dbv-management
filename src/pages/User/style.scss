@@ -31,6 +31,7 @@
             width: 92%;
             align-items: center;
             justify-content: center;
+            margin-bottom: 10px;
 
             .bt-pathfinder,
             .bt-direction,
@@ -79,6 +80,44 @@
             }
         }
 
+        .btn-edit {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.5;
+            transition: all 0.2s ease;
+
+            img {
+                width: 18px;
+                height: 18px;
+            }
+
+            &:active {
+                opacity: 1;
+                transform: scale(0.9);
+            }
+        }
+
+        .status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-left: 6px;
+        }
+
+        .status.active {
+            background-color: #22c55e;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+        }
+
+        .status.inactive {
+            background-color: #ef4444;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15);
+        }
+
         .section {
             margin: 0;
             width: 80%;
@@ -90,93 +129,35 @@
 
             .card {
                 width: 100%;
-                max-width: 100%;
-                padding: 10px;
-                padding-left: 15px;
-                padding-right: 15px;
-                background-color: #fff;
-                border-radius: 5px;
+                padding: 14px 16px;
+                border-radius: 14px;
+                background-color: #ffffff;
                 display: flex;
-                box-shadow: 1px solid #000;
-                justify-content: space-between;
-                box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.15);
-                margin-top: 12px;
-                transition: 0.15s all;
+                align-items: center;
+                gap: 12px;
                 position: relative;
+                margin-bottom: 10px;
                 cursor: pointer;
 
-                .status {
-                    width: 5px;
-                    border-radius: 25px;
-                    margin-left: -2px;
-                    margin-right: 5px;
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+                transition: all 0.2s ease;
+
+                &:active {
+                    transform: scale(0.97);
                 }
 
-                .active {
-                    background-color: #25810E;
-                    box-shadow: 0px 0px 1px 1px rgba(37, 129, 14, 0.20);
+                /* Barra lateral dourada */
+                &::before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 4px;
+                    height: 100%;
+                    background-color: #c9a24d;
+                    border-radius: 4px 0 0 4px;
                 }
-
-                .inactive {
-                    background-color: #ee4300;
-                    box-shadow: 0px 0px 1px 1px rgba(238, 67, 0, 0.20);
                 }
-
-                .info {
-                    margin-left: 10px;
-                    width: 100%;
-                    display: flex;
-                    text-align: center;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
-
-                    .content {
-                        width: 100%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        flex-direction: row;
-
-                        .mid {
-                            width: 100%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: flex-start;
-                            text-align: left;
-
-                            h2 {
-                                font-size: 14px;
-                                color: #4E4E4E;
-                            }
-                        }
-
-                        .btn-edit {
-                            width: 25px;
-                            height: 25px;
-                            padding: 2px;
-
-                            .edit {
-                                width: 22px;
-                                height: 22px;
-                            }
-                        }
-                    }
-                }
-
-                .image {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    text-align: center;
-                    width: 50px;
-
-                    img {
-                        width: 35px;
-                        height: 35px;
-                    }
-                }
-            }
 
             .card:active {
                 transform: scale(0.98);
@@ -232,6 +213,47 @@
                     margin-bottom: 20px;
                 }
 
+            }
+        }
+
+        .image {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 28px;
+                height: 28px;
+                opacity: 0.8;
+            }
+        }
+
+        .info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+
+            .content {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .mid {
+                display: flex;
+                flex-direction: column;
+
+                h2 {
+                font-size: 15px;
+                font-weight: 600;
+                color: #1f2933;
+                margin: 0;
+                }
             }
         }
 

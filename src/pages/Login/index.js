@@ -1,91 +1,150 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { TextField, Button, IconButton, Input, InputLabel, InputAdornment, FormControl } from "@mui/material";
+import {
+  TextField,
+  Button,
+  IconButton,
+  Input,
+  InputLabel,
+  InputAdornment,
+  FormControl,
+  Snackbar,
+  Alert
+} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import api from '../../services/api';
-
 import './style.scss';
-import Logo from '../../assets/Logo.png';
+import Logo from '../../assets/logo-geral-v2.png';
 
 const Login = () => {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [open, setOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [severity, setSeverity] = useState('error'); // success | warning | info | error
 
   const navigate = useNavigate();
 
-  async function handleLogin(e) {
-    e.preventDefault();
+  const handleOpenAlert = (message, type = 'error') => {
+    setAlertMessage(message);
+    setSeverity(type);
+    setOpen(true);
+  };
 
-    const data = {
-      'email': email,
-      'password': password
-    }
+  const handleClose = (_, reason) => {
+    if (reason === 'clickaway') return;
+    setOpen(false);
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      var response = await api.post('user/login', data)
-        .catch(function (error) {
-          alert('Dados inválidos. Tente novamente.');
-          return null;
-        });
+      const response = await api.post('user/login', {
+        email,
+        password,
+      });
 
-      if (response !== null) {
-        let user = response.data;
-        sessionStorage.setItem('id', user.id);
-        sessionStorage.setItem('name', user.name);
-        sessionStorage.setItem('userType', user.userType);
-        sessionStorage.setItem('clubId', user.clubId);
-        sessionStorage.setItem('clubName', user.clubName);
-        navigate('/home');
-      }
-    } catch (e) {
-      alert(e);
+      const { id, name, type, clubId, clubName } = response.data;
+
+      sessionStorage.setItem('id', id);
+      // sessionStorage.setItem('name', name);
+      sessionStorage.setItem('userType', type);
+      sessionStorage.setItem('clubId', clubId);
+      // sessionStorage.setItem('clubName', clubName);
+
+      navigate('/home');
+    } catch (err) {
+      handleOpenAlert('Dados inválidos. Tente novamente.', 'error');
+    } finally {
+      setLoading(false);
     }
-  }
-
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
   };
 
   return (
-    <>
-      <div className="container">
-        <div className="container-login">
-          <img className="logo" src={Logo} alt="" />
-          <form className='form'>
-            <TextField className="email" label="Email" variant="standard" value={email} onChange={e => setEmail(e.target.value)} />
-            <FormControl className="pass" sx={{ m: 1, width: '25ch' }} variant="standard">
-              <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-              <Input
-                id="standard-adornment-password"
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <Button className="bt-login" variant="contained" onClick={handleLogin}>Login</Button>
-          </form>
-        </div>
+    <div className="container">
+      <div className="container-login">
+        <img className="logo" src={Logo} alt="Logo" />
+
+        <form className="form" onSubmit={handleLogin}>
+          <TextField
+            label="Email"
+            className='email'
+            variant="standard"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            sx={{
+              width: '65%',
+              mt: 1,
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#565656',
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#293747',
+              },
+            }}
+          />
+
+          <FormControl className="pass" variant="standard"
+            sx={{
+              width: '65%',
+              mt: 1,
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#565656',
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#293747',
+              },
+            }}
+          >
+            <InputLabel>Password</InputLabel>
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <Button
+            className="bt-login"
+            variant="contained"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? 'Entrando...' : 'Login'}
+          </Button>
+        </form>
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert
+            onClose={handleClose}
+            severity={severity}
+            variant="filled"
+            sx={{ width: '100%' }}
+          >
+            {alertMessage}
+          </Alert>
+        </Snackbar>
       </div>
-    </>
-  )
+    </div>
+  );
 };
 
 export default Login;
