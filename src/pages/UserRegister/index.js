@@ -157,7 +157,7 @@ const UserRegister = () => {
                                     onChange={e => setGender(e.target.value)}>
                                     <MenuItem value={''}>Selecionar</MenuItem>
                                     <MenuItem value={'MALE'}>Masculino</MenuItem>
-                                    <MenuItem value={'FEMININE'}>Feminino</MenuItem>
+                                    <MenuItem value={'FEMALE'}>Feminino</MenuItem>
                                 </Select>
                             </FormControl>
                             <FormControl className='event-field' size='medium' fullWidth>
