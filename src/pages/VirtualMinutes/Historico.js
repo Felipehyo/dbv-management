@@ -5,12 +5,12 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import './style.scss';
 import Nav from '../../components/Nav';
-import Araras from '../../assets/arara-azul.png';
 import api from '../../services/api';
 
 const VirtualMinutesHistorico = () => {
   const navigate = useNavigate();
   const unitId = sessionStorage.getItem('unitId');
+  const unitLogo = sessionStorage.getItem('virtualMinutesUnitLogo');
 
   const [minutes, setMinutes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -110,7 +110,7 @@ const VirtualMinutesHistorico = () => {
       <div className="sub-container-virtual-minutes">
         <Nav handleBack={handleBack} />
 
-        <img className="logo" src={Araras} alt="Ata Virtual" />
+        {unitLogo && <img className="logo" src={unitLogo} alt="Ata Virtual" />}
         <h1 className="nav-title">Histórico de Atas</h1>
 
         <section className="section">

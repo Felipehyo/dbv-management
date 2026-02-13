@@ -28,7 +28,7 @@ const Home = () => {
         {
             title: 'Ata Virtual',
             description: 'Registrar atas de secretaria, capelania e visualizar histórico',
-            icon: 'https://cdn-icons-png.flaticon.com/512/2913/2913091.png',
+            icon: 'https://cdn-icons-png.flaticon.com/512/2015/2015630.png',
             route: '/virtual-minutes',
         },
         {

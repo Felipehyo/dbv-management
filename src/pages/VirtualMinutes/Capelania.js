@@ -111,9 +111,8 @@ const VirtualMinutesCapelania = () => {
         }, 1500);
       } catch (error) {
         console.error('Erro ao registrar ata:', error);
-        const errorMsg = error.response?.data?.details || 
-                        error.response?.data?.message || 
-                        'Erro ao registrar a ata. Tente novamente.';
+        const errorMsg = error.response?.data?.code === 'ALREADY_REGISTERED' ?
+                        'Já existe uma ata de capelania para esta data.' : 'Erro ao registrar a ata. Tente novamente.';
         handleClick(errorMsg, 'error');
       } finally {
         setLoading(false);
