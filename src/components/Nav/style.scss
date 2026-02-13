@@ -2,14 +2,11 @@
 {
     display: flex;
     width: 100%;
-    justify-content: space-between;
-
-    .nav-back {
-        margin-top: 15px;
-        width: 100%;
-        text-align: left;
-        margin-left: 15px;
-    }
+    justify-content: flex-end;
+    position: fixed;
+    top: 10px;
+    right: 0;
+    z-index: 1000;
 
     .nav-logout {
         margin-top: 15px;
@@ -29,6 +26,14 @@
     transition: 0.15s all;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     cursor: pointer;
+}
+
+.nav-home {
+    width: 32px;
+    padding: 12px;
+    border-radius: 999px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 16px rgba(41, 55, 71, 0.25);
 }
 
 .nav-bt:active {

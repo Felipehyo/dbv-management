@@ -1,0 +1,396 @@
+.sub-container-virtual-minutes {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100svh;
+  padding: 16px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 200px;
+  max-width: 150px;
+  margin: 8px 0;
+}
+
+.unit-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin: 8px 0;
+  border-radius: 8px;
+}
+
+.unit-name {
+  margin: 4px 0 12px;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.nav-title {
+  margin: 8px 0 30px;
+  color: #1f2933;
+}
+
+.section {
+  width: 100%;
+}
+
+// Página inicial - Opções
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+
+  .card {
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    .info {
+      flex: 1;
+
+      h2 {
+        margin: 0;
+        font-size: 18px;
+        padding-left: 16px;
+        color: #1f2933;
+      }
+
+      p {
+        margin-top: 4px;
+        padding-left: 16px;
+        max-width: 90%;
+        font-size: 14px;
+        color: #6b7280;
+      }
+    }
+
+    .image {
+      padding-right: 16px;
+
+      img {
+        width: 56px;
+      }
+    }
+  }
+}
+
+// Formulários
+.form-minutes {
+  margin: 0;
+  width: 100%;
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  h3 {
+    margin: 0;
+    color: #1f2933;
+  }
+}
+
+.date-upload-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.upload-placeholder {
+  width: 50%;
+  height: 48px;
+}
+
+.date-field {
+  width: 50%;
+
+  input {
+    color: #9e9e9e;
+  }
+
+  .MuiInputBase-root {
+    height: 48px;
+  }
+}
+
+// Upload de imagens
+.upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 50%;
+
+  .file-input {
+    display: none;
+  }
+
+  .file-input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 7px 10px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    height: 48px;
+    box-sizing: border-box;
+    flex-direction: row-reverse;
+
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.23);
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .upload-button {
+      flex-shrink: 0;
+      color: #293747 !important;
+      transition: transform 0.3s ease;
+      padding: 6px !important;
+
+      &:hover {
+        transform: none;
+      }
+
+      &:disabled {
+        color: #bdbdbd !important;
+        cursor: not-allowed;
+      }
+    }
+
+    .upload-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: center;
+
+      .upload-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #293747;
+      }
+
+      .upload-subtitle {
+        font-size: 12px;
+        color: #999;
+      }
+    }
+
+    &.disabled,
+    &:has(input:disabled) {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.preview {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 8px;
+
+  &.inline {
+    padding-bottom: 0;
+  }
+
+  .preview-item {
+    position: relative;
+    flex-shrink: 0;
+
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .remove-image {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #ff5252;
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}
+
+// Histórico
+.history-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 25px;
+
+  .date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 10px;
+
+    .date-header {
+      font-weight: bold;
+      color: #1f2933;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e5e5e5;
+    }
+
+    .minute-card {
+      border-radius: 8px;
+      border-left: 4px solid #c9a24d;
+      padding: 12px;
+      background-color: #f9f9f9;
+
+      &.secretaria {
+        border-left-color: #1565c0;
+      }
+
+      &.capelania {
+        border-left-color: #6a1b9a;
+      }
+
+      .minute-type {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+
+        &.secretaria {
+          background-color: #e3f2fd;
+          color: #1565c0;
+        }
+
+        &.capelania {
+          background-color: #f3e5f5;
+          color: #6a1b9a;
+        }
+      }
+
+      .minute-author {
+        font-size: 12px;
+        color: #999;
+        margin: 8px 0;
+      }
+
+      .minute-description {
+        color: #333;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 8px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .minute-images {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        margin-top: 8px;
+
+        img {
+          width: 60px;
+          height: 60px;
+          border-radius: 4px;
+          object-fit: cover;
+          cursor: pointer;
+          flex-shrink: 0;
+
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+
+  .no-data {
+    text-align: center;
+    padding: 32px 16px;
+    color: #999;
+    font-size: 14px;
+  }
+}
+
+// Botões
+.form-minutes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bt-register {
+  margin-top: 55px;
+  height: 45px;
+  width: 70%;
+  background-color: #293747 !important;
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  letter-spacing: 1px;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(41, 55, 71, 0.15) !important;
+  margin-top: 10px !important;
+
+  &:hover {
+    background-color: #1a2a38 !important;
+    box-shadow: 0 4px 16px rgba(41, 55, 71, 0.25) !important;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}

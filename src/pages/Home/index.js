@@ -10,6 +10,7 @@ import Presence from '../../assets/presence.png';
 const Home = () => {
 
     const navigate = useNavigate();
+    const userType = sessionStorage.getItem('userType');
 
     const actions = [
         // {
@@ -24,6 +25,12 @@ const Home = () => {
         //     icon: Presence,
         //     route: '/presence',
         // },
+        {
+            title: 'Ata Virtual',
+            description: 'Registrar atas de secretaria, capelania e visualizar histórico',
+            icon: 'https://cdn-icons-png.flaticon.com/512/2913/2913091.png',
+            route: '/virtual-minutes',
+        },
         {
             title: 'Eventos',
             description: 'Criar e editar eventos e inscrições',
@@ -50,6 +57,22 @@ const Home = () => {
         // },
     ];
 
+    const canAccessHomeAction = (type, route) => {
+        if (!type) return false;
+
+        const normalizedType = String(type).toUpperCase();
+
+        if (normalizedType === 'EXECUTIVE' || normalizedType === 'ADMIN') return true;
+        if (normalizedType === 'EVENTUAL') return false;
+        if (normalizedType === 'PATHFINDER' || normalizedType === 'DIRECTION') {
+            return route.startsWith('/virtual-minutes');
+        }
+
+        return false;
+    };
+
+    const visibleActions = actions.filter((item) => canAccessHomeAction(userType, item.route));
+
     function handlelogout() {
         sessionStorage.clear();
         navigate("/");
@@ -64,7 +87,7 @@ const Home = () => {
                     </div>
                     <img className="logo" src={Logo} alt="" />
                     <section className="section">
-                        {actions.map((item) => (
+                        {visibleActions.map((item) => (
                             <div
                             key={item.title}
                             className="card"

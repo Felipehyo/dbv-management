@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -25,11 +25,48 @@ import User from "./pages/User";
 import UserRegister from "./pages/UserRegister";
 import UserEdit from "./pages/UserEdit";
 import CashBookEdit from "./pages/CashBookEdit";
+import VirtualMinutes from "./pages/VirtualMinutes";
+import VirtualMinutesSecretaria from "./pages/VirtualMinutes/Secretaria";
+import VirtualMinutesCapelania from "./pages/VirtualMinutes/Capelania";
+import VirtualMinutesHistorico from "./pages/VirtualMinutes/Historico";
 
 import { isAuthenticated } from './Auth';
+
+const canAccessPath = (userType, path) => {
+  if (!userType) return false;
+
+  const normalizedType = String(userType).toUpperCase();
+
+  if (normalizedType === 'EXECUTIVE' || normalizedType === 'ADMIN') {
+    return true;
+  }
+
+  if (normalizedType === 'EVENTUAL') {
+    return false;
+  }
+
+  if (normalizedType === 'PATHFINDER' || normalizedType === 'DIRECTION') {
+    if (path === '/home') return true;
+    if (path.startsWith('/virtual-minutes')) return true;
+    if (path.startsWith('/secretary/virtual-minutes')) return true;
+    return false;
+  }
+
+  return false;
+};
+
 const PrivateRoute = () => {
     const auth = isAuthenticated();
-    return auth ? <Outlet /> : <Navigate to="/" />;
+    const location = useLocation();
+    const userType = sessionStorage.getItem('userType');
+
+    if (!auth) return <Navigate to="/" />;
+
+    if (!canAccessPath(userType, location.pathname)) {
+      return <Navigate to={userType === 'EVENTUAL' ? '/' : '/home'} />;
+    }
+
+    return <Outlet />;
 }
 
 function defaultRoutes() {
@@ -62,6 +99,11 @@ function defaultRoutes() {
             <Route path='/user/register' exact element={<UserRegister/>}/>
             <Route path='/user/edit' exact element={<UserEdit/>}/>
             <Route path='/treasury/cash-book/edit' exact element={<CashBookEdit/>}/>
+            <Route path='/virtual-minutes' exact element={<VirtualMinutes/>}/>
+            <Route path='/virtual-minutes/secretaria' exact element={<VirtualMinutesSecretaria/>}/>
+            <Route path='/virtual-minutes/capelania' exact element={<VirtualMinutesCapelania/>}/>
+            <Route path='/virtual-minutes/historico' exact element={<VirtualMinutesHistorico/>}/>
+            <Route path='/secretary/virtual-minutes/create' exact element={<VirtualMinutes/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

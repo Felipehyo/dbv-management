@@ -50,13 +50,13 @@ const Login = () => {
         password,
       });
 
-      const { id, name, type, clubId, clubName } = response.data;
+      const { userId, name, type, clubId, clubName, unitId } = response.data;
 
-      sessionStorage.setItem('id', id);
+      sessionStorage.setItem('id', userId);
       // sessionStorage.setItem('name', name);
       sessionStorage.setItem('userType', type);
       sessionStorage.setItem('clubId', clubId);
-      // sessionStorage.setItem('clubName', clubName);
+      sessionStorage.setItem('unitId', unitId);
 
       navigate('/home');
     } catch (err) {
