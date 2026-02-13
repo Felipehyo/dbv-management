@@ -295,6 +295,10 @@
         border-left-color: #6a1b9a;
       }
 
+      &.presentes {
+        border-left-color: #2e7d32;
+      }
+
       .minute-type {
         display: inline-block;
         font-size: 12px;
@@ -312,6 +316,11 @@
           background-color: #f3e5f5;
           color: #6a1b9a;
         }
+
+        &.presentes {
+          background-color: #e8f5e9;
+          color: #2e7d32;
+        }
       }
 
       .minute-author {
@@ -327,6 +336,23 @@
         margin-bottom: 8px;
         white-space: pre-wrap;
         word-break: break-word;
+      }
+
+      .present-users-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 4px;
+      }
+
+      .present-user-chip {
+        display: inline-block;
+        padding: 4px 10px;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 16px;
+        font-size: 12px;
+        color: #555;
       }
 
       .minute-images {
@@ -392,5 +418,39 @@
 
   &:disabled {
     opacity: 0.6;
+  }
+}
+
+// Botão flutuante de filtro
+.floating-filter-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #293747;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  z-index: 999;
+
+  img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+  }
+
+  &:hover {
+    background-color: #1a2a38;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.95);
   }
 }

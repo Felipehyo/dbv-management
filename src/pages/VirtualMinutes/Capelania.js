@@ -12,6 +12,9 @@ const VirtualMinutesCapelania = () => {
   const clubId = sessionStorage.getItem('clubId');
   const unitId = sessionStorage.getItem('unitId');
   const unitLogo = sessionStorage.getItem('virtualMinutesUnitLogo');
+  const userType = sessionStorage.getItem('userType');
+  
+  const canEditDate = userType === 'EXECUTIVE' || userType === 'ADMIN';
 
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [description, setDescription] = useState('');
@@ -186,11 +189,17 @@ const VirtualMinutesCapelania = () => {
                 label="Data da Ata"
                 type="date"
                 value={date}
+                onChange={(e) => setDate(e.target.value)}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 inputProps={{
-                  readOnly: true,
+                  readOnly: !canEditDate,
+                }}
+                sx={{
+                  '& input': {
+                    color: canEditDate ? 'rgba(0, 0, 0, 0.87)' : '#9e9e9e',
+                  }
                 }}
                 className="date-field"
               />
@@ -208,7 +217,12 @@ const VirtualMinutesCapelania = () => {
           </form>
         </section>
 
-        <Snackbar open={open} autoHideDuration={3000} onClose={() => setOpen(false)}>
+        <Snackbar 
+          open={open} 
+          autoHideDuration={3000} 
+          onClose={() => setOpen(false)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
           <Alert severity={severity} variant="filled">
             {alertMessage}
           </Alert>

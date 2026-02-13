@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Snackbar, Alert, Box, IconButton, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { TextField, Button, Snackbar, Alert, Box, IconButton, FormControl, InputLabel, Select, MenuItem, Autocomplete, Chip, Checkbox } from '@mui/material';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 import './style.scss';
 import Nav from '../../components/Nav';
@@ -13,12 +15,16 @@ const VirtualMinutesSecretaria = () => {
   const clubId = sessionStorage.getItem('clubId');
   const unitId = sessionStorage.getItem('unitId');
   const unitLogo = sessionStorage.getItem('virtualMinutesUnitLogo');
+  const userType = sessionStorage.getItem('userType');
+  
+  const canEditDate = userType === 'EXECUTIVE' || userType === 'ADMIN';
 
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [description, setDescription] = useState('');
   const [images, setImages] = useState([]);
   const [selectedMember, setSelectedMember] = useState('');
   const [members, setMembers] = useState([]);
+  const [presentUsers, setPresentUsers] = useState([]);
 
   const [open, setOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -111,7 +117,8 @@ const VirtualMinutesSecretaria = () => {
         const formData = new FormData();
         formData.append('minutesRequest', JSON.stringify({
           date: date.split('T')[0],
-          description: description
+          description: description,
+          presentUserIds: presentUsers.map(user => user.id)
         }));
 
         // Adicionar imagens ao FormData
@@ -135,6 +142,7 @@ const VirtualMinutesSecretaria = () => {
           setDescription('');
           setImages([]);
           setSelectedMember('');
+          setPresentUsers([]);
           setDate(new Date().toISOString().split('T')[0]);
           navigate('/virtual-minutes');
         }, 1500);
@@ -210,16 +218,62 @@ const VirtualMinutesSecretaria = () => {
               placeholder="Registre presença, uniformes, atividades realizadas e outras informações importantes..."
             />
 
+            <Autocomplete
+              multiple
+              id="present-users"
+              options={members}
+              disableCloseOnSelect
+              getOptionLabel={(option) => option.name}
+              value={presentUsers}
+              onChange={(event, newValue) => {
+                setPresentUsers(newValue);
+              }}
+              renderOption={(props, option, { selected }) => (
+                <li {...props}>
+                  <Checkbox
+                    icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                    checkedIcon={<CheckBoxIcon fontSize="small" />}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {option.name}
+                </li>
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Usuários Presentes"
+                  placeholder="Selecione os presentes"
+                />
+              )}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    label={option.name}
+                    {...getTagProps({ index })}
+                    size="small"
+                  />
+                ))
+              }
+              fullWidth
+            />
+
             <div className="date-upload-row">
               <TextField
                 label="Data da Ata"
                 type="date"
                 value={date}
+                onChange={(e) => setDate(e.target.value)}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 inputProps={{
-                  readOnly: true,
+                  readOnly: !canEditDate,
+                }}
+                sx={{
+                  '& input': {
+                    color: canEditDate ? 'rgba(0, 0, 0, 0.87)' : '#9e9e9e',
+                  }
                 }}
                 className="date-field"
               />
@@ -283,7 +337,12 @@ const VirtualMinutesSecretaria = () => {
           </form>
         </section>
 
-        <Snackbar open={open} autoHideDuration={3000} onClose={() => setOpen(false)}>
+        <Snackbar 
+          open={open} 
+          autoHideDuration={3000} 
+          onClose={() => setOpen(false)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
           <Alert severity={severity} variant="filled">
             {alertMessage}
           </Alert>

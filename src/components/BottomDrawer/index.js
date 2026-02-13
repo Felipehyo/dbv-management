@@ -9,9 +9,16 @@ export default function BottomDrawer({ children, widht, height, backgroundColor,
         document.querySelector('.botton-drawer-container').classList.remove('show-modal');
     }
 
+    function handleOverlayClick(e) {
+        // Fechar apenas se clicar no overlay (fora do drawer)
+        if (e.target.classList.contains('botton-drawer-container')) {
+            closeDrawer();
+        }
+    }
+
     return (
         <>
-            <div className="botton-drawer-container">
+            <div className="botton-drawer-container" onClick={handleOverlayClick}>
                 <div className="drawer" style={{ width: widht, height: height, backgroundColor: backgroundColor, boxShadow: boxShadow }}>
                     <div className='bts' onClick={() => closeDrawer()}>
                         <img className='close' src={CloseIcon} alt="" />
