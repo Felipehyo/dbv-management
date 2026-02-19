@@ -69,7 +69,7 @@ const Login = () => {
   return (
     <div className="container">
       <div className="container-login">
-        <img className="logo" src={Logo} alt="Logo" />
+        <img className="login-logo" src={Logo} alt="Logo" />
 
         <form className="form" onSubmit={handleLogin}>
           <TextField
