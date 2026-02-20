@@ -264,6 +264,7 @@ const VirtualMinutesSecretaria = () => {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                disabled={!canEditDate}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -273,6 +274,10 @@ const VirtualMinutesSecretaria = () => {
                 sx={{
                   '& input': {
                     color: canEditDate ? 'rgba(0, 0, 0, 0.87)' : '#9e9e9e',
+                    cursor: canEditDate ? 'text' : 'not-allowed',
+                  },
+                  '& .MuiInputBase-root': {
+                    pointerEvents: canEditDate ? 'auto' : 'none',
                   }
                 }}
                 className="date-field"
