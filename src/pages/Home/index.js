@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import './style.scss';
 import Logo from '../../assets/logo-geral-v2.png';
-import Logout from '../../assets/logout.png';
 import Statistics from '../../assets/statistics.png';
 import Presence from '../../assets/presence.png';
+import SideMenu from '../../components/SideMenu';
+import api from '../../services/api';
 
 const Home = () => {
 
     const navigate = useNavigate();
     const userType = sessionStorage.getItem('userType');
+    const userId = sessionStorage.getItem('id');
+    const [userName, setUserName] = useState('');
 
     const actions = [
         // {
@@ -78,13 +81,43 @@ const Home = () => {
         navigate("/");
     }
 
+    function handleEditProfile() {
+        navigate('/user/profile');
+    }
+
+    const userTypeLabel = useMemo(() => {
+        if (!userType) return '';
+        const normalizedType = String(userType).toUpperCase();
+        if (normalizedType === 'ADMIN') return 'Administrador';
+        if (normalizedType === 'EXECUTIVE') return 'Executiva';
+        if (normalizedType === 'DIRECTION') return 'Diretoria';
+        if (normalizedType === 'PATHFINDER') return 'Desbravador';
+        if (normalizedType === 'EVENTUAL') return 'Eventual';
+        return normalizedType;
+    }, [userType]);
+
+    useEffect(() => {
+        if (!userId) return;
+
+        api.get(`/user/${userId}`)
+            .then((response) => {
+                setUserName(response?.data?.name || '');
+            })
+            .catch(() => {
+                setUserName('');
+            });
+    }, [userId]);
+
     return (
         <>
             <div className="default-container">
                 <div className="sub-container-home">
-                    <div className='nav'>
-                        <img className="logout" src={Logout} alt="" onClick={handlelogout} />
-                    </div>
+                    <SideMenu
+                        userName={userName}
+                        userTypeLabel={userTypeLabel}
+                        onEditProfile={handleEditProfile}
+                        onLogout={handlelogout}
+                    />
                     <img className="logo" src={Logo} alt="" />
                     <section className="section">
                         {visibleActions.map((item) => (

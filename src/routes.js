@@ -24,6 +24,7 @@ import UserCash from "./pages/UserCash";
 import User from "./pages/User";
 import UserRegister from "./pages/UserRegister";
 import UserEdit from "./pages/UserEdit";
+import UserProfile from "./pages/UserProfile";
 import CashBookEdit from "./pages/CashBookEdit";
 import VirtualMinutes from "./pages/VirtualMinutes";
 import VirtualMinutesSecretaria from "./pages/VirtualMinutes/Secretaria";
@@ -49,6 +50,7 @@ const canAccessPath = (userType, path) => {
     if (path === '/home') return true;
     if (path.startsWith('/virtual-minutes')) return true;
     if (path.startsWith('/secretary/virtual-minutes')) return true;
+    if (path.startsWith('/user/profile')) return true;
     return false;
   }
 
@@ -98,6 +100,7 @@ function defaultRoutes() {
             <Route path='/user' exact element={<User/>}/>
             <Route path='/user/register' exact element={<UserRegister/>}/>
             <Route path='/user/edit' exact element={<UserEdit/>}/>
+            <Route path='/user/profile' exact element={<UserProfile/>}/>
             <Route path='/treasury/cash-book/edit' exact element={<CashBookEdit/>}/>
             <Route path='/virtual-minutes' exact element={<VirtualMinutes/>}/>
             <Route path='/virtual-minutes/secretaria' exact element={<VirtualMinutesSecretaria/>}/>

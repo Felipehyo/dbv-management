@@ -1,0 +1,125 @@
+.container-user-profile {
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.sub-container-user-profile {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+}
+
+.logo {
+  width: 100px;
+  max-width: 120px;
+  margin: 8px 0;
+}
+
+.nav-title {
+  color: #1f2933;
+  margin: 8px 0 12px;
+}
+
+.section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form-user-profile {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-field {
+  width: 100%;
+}
+
+.section-title {
+  width: 100%;
+  margin: 0;
+  color: #1f2933;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.profile-field-readonly {
+  .MuiOutlinedInput-root,
+  .MuiOutlinedInput-root.Mui-disabled {
+    background: #ffffff;
+    cursor: default;
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 0, 0, 0.23);
+    }
+
+    &:hover .MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 0, 0, 0.23);
+    }
+  }
+
+  .MuiInputBase-input,
+  .MuiInputBase-input.Mui-disabled {
+    color: #6b7280;
+    -webkit-text-fill-color: #6b7280;
+    cursor: default;
+    user-select: none;
+  }
+
+  .MuiInputLabel-root,
+  .MuiInputLabel-root.Mui-disabled {
+    color: #6b7280;
+  }
+}
+
+.password-block {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  h2 {
+    font-size: 16px;
+    margin: 0;
+    color: #1f2933;
+  }
+
+  .profile-field {
+    width: 100%;
+  }
+}
+
+.bt-profile-save {
+  background-color: #293747 !important;
+  margin: 24px auto 0 !important;
+  width: 60% !important;
+  min-width: 220px !important;
+  height: 48px !important;
+  color: #ffffff !important;
+  font-weight: bold !important;
+  border-radius: 8px !important;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media (max-width: 480px) {
+  .sub-container-user-profile {
+    padding: 12px;
+  }
+}
