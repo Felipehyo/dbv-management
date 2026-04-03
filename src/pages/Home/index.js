@@ -22,12 +22,12 @@ const Home = () => {
         //     icon: 'https://cdn-icons-png.flaticon.com/512/3153/3153150.png',
         //     route: '/score',
         // },
-        // {
-        //     title: 'Presença',
-        //     description: 'Registrar lista de presentes e kits individuais',
-        //     icon: Presence,
-        //     route: '/presence',
-        // },
+        {
+            title: 'Presença',
+            description: 'Registrar lista de presentes e kits individuais',
+            icon: Presence,
+            route: '/presence',
+        },
         {
             title: 'Ata Virtual',
             description: 'Registrar atas de secretaria, capelania e visualizar histórico',
@@ -64,6 +64,11 @@ const Home = () => {
         if (!type) return false;
 
         const normalizedType = String(type).toUpperCase();
+
+        // Pontuação e Presença apenas para EXECUTIVE e ADMIN
+        if (route === '/score' || route === '/presence') {
+            return normalizedType === 'EXECUTIVE' || normalizedType === 'ADMIN';
+        }
 
         if (normalizedType === 'EXECUTIVE' || normalizedType === 'ADMIN') return true;
         if (normalizedType === 'EVENTUAL') return false;

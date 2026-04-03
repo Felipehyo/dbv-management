@@ -38,6 +38,11 @@ const canAccessPath = (userType, path) => {
 
   const normalizedType = String(userType).toUpperCase();
 
+  // Rotas restritas apenas a EXECUTIVE e ADMIN
+  if (path === '/presence' || path === '/score' || path.startsWith('/score/')) {
+    return normalizedType === 'EXECUTIVE' || normalizedType === 'ADMIN';
+  }
+
   if (normalizedType === 'EXECUTIVE' || normalizedType === 'ADMIN') {
     return true;
   }

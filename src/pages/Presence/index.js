@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Checkbox } from "@mui/material";
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { Button, Checkbox, IconButton, InputAdornment, TextField } from "@mui/material";
 
 import api from '../../services/api';
 
@@ -11,12 +13,52 @@ import './style.scss';
 import '../global.scss';
 import Nav from '../../components/Nav';
 
+function formatDateToApi(dateValue) {
+    if (!dateValue) {
+        return '';
+    }
+
+    if (typeof dateValue === 'string') {
+        return dateValue.slice(0, 10);
+    }
+
+    const year = dateValue.getFullYear();
+    const month = String(dateValue.getMonth() + 1).padStart(2, '0');
+    const day = String(dateValue.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
+function formatDateToView(dateValue) {
+    if (!dateValue) {
+        return '';
+    }
+
+    return new Date(`${dateValue}T00:00:00`).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+    });
+}
+
+const kitOptions = [
+    { key: 'bible', label: 'Biblia' },
+    { key: 'scarf', label: 'Lenco' },
+    { key: 'activityNotebook', label: 'Caderno de atividades' },
+    { key: 'bottle', label: 'Garrafa de agua' },
+    { key: 'pencil', label: 'Lapis ou caneta' },
+    { key: 'cap', label: 'Bone' },
+    { key: 'bibleStudy', label: 'Estudo Biblico' },
+];
+
 const Presence = () => {
 
-    const [userSelected, setUserSelected] = useState([]);
+    const [userSelected, setUserSelected] = useState({});
     const [operationType, setOperationtype] = useState('');
 
     const [userSearchList, setUserSearchList] = useState([]);
+    const [nameFilter, setNameFilter] = useState('');
+    const [selectedDay, setSelectedDay] = useState(() => formatDateToApi(new Date()));
 
     const [bible, setBible] = useState(false);
     const [scarf, setScarf] = useState(false);
@@ -28,6 +70,8 @@ const Presence = () => {
     const [all, setAll] = useState(false);
 
     const clubId = sessionStorage.getItem("clubId");
+    const normalizedNameFilter = nameFilter.trim().toLowerCase();
+    const filteredUserSearchList = userSearchList.filter((item) => item.user.name.toLowerCase().includes(normalizedNameFilter));
 
     const navigate = useNavigate();
 
@@ -41,30 +85,68 @@ const Presence = () => {
         setUserSelected(user);
     }
 
+    function handleKitChange(key) {
+        const setters = {
+            bible: setBible,
+            scarf: setScarf,
+            activityNotebook: setActivityNotebook,
+            bottle: setBottle,
+            pencil: setPencil,
+            cap: setCap,
+            bibleStudy: setBibleStudy,
+        };
+
+        const values = {
+            bible,
+            scarf,
+            activityNotebook,
+            bottle,
+            pencil,
+            cap,
+            bibleStudy,
+        };
+
+        setters[key](!values[key]);
+    }
+
     async function saveRegister() {
 
+        const formattedSelectedDay = formatDateToApi(selectedDay);
+
         const data = {
+            "date": formattedSelectedDay,
             "presenceType": operationType,
             "kit": {
-                "scarf": scarf,
-                "bible": bible,
-                "activityNotebook": activityNotebook,
-                "bottle": bottle,
-                "cap": cap,
-                "pencil": pencil,
-                "bibleStudy": bibleStudy
+                "scarf": String(scarf),
+                "bible": String(bible),
+                "activityNotebook": String(activityNotebook),
+                "bottle": String(bottle),
+                "cap": String(cap),
+                "pencil": String(pencil),
+                "bibleStudy": String(bibleStudy)
             }
         }
 
-        await api.post("presence/" + userSelected.id, data);
+        await api.post('presence', data, {
+            params: {
+                userId: userSelected.id,
+            },
+        });
+
+        setUserSearchList((currentList) => currentList.map((item) => {
+            if (item.user.id !== userSelected.id) {
+                return item;
+            }
+
+            return {
+                ...item,
+                status: operationType,
+            };
+        }));
+
+        setNameFilter('');
+
         closeModal();
-        if (operationType === "ABSENT") {
-            document.querySelector('#abscence-' + userSelected.id).classList.add('selected');
-            document.querySelector('#presence-' + userSelected.id).classList.remove('selected');
-        } else if (operationType === "PRESENT") {
-            document.querySelector('#presence-' + userSelected.id).classList.add('selected');
-            document.querySelector('#abscence-' + userSelected.id).classList.remove('selected');
-        }
     }
 
     function closeModal() {
@@ -92,12 +174,27 @@ const Presence = () => {
     }
 
     useEffect(() => {
+        const allChecked = bible && scarf && activityNotebook && bottle && pencil && cap && bibleStudy;
+        setAll(allChecked);
+    }, [bible, scarf, activityNotebook, bottle, pencil, cap, bibleStudy]);
 
-        api.get('presence/today/' + clubId).then(response => {
+    useEffect(() => {
+
+        const formattedSelectedDay = formatDateToApi(selectedDay);
+
+        if (!clubId || !formattedSelectedDay) return;
+
+        api.get('presence/day', {
+            params: {
+                clubId,
+                day: formattedSelectedDay,
+            },
+        }).then(response => {
+            console.log(response.data);
             setUserSearchList(response.data);
         });
 
-    }, [clubId]);
+    }, [clubId, selectedDay]);
 
     return (
         <>
@@ -107,52 +204,141 @@ const Presence = () => {
                     <img className="logo" src='https://cdn-icons-png.flaticon.com/512/3585/3585145.png' alt="" />
                     <h1 className="nav-title">Lista de Presença</h1>
 
+                    <div className='presence-date-filter'>
+                        <div className='presence-filter-header'>
+                            <h2>Filtros</h2>
+                        </div>
+                        <TextField
+                            label="Data"
+                            type="date"
+                            value={selectedDay}
+                            onChange={(event) => setSelectedDay(formatDateToApi(event.target.value))}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            className="date-field"
+                            fullWidth
+                        />
+                        <TextField
+                            label="Buscar por nome"
+                            type="text"
+                            value={nameFilter}
+                            onChange={(event) => setNameFilter(event.target.value)}
+                            placeholder="Digite o nome ou parte dele"
+                            className="search-field"
+                            fullWidth
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchRoundedIcon fontSize="small" />
+                                    </InputAdornment>
+                                ),
+                                endAdornment: nameFilter ? (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="remover filtro"
+                                            edge="end"
+                                            onClick={() => setNameFilter('')}
+                                            size="small"
+                                        >
+                                            <CloseRoundedIcon fontSize="small" />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ) : null,
+                            }}
+                        />
+                        <p className='presence-date-caption'>Registros referentes a {formatDateToView(selectedDay)}</p>
+                    </div>
+
                     <section className="section-presence">
-                        {
-                            userSearchList.map((data, id) => (
-                                <div className='line-presence' key={id}>
-                                    <div className="card">
+                        {userSearchList.length === 0 ? (
+                            <div className='presence-empty-state'>
+                                <h3>Nenhum membro encontrado</h3>
+                                <p>Altere a data selecionada ou confira se existem registros disponiveis para este dia.</p>
+                            </div>
+                        ) : filteredUserSearchList.length === 0 ? (
+                            <div className='presence-empty-state'>
+                                <h3>Nenhum resultado para essa busca</h3>
+                                <p>Refine o nome digitado ou use a opcao de limpar filtro para voltar a ver todos os membros.</p>
+                            </div>
+                        ) : (
+                            filteredUserSearchList.map((data) => (
+                                <div className='line-presence' key={data.user.id}>
+                                    <div className={'card' + (!data.status ? ' card-with-pending-status' : '')}>
+                                        {!data.status && (
+                                            <span className='presence-status pending'>Nao registrado</span>
+                                        )}
                                         <div className="person-info">
-                                            <p className='person-name'>{data.user.name.split(" ").slice(0, 3).join(" ")}</p>
+                                            <p className='person-name'>{data.user.name}</p>
                                         </div>
                                         <div className='bts'>
-                                            <button id={'abscence-' + data.user.id}
-                                                className={'bt-abscence' + (data.status === 'ABSENT' ? ' selected' : '')}
-                                                onClick={() => openModal(data.user, 'ABSENT')}>F</button>
-                                            <button id={'presence-' + data.user.id}
-                                                className={'bt-presence' + (data.status === 'PRESENT' ? ' selected' : '')}
-                                                onClick={() => openModal(data.user, 'PRESENT')}>P</button>
+                                            <button
+                                                type='button'
+                                                className={'presence-action presence-action-absent' + (data.status === 'ABSENT' ? ' selected' : '')}
+                                                onClick={() => openModal(data.user, 'ABSENT')}
+                                            >
+                                                Ausente
+                                            </button>
+                                            <button
+                                                type='button'
+                                                className={'presence-action presence-action-present' + (data.status === 'PRESENT' ? ' selected' : '')}
+                                                onClick={() => openModal(data.user, 'PRESENT')}
+                                            >
+                                                Presente
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             ))
-                        }
+                        )}
                     </section>
 
-                    <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
+                    <Modal widht="380px" height="" backgroundColor={'#fff'} boxShadow={'0 20px 60px rgba(15, 23, 42, 0.2)'}>
                         {(operationType === 'ABSENT') ? (
                             <>
-                                <div className='modal-info'>
-                                    <h2>Marcar Falta</h2>
-                                    <p>Marcar falta para <b>{userSelected.name}</b>?</p>
+                                <div className='modal-info absence'>
+                                    <h2>Marcar falta</h2>
+                                    <p className='modal-description'>Confirme a falta de <b>{userSelected.name}</b> em {formatDateToView(selectedDay)}.</p>
                                 </div>
                             </>
                         ) : (
                             <>
-                                <div className='modal-info'>
-                                    <h2>Marcar Presença</h2>
-                                    <div>
-                                        <p><Checkbox className='check' checked={bible} onChange={() => setBible(bible ? false : true)} />Biblia</p>
-                                        <p><Checkbox className='check' checked={scarf} onChange={() => setScarf(scarf ? false : true)} />Lenço</p>
-                                        <p><Checkbox className='check' checked={activityNotebook} onChange={() => setActivityNotebook(activityNotebook ? false : true)} />Caderno de atividades</p>
-                                        <p><Checkbox className='check' checked={bottle} onChange={() => setBottle(bottle ? false : true)} />Garrafa de água</p>
-                                        <p><Checkbox className='check' checked={pencil} onChange={() => setPencil(pencil ? false : true)} />Lapis ou caneta</p>
-                                        <p><Checkbox className='check' checked={cap} onChange={() => setCap(cap ? false : true)} />Boné</p>
-                                        <p><Checkbox className='check' checked={bibleStudy} onChange={() => setBibleStudy(bibleStudy ? false : true)} />Estudo Bíblico</p>
-                                        <br></br>
-                                        <p><Checkbox className='check' checked={all} onChange={handleSelectAll} />Selecionar todos</p>
+                                <div className='modal-info present'>
+                                    <h2>Marcar presenca</h2>
+                                    <p className='modal-description'>Selecione os itens trazidos por <b>{userSelected.name}</b> em {formatDateToView(selectedDay)}.</p>
+                                    <div className='kit-selection-card'>
+                                        <div className='kit-selection-header'>
+                                            <h3>Kit e materiais</h3>
+                                        </div>
+                                        <div className='kit-options-grid'>
+                                            {kitOptions.map((item) => {
+                                                const checkedMap = {
+                                                    bible,
+                                                    scarf,
+                                                    activityNotebook,
+                                                    bottle,
+                                                    pencil,
+                                                    cap,
+                                                    bibleStudy,
+                                                };
+
+                                                return (
+                                                    <label key={item.key} className={'kit-option' + (checkedMap[item.key] ? ' checked' : '')}>
+                                                        <Checkbox
+                                                            className='check'
+                                                            checked={checkedMap[item.key]}
+                                                            onChange={() => handleKitChange(item.key)}
+                                                        />
+                                                        <span>{item.label}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                        <label className={'kit-option kit-option-all' + (all ? ' checked' : '')}>
+                                            <Checkbox className='check' checked={all} onChange={handleSelectAll} />
+                                            <span>Selecionar todos</span>
+                                        </label>
                                     </div>
-                                    <p className='text'>Marcar presença para <b>{userSelected.name}</b>?</p>
                                 </div>
                             </>
                         )}
