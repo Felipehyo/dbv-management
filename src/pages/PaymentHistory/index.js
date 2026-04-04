@@ -39,7 +39,7 @@ const PaymentHistory = () => {
     
     const handleChange = (event, value) => {
         setPage(value);
-        api.get(`payments?clubId${clubId}&size=${size}&page=${value-1}${queryParams}`).then(response => {
+        api.get(`payments?clubId=${clubId}&size=${size}&page=${value-1}${queryParams}`).then(response => {
             setHistory(response.data.content);
             setTotalPages(response.data.totalPages);
         });
@@ -106,7 +106,7 @@ const PaymentHistory = () => {
         }
 
         setQueryParams(query);
-        await api.get(`payments?clubId=${clubId}&size=${size}&page=0${query}`).then(response => {
+        await api.get("payments?clubId=" + clubId + "&size=" + size + "&page=" + query).then(response => {
             setTotalPages(response.data.totalPages);
             setHistory(response.data.content);
         });
