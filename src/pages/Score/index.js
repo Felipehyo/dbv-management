@@ -7,8 +7,6 @@ import './style.scss';
 
 import Nav from '../../components/Nav';
 
-import arara from '../../assets/arara-azul.png';
-
 const Score = () => {
 
     const [unitList, setUnitList] = useState([]);
@@ -26,10 +24,10 @@ const Score = () => {
     }
 
     useEffect(() => {
-        api.get('unit/club/' + clubId).then(response => {
+        api.get('unit?clubId=' + clubId).then(response => {
             setUnitList(response.data);
         })
-    }, []);
+    }, [clubId]);
 
     return (
         <>
@@ -43,7 +41,7 @@ const Score = () => {
                             unitList.sort((a, b) => a.unitOrder - b.unitOrder).map((unit, id) => (
                                 <div className="card" key={id} onClick={() => handleUnit(unit)}>
                                     <div className="image">
-                                        <img src={arara} alt={unit.assignment} />
+                                        <img src={unit.imageLink} alt={unit.assignment} />
                                     </div>
                                     <div className="info">
                                         <h2>{unit.name}</h2>

@@ -98,7 +98,7 @@ const PaymentHistory = () => {
         var query = ""
 
         if (payerUserSelected !== null && payerUserSelected != '') {
-            query = query + "&pathfinderId=" + payerUserSelected;
+            query = query + "&userId=" + payerUserSelected;
         }
 
         if (eventSelected !== null && eventSelected != '') {

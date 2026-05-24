@@ -11,6 +11,8 @@ import Nav from '../../components/Nav';
 
 const ScoreByUnit = () => {
 
+    const clubId = sessionStorage.getItem("clubId");
+
     const [unit, setUnit] = useState([]);
     const [activities, setActivities] = useState([]);
 
@@ -39,9 +41,9 @@ const ScoreByUnit = () => {
             'reason': isCreateScore ? description : ''
         }
 
-        await api.post("activity-record/unit/" + unitId + "/activity/" + (activitySelected.id != null ? activitySelected.id : '0'), data).catch(error => {
+        await api.post("activity-records?unitId=" + unitId + "&registeredByUser=" + sessionStorage.getItem("id") + "&activityId=" + (activitySelected.id != null ? activitySelected.id : '0'), data).catch(error => {
             if (error.response.data.code === '001') {
-                alert('Atividade já foi cadastrada por outro usuário')
+                alert('Atividade já foi cadastrada por outro usuário')  
             }
         });
         closeModal();
@@ -89,7 +91,7 @@ const ScoreByUnit = () => {
 
     async function deposit() {
 
-        await api.patch("unit/" + unitId + "/pendency-deposit/" + qtdPendency, null).catch(error => {
+        await api.patch("unit/" + unitId + "/remove-pendency/" + qtdPendency, {}).catch(error => {
             if (error.response.data.code === '100') {
                 alert('Ação não permitida pelo sistema!')
             }
@@ -103,7 +105,7 @@ const ScoreByUnit = () => {
 
     async function recall() {
 
-        await api.patch("unit/" + unitId + "/pendency-recall/" + qtdPendency, null).catch(error => {
+        await api.patch("unit/" + unitId + "/add-pendency/" + qtdPendency, {}).catch(error => {
             if (error.response.data.code === '100') {
                 alert('Ação não permitida pelo sistema!')
             }
@@ -117,7 +119,7 @@ const ScoreByUnit = () => {
 
     useEffect(() => {
 
-        api.get('activities/today/' + unitId).then(response => {
+        api.get('activities/club/' + clubId + '/unit/' + unitId).then(response => {
             setActivities(response.data);
         });
 
@@ -211,7 +213,7 @@ const ScoreByUnit = () => {
                     </section>
 
                     <Modal widht="330px" height="" onClick={closeModal} color={'#000'}>
-                        <h2>Confirmar Pontuação?</h2>
+                        <h2 className='modal-title'>Confirmar Pontuação?</h2>
                         <div className='div-modal-info'>
                             <p><b>Atividade:</b> {activitySelected.name != null ? activitySelected.name : title}</p>
                             <p><b>Tipo:</b> {typeSelected}</p>

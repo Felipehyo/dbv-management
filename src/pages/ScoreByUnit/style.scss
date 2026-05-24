@@ -157,27 +157,46 @@
             }
         }
 
+        .modal-title {
+            margin: 22px 0 16px;
+            color: #2f3e4f;
+            font-size: 24px;
+            text-align: center;
+        }
+
         .div-modal-info {
+            width: 100%;
+            max-width: 290px;
+            margin: 0 auto 18px;
             display: flex;
             align-items: center;
             flex-direction: column;
-            margin-bottom: 25px;
+            gap: 6px;
 
             p {
                 margin: 0;
+                text-align: center;
+                color: #3f4b58;
             }
         }
 
         .bts-modal {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+
+            .bts-modal-cancel,
+            .bts-modal-confirm {
+                min-width: 116px;
+                border-radius: 8px;
+                font-weight: bold;
+            }
 
             .bts-modal-cancel {
                 background-color: #D0D0D0;
                 color: #333333;
-                font-weight: bold;
             }
 
             .bts-modal-confirm {

@@ -66,8 +66,6 @@ const VirtualMinutesSecretaria = () => {
 
   function handleImageUpload(e) {
     const files = Array.from(e.target.files);
-
-    console.log(userId, unitId);
     
     // Verificar se já temos 3 imagens
     if (images.length + files.length > 3) {

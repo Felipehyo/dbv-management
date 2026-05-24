@@ -16,12 +16,12 @@ const Home = () => {
     const [userName, setUserName] = useState('');
 
     const actions = [
-        // {
-        //     title: 'Pontuação',
-        //     description: 'Registrar pontuação geral do clube e unidades',
-        //     icon: 'https://cdn-icons-png.flaticon.com/512/3153/3153150.png',
-        //     route: '/score',
-        // },
+        {
+            title: 'Pontuação',
+            description: 'Registrar pontuação geral do clube e unidades',
+            icon: 'https://cdn-icons-png.flaticon.com/512/3153/3153150.png',
+            route: '/score',
+        },
         {
             title: 'Presença',
             description: 'Registrar lista de presentes e kits individuais',

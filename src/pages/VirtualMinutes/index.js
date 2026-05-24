@@ -18,11 +18,9 @@ const VirtualMinutes = () => {
   useEffect(() => {
     // Buscar informações do usuário logado para pegar a unidade
     const fetchUserInfo = async () => {
-      console.log('Buscando informações do usuário - userId:', userId);
       try {
         
         const response = await api.get(`/user/${userId}`);
-        console.log('Resposta da API /user:', response.data);
         
         if (response.data) {
           // Tenta diferentes nomes de campo para unitId
@@ -63,14 +61,11 @@ const VirtualMinutes = () => {
   }
 
   function handleCardClick(route) {
-    console.log('Card clicado - unitId:', unitId, 'route:', route);
-    
     if (unitId) {
       sessionStorage.setItem('virtualMinutesUnitId', unitId);
       if (unitLogo) {
         sessionStorage.setItem('virtualMinutesUnitLogo', unitLogo);
       }
-      console.log('Navegando para:', route);
       navigate(route);
     } else {
       console.warn('UnitId não disponível:', unitId);

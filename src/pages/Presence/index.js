@@ -190,7 +190,6 @@ const Presence = () => {
                 day: formattedSelectedDay,
             },
         }).then(response => {
-            console.log(response.data);
             setUserSearchList(response.data);
         });
 
